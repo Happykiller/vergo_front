@@ -11,11 +11,17 @@
     "outDir": "./dist",                          // Output directory for compiled files
     "baseUrl": "./",                             // Base directory for resolving non-relative module names
     "paths": {
-      "@/*": ["src/*"]                          // Custom path mapping (e.g., for absolute imports)
+      "@src/*": ["src/*"], // Map @src alias to src directory
+      "@pages/*": ["src/pages/*"], // Map @components alias to components directory
+      "@components/*": ["src/components/*"] // Map @components alias to components directory
+      // Add other paths as needed
     },
     "sourceMap": true,                           // Generate source maps for debugging
-    "declaration": true                          // Generate declaration files (.d.ts)
+    "declaration": true,                          // Generate declaration files (.d.ts)
+    "resolveJsonModule": true, // Allow importing JSON files as modules
+    "allowSyntheticDefaultImports": true // Allow default imports from modules with no default export
   },
   "include": ["src"],                            // Include source files for compilation
   "exclude": ["node_modules", "dist"]            // Exclude directories
+  
 }

@@ -3,6 +3,8 @@ import { Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Home from './pages/Home';
 import Info from './pages/Info';
+import { CGU } from '@pages/CGU';
+import { Footer } from '@components/Footer';
 
 // Main application component
 const App: React.FC = () => {
@@ -18,7 +20,13 @@ const App: React.FC = () => {
 
         {/* Route for the info page */}
         <Route path="/info" element={<Info />} />
+
+        {/* Route for the cgu page */}
+        <Route path="/cgu" element={<CGU />} />
       </Routes>
+      
+      {/* Render the Footer component */}
+      <Footer />
     </div>
   );
 }

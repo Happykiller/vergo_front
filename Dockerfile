@@ -16,7 +16,7 @@ RUN npm ci
 COPY --chown=node:node . .
 
 # Set NODE_ENV environment variable
-ENV NODE_ENV prod
+ENV NODE_ENV=prod
 
 # Build the application
 RUN npm run build

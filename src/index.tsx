@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ThemeProvider, CssBaseline } from '@mui/material';
+import initI18n from './i18n'; // Import the initialization function
 import App from './App';
-import './i18n';  // Import internationalization configuration
 import getTheme from './theme';  // Import the theme creation function
 
 const Index: React.FC = () => {
@@ -25,7 +25,11 @@ const Index: React.FC = () => {
   );
 };
 
-// Create a root for rendering with ReactDOM.createRoot
-const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
-// Render the Index component into the root element
-root.render(<Index />);
+// Initialize i18n and then render the app
+initI18n().then(() => {
+  // Create a root for rendering with ReactDOM.createRoot
+  const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+  // Render the Index component into the root element
+  root.render(<Index />);
+});
+

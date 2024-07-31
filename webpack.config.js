@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin'); // Import MiniCssExtractPlugin
 const Dotenv = require('dotenv-webpack');
 const webpack = require('webpack');
 const dotenv = require('dotenv');
@@ -32,6 +33,12 @@ module.exports = (env, argv) => {
     resolve: {
       // Extensions to resolve, allowing for imports without specifying the file extension.
       extensions: ['.ts', '.tsx', '.js'],
+      alias: {
+        '@src': path.resolve(__dirname, 'src'), // Alias for the src directory
+        '@pages': path.resolve(__dirname, 'src/pages'), // Alias for the pages directory
+        '@components': path.resolve(__dirname, 'src/components'), // Alias for the components directory
+        // Add other aliases as needed
+      },
     },
 
     module: {
@@ -41,6 +48,14 @@ module.exports = (env, argv) => {
           test: /\.tsx?$/,
           use: 'ts-loader', // Use ts-loader to transpile TypeScript files.
           exclude: /node_modules/, // Exclude node_modules from processing.
+        },
+        {
+          test: /\.s[ac]ss$/i,
+          use: [
+            isProduction ? MiniCssExtractPlugin.loader : 'style-loader', // Extract CSS in production
+            'css-loader',
+            'sass-loader'
+          ],
         },
         {
           test: /\.(ico)$/,
@@ -62,6 +77,10 @@ module.exports = (env, argv) => {
       new webpack.DefinePlugin({
         'process.env.APP_MODE': JSON.stringify(process.env.APP_MODE),
       }),
+
+      isProduction && new MiniCssExtractPlugin({
+        filename: 'styles.css' // Output CSS file
+      }), // Only add plugin in production
     ],
 
     devServer: {
@@ -75,6 +94,9 @@ module.exports = (env, argv) => {
 
       // Port number for the development server.
       port: 9000,
+
+      // Redirect 404s to index.html to handle client-side routing
+      historyApiFallback: true, 
     },
   };
 };

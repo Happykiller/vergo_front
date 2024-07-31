@@ -1,13 +1,21 @@
 {
-  "home": {
-    "helloWorld": "Bonjour le Monde"
-  },
-  "info": {
-    "infoPage": "Page d'info"
+  "footer": {
+    "issues": "Issues",  
+    "roadmap": "Roadmap",
+    "version": {
+      "back": "Apis: ",
+      "front": "Web: "
+    }
   },
   "header": {
-    "title": "Vergo",
-    "home": "Accueil",
-    "info": "Info"
+    "home": "Home",
+    "info": "Info",
+    "title": "Vergo"
+  },
+  "home": {
+    "helloWorld": "Hello, World"
+  },
+  "info": {
+    "infoPage": "Info Page"
   }
 }
