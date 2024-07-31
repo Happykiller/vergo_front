@@ -4,5 +4,10 @@
   },
   "info": {
     "infoPage": "Page d'info"
+  },
+  "header": {
+    "title": "Vergo",
+    "home": "Accueil",
+    "info": "Info"
   }
 }
