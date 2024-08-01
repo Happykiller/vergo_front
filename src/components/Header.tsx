@@ -16,6 +16,7 @@ const Header: React.FC = () => {
         {/* Button components for navigation links */}
         <Button color="inherit" component={Link} to="/">{t('header.home')}</Button> {/* Link to the home page */}
         <Button color="inherit" component={Link} to="/info">{t('header.info')}</Button> {/* Link to the info page */}
+        <Button color="inherit" component={Link} to="/workout">{t('header.workout')}</Button> {/* Link to the workout page */}
       </Toolbar>
     </AppBar>
   );

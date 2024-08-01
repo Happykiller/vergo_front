@@ -1,0 +1,31 @@
+{
+  "_type": "TRAINING",
+  "label": "training_label",
+  "workout": [
+    {
+      "_type": "WORKOUT",
+      "label": "workout_label",
+      "sequence": [
+        {
+          "_type": "CHRONO",
+          "duration": 40,
+          "rest": 20,
+          "rep": 1,
+          "pause": 30
+        },
+        {
+          "_type": "SET",
+          "rep": 1,
+          "sequence": [
+            {
+              "_type": "CHRONO",
+              "duration": 40,
+              "rest": 20,
+              "rep": 1
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

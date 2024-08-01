@@ -1,0 +1,62 @@
+{
+  "_type": "TRAINING",
+  "label": "HIIT Training",
+  "workout": [
+    {
+      "_type": "WORKOUT",
+      "label": "warm-up",
+      "sequence": [
+        {
+          "_type": "SET",
+          "rep": 4,
+          "pause": 60,
+          "sequence": [
+            {
+              "_type": "CHRONO",
+              "duration": 40,
+              "rest": 20,
+              "rep": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "_type": "WORKOUT",
+      "label": "HIIT",
+      "sequence": [
+        {
+          "_type": "SET",
+          "rep": 4,
+          "pause": 60,
+          "sequence": [
+            {
+              "_type": "CHRONO",
+              "rep": 8,
+              "duration": 40,
+              "rest": 20
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "_type": "WORKOUT",
+      "label": "cooldown",
+      "sequence": [
+        {
+          "_type": "SET",
+          "rep": 4,
+          "sequence": [
+            {
+              "_type": "CHRONO",
+              "duration": 40,
+              "rest": 20,
+              "rep": 1
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "workout": [
+    {
+      "sequence": [
+        {
+          "rep": 4,
+          "pause": 60,
+          "sequence": [
+            {
+              "duration": 40,
+              "rest": 20,
+              "rep": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sequence": [
+        {
+          "rep": 4,
+          "rest": 60,
+          "pause": 60,
+          "sequence": [
+            {
+              "duration": 40,
+              "rest": 20,
+              "rep": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sequence": [
+        {
+          "rep": 4,
+          "sequence": [
+            {
+              "duration": 40,
+              "rest": 20,
+              "rep": 1
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

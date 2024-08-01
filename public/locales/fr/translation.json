@@ -10,12 +10,16 @@
   "header": {
     "home": "Home",
     "info": "Info",
-    "title": "Vergo"
+    "title": "Vergo",
+    "workout": "Entrainement"
   },
   "home": {
     "helloWorld": "Hello, World"
   },
   "info": {
     "infoPage": "Info Page"
+  },
+  "workout": {
+    "title": "Entrainement"
   }
 }
