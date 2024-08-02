@@ -28,38 +28,59 @@ const Chrono: React.FC<CountdownProps> = ({ duration, onComplete }) => {
     }, duration);
   };
 
-  useEffect(() => {
-    if (!isPaused) {
-      intervalRef.current = setInterval(() => {
-        setTimeLeft((prevTime) => {
-          if (prevTime <= 1) {
-            clearInterval(intervalRef.current as NodeJS.Timeout);
-            if (onComplete) {
-              onComplete();
-            }
-            // Jouer la sonnerie à la fin
-            playSound(440, 1000); // 440 Hz pendant 1 seconde
-            return 0;
-          }
-          if (prevTime === 4) playSound(880, 500); // 3s restant (880 Hz pendant 0.5 seconde)
-          if (prevTime === 3) playSound(880, 500); // 2s restant (880 Hz pendant 0.5 seconde)
-          if (prevTime === 2) playSound(880, 500); // 1s restant (880 Hz pendant 0.5 seconde)
-          return prevTime - 1;
-        });
-      }, 1000);
-    }
+  const start = () => {
+    clearInterval(intervalRef.current as NodeJS.Timeout);
+    intervalRef.current = setInterval(() => {
+      handleSecond();
+    }, 1000);
+  }
 
-    return () => clearInterval(intervalRef.current as NodeJS.Timeout);
-  }, [isPaused, onComplete]);
+  const pause = () => {
+    setIsPaused(true);
+  }
+
+  const resume = () => {
+    setIsPaused(false);
+  }
+
+  const reset = () => {
+    clearInterval(intervalRef.current as NodeJS.Timeout);
+    setTimeLeft(duration);
+    setIsPaused(true);
+  }
+
+  const handleSecond = () => {
+    if (!isPaused) {
+      setTimeLeft((prevTime) => {
+        if (prevTime <= 1) {
+          clearInterval(intervalRef.current as NodeJS.Timeout);
+          onComplete();
+          // Jouer la sonnerie à la fin
+          playSound(440, 1000); // 440 Hz pendant 1 seconde
+          return 0;
+        }
+        if (prevTime === 4) playSound(880, 500); // 3s restant (880 Hz pendant 0.5 seconde)
+        if (prevTime === 3) playSound(880, 500); // 2s restant (880 Hz pendant 0.5 seconde)
+        if (prevTime === 2) playSound(880, 500); // 1s restant (880 Hz pendant 0.5 seconde)
+        return prevTime - 1;
+      });
+    }
+  }
+
+  useEffect(() => {
+    start();
+  });
 
   const handlePause = () => {
-    setIsPaused((prev) => !prev);
+    if(isPaused) {
+      resume();
+    } else {
+      pause();
+    }
   };
 
   const handleReset = () => {
-    clearInterval(intervalRef.current as NodeJS.Timeout);
-    setTimeLeft(duration);
-    setIsPaused(false);
+    reset();
   };
 
   return (
