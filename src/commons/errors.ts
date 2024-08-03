@@ -1,0 +1,3 @@
+export enum ERRORS {
+  API_URL_NOT_FOUND = 'API_URL_NOT_FOUND',
+}

@@ -37,6 +37,8 @@ module.exports = (env, argv) => {
         '@src': path.resolve(__dirname, 'src'), // Alias for the src directory
         '@pages': path.resolve(__dirname, 'src/pages'), // Alias for the pages directory
         '@components': path.resolve(__dirname, 'src/components'), // Alias for the components directory
+        '@usecases': path.resolve(__dirname, 'src/usecases'),
+        '@services': path.resolve(__dirname, 'src/services'),
         // Add other aliases as needed
       },
     },
@@ -76,6 +78,8 @@ module.exports = (env, argv) => {
       // Define global constants for use in the application.
       new webpack.DefinePlugin({
         'process.env.APP_MODE': JSON.stringify(process.env.APP_MODE),
+        'process.env.API_URL': JSON.stringify(process.env.API_URL),
+        'process.env.DEBUG': JSON.stringify(process.env.DEBUG??false),
       }),
 
       isProduction && new MiniCssExtractPlugin({

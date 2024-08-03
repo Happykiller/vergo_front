@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Container, Box, Typography, Grid, Paper } from '@mui/material'; // Import Material-UI components
 
+import Header from '@components/Header';
 import Chrono from '@components/Chrono';
 
 const Training: React.FC = () => {
@@ -171,7 +172,8 @@ const Training: React.FC = () => {
     setCurrentIndex(0);
   }
 
-  return (
+  return (<>
+    <Header/>
     <Container>
       {/* Box component to center the content vertically and horizontally */}
       <Box 
@@ -191,7 +193,7 @@ const Training: React.FC = () => {
         </Grid>
       </Box>
     </Container>
-  );
+  </>);
 }
 
 export default Training;
