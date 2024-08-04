@@ -3,9 +3,7 @@
 ## Project Information
 
 - **Name**: `vergo_front`
-- **Version**: `1.0.0`
 - **Description**: Web Client for Service Vergo
-- **Main**: `index.js`
 - **License**: ISC
 
 ## Scripts

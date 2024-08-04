@@ -10,10 +10,10 @@ dotenv.config({ path: '.env' });
 dotenv.config({ path: '.env.local', override: true });
 
 module.exports = (env, argv) => {
+  console.log(`Webpack:process.env.APP_MODE => '${process.env.APP_MODE}'`);
+
   // Determine if the build mode is production or development
   const isProduction = process.env.APP_MODE === 'prod';
-
-  console.log('isProduction => ', isProduction);
 
   return {
     // Set the mode for Webpack. 'production' enables optimizations, 'development' is for debugging.

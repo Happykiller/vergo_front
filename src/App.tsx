@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route, createBrowserRouter } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 
 import Home from '@pages/Home';
 import Info from '@pages/Info';
@@ -7,7 +7,7 @@ import { CGU } from '@pages/CGU';
 import { Login } from '@pages/Login';
 import Flash from '@components/Flash';
 import Training from '@pages/Training';
-import { Profile } from '@pages/profile';
+import { Profile } from '@pages/Profile';
 import { Guard } from '@components/Guard';
 import { Footer } from '@components/Footer';
 

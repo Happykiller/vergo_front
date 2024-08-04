@@ -39,7 +39,7 @@ export class Inversify {
     // Services
     if (process.env.APP_MODE === 'prod') {
       this.graphqlService = new GraphqlServiceFetch(this);
-    } if (process.env.APP_MODE === 'dev') {
+    } else if (process.env.APP_MODE === 'dev') {
       this.graphqlService = new GraphqlServiceFetch(this);
     } else {
       this.graphqlService = new GraphqlServiceFake();
