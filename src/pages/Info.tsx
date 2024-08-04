@@ -1,6 +1,6 @@
 import React from 'react';
-import { Container, Typography, Box } from '@mui/material'; // Import Material-UI components
 import { useTranslation } from 'react-i18next'; // Import translation hook for i18n
+import { Container, Typography, Box } from '@mui/material'; // Import Material-UI components
 
 import Header from '@components/Header';
 

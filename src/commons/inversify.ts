@@ -8,6 +8,7 @@ import { GraphqlServiceFetch } from '@services/graphql/graphql.service.fetch';
 import { SessionInfoUsecase } from '@usecases/sessionInfo/systemInfo.usecase';
 import { UpdPasswordUsecase } from '@usecases/updPassword/updPassword.usecase';
 import { AuthPasskeyUsecase } from '@usecases/authPasskey/authPasskey.usecase';
+import { GetTrainingsUsecase } from '@usecases/getTrainings/getTrainings.usecase';
 import { DeletePasskeyUsecase } from '@usecases/deletePasskey/deletePasskey.usecase';
 import { CreatePasskeyUsecase } from '@usecases/createPasskey/createPasskey.usecase';
 import { GetPasskeyForUserUsecase } from '@usecases/getPasskeyForUser/getPasskeyForUser.usecase';
@@ -20,6 +21,7 @@ export class Inversify {
   systemInfoUsecase: SystemInfoUsecase;
   updPasswordUsecase: UpdPasswordUsecase;
   authPasskeyUsecase: AuthPasskeyUsecase;
+  getTrainingsUsecase: GetTrainingsUsecase;
   deletePasskeyUsecase: DeletePasskeyUsecase;
   createPasskeyUsecase: CreatePasskeyUsecase;
   getPasskeyForUserUsecase: GetPasskeyForUserUsecase;
@@ -32,6 +34,7 @@ export class Inversify {
     this.systemInfoUsecase = new SystemInfoUsecase(this);
     this.updPasswordUsecase = new UpdPasswordUsecase(this);
     this.authPasskeyUsecase = new AuthPasskeyUsecase(this);
+    this.getTrainingsUsecase = new GetTrainingsUsecase(this);
     this.deletePasskeyUsecase = new DeletePasskeyUsecase(this);
     this.createPasskeyUsecase = new CreatePasskeyUsecase(this);
     this.getPasskeyForUserUsecase = new GetPasskeyForUserUsecase(this);

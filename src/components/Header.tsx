@@ -17,7 +17,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import '@components/header.scss';
 import { contextStore, ContextStoreModel } from '@src/stores/contextStore';
 
-const pages = ['training', 'info'];
+const pages = ['trainings', 'info'];
 const settings = ['profile', 'logout'];
 
 function Header() {

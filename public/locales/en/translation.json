@@ -20,7 +20,9 @@
     "info": "Info",
     "training": "Training",
     "logout": "Logout",
-    "profile": "Profil"
+    "profile": "Profil",
+    "settings": "Settings",
+    "trainings": "Trainings"
   },
   "home": {
     "helloWorld": "Hello World"
@@ -62,6 +64,10 @@
     "LOGIN": "De 3 à 50, juste des lettres",
     "PASSWORD": "De 3 à 50, lettres et chiffres avec possible @$€!%*?&.-_:;,",
     "PASSKEY_LABEL": "De 3 à 50, juste des lettres"
+  },
+  "trainings": {
+    "title": "Trainings",
+    "label": "Label"
   },
   "workout": {
     "title": "Training"

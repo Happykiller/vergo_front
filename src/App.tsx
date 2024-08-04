@@ -7,6 +7,7 @@ import { CGU } from '@pages/CGU';
 import { Login } from '@pages/Login';
 import Flash from '@components/Flash';
 import Training from '@pages/Training';
+import Trainings from '@pages/Trainings';
 import { Profile } from '@pages/Profile';
 import { Guard } from '@components/Guard';
 import { Footer } from '@components/Footer';
@@ -30,8 +31,11 @@ const App: React.FC = () => {
         {/* Route for the info page */}
         <Route path="/info" element={<Guard><Info /></Guard>} />
 
-        {/* Route for the workout page */}
+        {/* Route for the training page */}
         <Route path="/training" element={<Guard><Training /></Guard>} />
+
+        {/* Route for the trainings page */}
+        <Route path="/trainings" element={<Guard><Trainings /></Guard>} />
 
         {/* Route for the cgu page */}
         <Route path="/cgu" element={<CGU />} />

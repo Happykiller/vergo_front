@@ -13,20 +13,28 @@ const Chrono: React.FC<CountdownProps> = ({ duration, onComplete }) => {
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   // Fonction pour jouer un son
-  const playSound = (frequency: number, duration: number) => {
-    const context = new (window.AudioContext || (window as any).webkitAudioContext)();
-    const oscillator = context.createOscillator();
-    const gainNode = context.createGain();
-    oscillator.connect(gainNode);
-    gainNode.connect(context.destination);
-    oscillator.frequency.value = frequency;
-    oscillator.type = 'sine';
-    oscillator.start();
-    setTimeout(() => {
-      oscillator.stop();
-      context.close();
-    }, duration);
-  };
+  const playSound = (frequency: number, duration: number): Promise<void> => {
+    return new Promise((resolve, reject) => {
+      try {
+        const context = new (window.AudioContext || (window as any).webkitAudioContext)();
+        const oscillator = context.createOscillator();
+        const gainNode = context.createGain();
+        oscillator.connect(gainNode);
+        gainNode.connect(context.destination);
+        oscillator.frequency.value = frequency;
+        oscillator.type = 'sine';
+        oscillator.start();
+        
+        setTimeout(() => {
+          oscillator.stop();
+          context.close();
+          resolve();
+        }, duration);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  };  
 
   const start = () => {
     clearInterval(intervalRef.current as NodeJS.Timeout);
@@ -49,21 +57,24 @@ const Chrono: React.FC<CountdownProps> = ({ duration, onComplete }) => {
     setIsPaused(true);
   }
 
-  const handleSecond = () => {
+  const nextTime = async (prevTime: number) => {
+    if (prevTime === 1) {
+      clearInterval(intervalRef.current as NodeJS.Timeout);
+      // Jouer la sonnerie à la fin
+      await playSound(440, 1000); // 440 Hz pendant 1 seconde
+      onComplete();
+      return 0;
+    }
+    if (prevTime === 4) await playSound(880, 500); // 3s restant (880 Hz pendant 0.5 seconde)
+    if (prevTime === 3) await playSound(880, 500); // 2s restant (880 Hz pendant 0.5 seconde)
+    if (prevTime === 2) await playSound(880, 500); // 1s restant (880 Hz pendant 0.5 seconde)
+    return prevTime - 1;
+  };
+
+  const handleSecond = async () => {
     if (!isPaused) {
-      setTimeLeft((prevTime) => {
-        if (prevTime <= 1) {
-          clearInterval(intervalRef.current as NodeJS.Timeout);
-          onComplete();
-          // Jouer la sonnerie à la fin
-          playSound(440, 1000); // 440 Hz pendant 1 seconde
-          return 0;
-        }
-        if (prevTime === 4) playSound(880, 500); // 3s restant (880 Hz pendant 0.5 seconde)
-        if (prevTime === 3) playSound(880, 500); // 2s restant (880 Hz pendant 0.5 seconde)
-        if (prevTime === 2) playSound(880, 500); // 1s restant (880 Hz pendant 0.5 seconde)
-        return prevTime - 1;
-      });
+      const next = await nextTime(timeLeft);
+      setTimeLeft(next);
     }
   }
 

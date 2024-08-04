@@ -3,138 +3,55 @@ import { Container, Box, Typography, Grid, Paper } from '@mui/material'; // Impo
 
 import Header from '@components/Header';
 import Chrono from '@components/Chrono';
+import { contextStore, ContextStoreModel } from '@src/stores/contextStore';
 
 const Training: React.FC = () => {
-  const [currentIndex, setCurrentIndex] = useState<number|null>(null);
   let flattenTraining:any = [];
-  const training = {
-    "_type": "TRAINING",
-    "label": "HIIT Training",
-    "workout": [
-      {
-        "_type": "WORKOUT",
-        "label": "warm-up",
-        "sequence": [
-          {
-            "_type": "SET",
-            "serie": ["Jumping Jacks"],
-            "rep": 1,
-            "duration": 40,
-            "rest": 20,
-          },
-          {
-            "_type": "SET",
-            "rep": 3,
-            "serie": ['Arm Circles', 'Bodyweight Squats', 'High Knees'],
-            "duration": 40,
-            "rest": 20,
-            "pause": 60,
-          }
-        ]
-      },
-      {
-        "_type": "WORKOUT",
-        "label": "HIIT",
-        "sequence": [
-          {
-            "_type": "SET",
-            "rep": 4,
-            "rest": 60,
-            "pause": 60,
-            "sequence": [
-              {
-                "_type": "SET",
-                "rep": 8,
-                "serie": ['Burpees', 'Mountain Climbers', 'Jumb rope', ' Jump Squats', 'Push-Ups', 'Russian Twists', 'Bank jumb', 'Jumping Lunges'],
-                "duration": 40,
-                "rest": 20
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "_type": "WORKOUT",
-        "label": "cooldown",
-        "sequence": [
-          {
-            "_type": "SET",
-            "rep": 2,
-            "serie": ['Standing Hamstring Stretch', 'Quadriceps Stretch'],
-            "duration": 60,
-          },
-          {
-            "_type": "SET",
-            "rep": 1,
-            "serie": ['Shoulder Stretch'],
-            "sequence": [
-              {
-                "_type": "SET",
-                "rep": 2,
-                "serie": ['Left', 'Right'],
-                "sequence": [
-                  {
-                    "_type": "SET",
-                    "rep": 3,
-                    "duration": 10,
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "_type": "SET",
-            "rep": 1,
-            "serie": ["Child's Pose"],
-            "duration": 60,
-          }
-        ]
-      }
-    ]
-  };
+  const context:ContextStoreModel = contextStore();
+  const [currentIndex, setCurrentIndex] = useState<number|null>(null);
 
   const flatten = () => {
-    for(const workout of training.workout) {
-      for(const sequence of workout.sequence) {
-        flattenTraining = flattenTraining.concat(flattenSequence(sequence));
+    for(const workout of context.training.workout) {
+      for(const set of workout.sets) {
+        flattenTraining = flattenTraining.concat(flattenSequence(set));
       }
     }
   }
 
-  const flattenSequence = (sequence: any): [] => {
+  const flattenSequence = (set: any): [] => {
     let response:any = [];
     let label = '';
-    for (let i = 0; i < sequence.rep; i++) {
-      if(sequence.serie && sequence.serie[i]) {
-        label = sequence.serie[i];
+    for (let i = 0; i < set.rep; i++) {
+      if(set.slugs && set.slugs[i]) {
+        label = set.slugs[i];
       } else {
         label = '';
       }
-      if(sequence.duration) {
+      if(set.duration) {
         response.push({
           label,
           type: 'effort',
-          duration: sequence.duration
+          duration: set.duration
         });
       }
-      if(sequence.sequence) {
-        for(const seq of sequence.sequence) {
+      if(set.set) {
+        for(const seq of set.set) {
           response = response.concat(flattenSequence(seq));
         }
       }
-      if(sequence.rest) {
+      if(set.rest) {
         response.push({
           label,
           type: 'rest',
-          duration: sequence.rest
+          duration: set.rest
         });
       }
     }
-    if(sequence.pause) {
+    if(set.pause) {
       response.push({
         label,
         type: 'pause',
-        duration: sequence.pause
+        duration: set.pause
       });
     }
     return response;
@@ -186,7 +103,7 @@ const Training: React.FC = () => {
         <Grid container spacing={2} justifyContent="center">
           <Grid item xs={12}>
             <Paper>
-              <Typography variant="h6" align="center">{training.label}</Typography>
+              <Typography variant="h6" align="center">{context.training.slug}</Typography>
             </Paper>
           </Grid>
           {doThing(currentIndex)}

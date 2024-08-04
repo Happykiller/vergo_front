@@ -1,12 +1,15 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 
+import { TrainingUsecaseModel } from '@src/usecases/getTrainings/model/training.usecase.model';
+
 export interface ContextStoreModel {
   id: string;
   code: string;
   access_token: string,
   name_first: string,
   name_last: string,
+  training: TrainingUsecaseModel,
   reset: () => void
 }
 
@@ -16,6 +19,7 @@ const initialState:any = {
   access_token: null,
   name_first: null,
   name_last: null,
+  training: null,
 }
 
 const contextPersist = persist<ContextStoreModel>(
