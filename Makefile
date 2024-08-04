@@ -25,7 +25,7 @@ install:
 	docker rm vergo_front
 	docker image rm vergo_front
 	docker load -i vergo_front.tar
-	docker run -d --restart=always -p 8086:80 --name vergo_front vergo_front
+	docker compose -f docker-compose.prod.yml up -d
 
 # Display help information about the available Makefile commands
 help:
