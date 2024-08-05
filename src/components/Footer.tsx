@@ -3,10 +3,10 @@ import { Trans } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
 import '@components/footer.scss';
+import { CODES } from '@src/commons/codes';
 import { version } from '../../package.json';
 import inversify from '@src/commons/inversify';
 import { SystemInfoUsecaseModel } from '@usecases/system/model/systemInfo.usecase.model';
-import { CODES } from '@src/commons/codes';
 
 export const Footer = () => {
   const [backVersion, setBackVersion] = React.useState('common.loading');

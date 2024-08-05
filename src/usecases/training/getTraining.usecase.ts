@@ -1,26 +1,30 @@
 import { CODES } from '@src/commons/codes';
 import { Inversify } from '@src/commons/inversify';
-import { TrainingUsecaseModel } from '@usecases/getTrainings/model/training.usecase.model';
+import { TrainingUsecaseModel } from '@usecases/training/model/training.usecase.model';
+import { GetTrainingUsecaseDto } from '@usecases/training/dto/get.training.usecase.dto';
 
-export class GetTrainingsUsecase {
+export class GetTrainingUsecase {
 
   constructor(
     private inversify:Inversify
   ){}
 
-  async execute(): Promise<{
+  async execute(dto: GetTrainingUsecaseDto): Promise<{
     message: string,
     error?: string,
-    data?: TrainingUsecaseModel[]
+    data?: TrainingUsecaseModel
   }>  {
     try {
       const response:any = await this.inversify.graphqlService.send(
         {
-          operationName: 'trainings',
-          variables: {},
-          query: `query trainings {
-            trainings
-            {
+          operationName: 'training',
+          variables: dto,
+          query: `query training($id: String!) {
+            training (
+              dto: {
+                id: $id
+              }
+            ) {
               id
               slug
               workout {
@@ -58,7 +62,7 @@ export class GetTrainingsUsecase {
 
       return {
         message: CODES.SUCCESS,
-        data: response.data.trainings
+        data: response.data.training
       }
     } catch (e: any) {
       if(e.message in CODES) {
@@ -68,7 +72,7 @@ export class GetTrainingsUsecase {
         }
       } else {
         return {
-          message: CODES.GET_TRANINGS_FAIL,
+          message: CODES.GET_TRANING_FAIL,
           error: e.message
         }
       }

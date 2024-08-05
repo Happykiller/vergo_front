@@ -1,14 +1,14 @@
 import React from 'react';
 import { Trans } from 'react-i18next'; // Import translation hook for i18n
-import { useNavigate } from 'react-router-dom';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
+import { createSearchParams, useNavigate } from 'react-router-dom';
 import { Container, Box, Typography, Grid, IconButton } from '@mui/material'; // Import Material-UI components
 
 import Header from '@components/Header';
 import { CODES } from '@src/commons/codes';
 import inversify from '@src/commons/inversify';
 import { contextStore, ContextStoreModel } from '@src/stores/contextStore';
-import { TrainingUsecaseModel } from '@usecases/getTrainings/model/training.usecase.model';
+import { TrainingUsecaseModel } from '@usecases/training/model/training.usecase.model';
 
 const Trainings: React.FC = () => {
   // Use the translation hook to get the translation function
@@ -23,14 +23,11 @@ const Trainings: React.FC = () => {
   });
 
   const goTraining = async (training: TrainingUsecaseModel) => {
-
-    contextStore.setState({ 
-      ... context,
-      training
-    });
-
     navigate({
-      pathname: '/training'
+      pathname: '/training',
+      search: createSearchParams({
+        id: training.id
+      }).toString()
     });
   }
 
