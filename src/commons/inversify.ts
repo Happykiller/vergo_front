@@ -13,6 +13,7 @@ import { AuthPasskeyUsecase } from '@usecases/authPasskey/authPasskey.usecase';
 import { DeletePasskeyUsecase } from '@usecases/deletePasskey/deletePasskey.usecase';
 import { CreatePasskeyUsecase } from '@usecases/createPasskey/createPasskey.usecase';
 import { GetPasskeyForUserUsecase } from '@usecases/getPasskeyForUser/getPasskeyForUser.usecase';
+import { GetNormalizedTrainingUsecase } from '@usecases/training/get.normalized.training.usecase';
 
 export class Inversify {
   authUsecase: AuthUsecase;
@@ -27,6 +28,7 @@ export class Inversify {
   deletePasskeyUsecase: DeletePasskeyUsecase;
   createPasskeyUsecase: CreatePasskeyUsecase;
   getPasskeyForUserUsecase: GetPasskeyForUserUsecase;
+  getNormalizedTrainingUsecase: GetNormalizedTrainingUsecase;
 
   constructor() {
     // Usecases
@@ -41,6 +43,7 @@ export class Inversify {
     this.deletePasskeyUsecase = new DeletePasskeyUsecase(this);
     this.createPasskeyUsecase = new CreatePasskeyUsecase(this);
     this.getPasskeyForUserUsecase = new GetPasskeyForUserUsecase(this);
+    this.getNormalizedTrainingUsecase = new GetNormalizedTrainingUsecase(this);
 
     // Services
     if (process.env.APP_MODE === 'prod') {
