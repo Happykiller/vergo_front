@@ -1,4 +1,9 @@
 {
+  "chrono": {
+    "pause": "Pause",
+    "resume": "Reprendre",
+    "reset": "Effacer"
+  },
   "common": {
     "cancel": "Annuler",
     "create": "Créer",

@@ -11,10 +11,10 @@ import { ExerciceUsecaseModel } from '@usecases/exercice/model/exercice.usecase.
 import { TrainingNormalizedUsecaseModel } from '@usecases/training/model/training.normalized.usecase.model';
 
 const Training: React.FC = () => {
-  let flattenTraining:any = [];
   const [searchParams] = useSearchParams();
   const training_id = searchParams.get('id');
-  const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const training_slug = searchParams.get('slug');
+  const [currentIndex, setCurrentIndex] = useState<number|null>(0);
   const [training, setTraining] = React.useState<TrainingNormalizedUsecaseModel[]|null>(null);
   const [exercices, setExercices] = React.useState<ExerciceUsecaseModel[]|null>(null);
 
@@ -24,35 +24,42 @@ const Training: React.FC = () => {
     error: null
   });
 
+  let content = <></>;
+
   const doThing = (index: number|null) => {
     if (index === null || training === null) return <></>;
     const thing = training[index];
+    let title = `${training_slug}${thing.slugs[0]?` | ${thing.slugs[0]}`:''}` ;
+    let exercice = null;
+    if (thing.slugs.length > 1) {
+      exercice = '';
+      for (let pas = 1; pas < thing.slugs.length; pas++) {
+        exercice += `${(pas===1)?'':' | '}${thing.slugs[pas]}`;
+      }
+    }
     return (<>
-      {thing.slugs?.map((slug) => (
-        <Grid item xs={12} key={slug}>
-          <Paper>
-            <Typography variant="h6" align="center">{slug}</Typography>
-          </Paper>
-        </Grid>
-      ))}
-      <Grid item xs={12}>
-        <Paper>
-          <Typography variant="h6" align="center">{thing.type}</Typography>
-        </Paper>
+      <Grid item xs={12} p={1} border={1} borderColor="grey.300" borderRadius={2}>
+        <Typography variant="h4" align="center" color={'#664FA1'}>{title}</Typography>
       </Grid>
-      <Grid item xs={12}>
+      {(exercice)&&
+        <Grid item xs={12} p={1} border={1} borderColor="grey.300" borderRadius={2}>
+          <Typography variant="h4" align="center" color={'#B59DF7'}>{exercice}</Typography>
+        </Grid>
+      }
+      <Grid item xs={12} p={1} border={1} borderColor="grey.300" borderRadius={2}>
+        <Typography variant="h5" align="center">{thing.type}</Typography>
+      </Grid>
+      <Grid item xs={12} p={1} border={1} borderColor="grey.300" borderRadius={2}>
         <Chrono key={index} duration={thing.duration} onComplete={() => {
           if (training[index+1]) {
             setTimeout(() => {setCurrentIndex(index+1)}, 100);
           } else {
-            console.log('FIIIIIINIIISHHHHH');
+            setTimeout(() => {setCurrentIndex(null)}, 100);
           }
         }} />
       </Grid>
     </>);
   }
-
-  let content = <></>;
 
   if(qry.loading) {
     content = <Trans>common.loading</Trans>;
@@ -93,9 +100,11 @@ const Training: React.FC = () => {
           loading: false
         }));
       });
-  } else if (training) {
-    content = <Grid container spacing={2} justifyContent="center">
-      {doThing(currentIndex)}
+  } else if (training && currentIndex !== null) {
+    content = doThing(currentIndex);
+  } else if (currentIndex === null) {
+    content = <Grid item xs={12} p={1} border={1} borderColor="grey.300" borderRadius={2}>
+      <Typography variant="h2" align="center" color={'#664FA1'}>FINIIISHHH !!!</Typography>
     </Grid>;
   }
 
@@ -110,7 +119,9 @@ const Training: React.FC = () => {
         minHeight="80vh" // Minimum height of 80% of the viewport height
         textAlign="center" // Center text alignment
       >
-        {content}
+        <Grid container justifyContent="center" gap={1}>
+          {content}
+        </Grid>
       </Box>
     </Container>
   </>);

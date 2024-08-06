@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { Trans } from 'react-i18next';
 import { Button, Box, Typography } from '@mui/material';
+import React, { useState, useEffect, useRef } from 'react';
 
 // Définir les types des props
 interface CountdownProps {
@@ -68,13 +69,18 @@ const Chrono: React.FC<CountdownProps> = ({ duration, onComplete }) => {
     if (prevTime === 4) await playSound(880, 500); // 3s restant (880 Hz pendant 0.5 seconde)
     if (prevTime === 3) await playSound(880, 500); // 2s restant (880 Hz pendant 0.5 seconde)
     if (prevTime === 2) await playSound(880, 500); // 1s restant (880 Hz pendant 0.5 seconde)
+    if (prevTime < 0) clearInterval(intervalRef.current as NodeJS.Timeout);
     return prevTime - 1;
   };
 
   const handleSecond = async () => {
     if (!isPaused) {
       const next = await nextTime(timeLeft);
-      setTimeLeft(next);
+      if (next > 0) {
+        setTimeLeft(next);
+      } else {
+        clearInterval(intervalRef.current as NodeJS.Timeout);
+      }
     }
   }
 
@@ -95,16 +101,16 @@ const Chrono: React.FC<CountdownProps> = ({ duration, onComplete }) => {
   };
 
   return (
-    <Box display="flex" flexDirection="column" alignItems="center" p={2} border={1} borderColor="grey.300" borderRadius={2}>
-      <Typography variant="h4" gutterBottom>
-        Time Left: {timeLeft}s
+    <Box display="flex" flexDirection="column" alignItems="center">
+      <Typography variant="h3" gutterBottom>
+        {timeLeft}s
       </Typography>
       <Box display="flex" gap={2}>
         <Button variant="contained" color="primary" onClick={handlePause}>
-          {isPaused ? 'Resume' : 'Pause'}
+          {isPaused ? <Trans>chrono.resume</Trans> : <Trans>chrono.pause</Trans>}
         </Button>
         <Button variant="outlined" color="secondary" onClick={handleReset}>
-          Reset
+          <Trans>chrono.reset</Trans>
         </Button>
       </Box>
     </Box>

@@ -26,7 +26,8 @@ const Trainings: React.FC = () => {
     navigate({
       pathname: '/training',
       search: createSearchParams({
-        id: training.id
+        id: training.id,
+        slug: training.slug
       }).toString()
     });
   }
