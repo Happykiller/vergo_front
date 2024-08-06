@@ -23,44 +23,6 @@ export class GetTrainingsUsecase {
             {
               id
               slug
-              workout {
-                slug
-                sets {
-                  rep
-                  slugs
-                  duration
-                  rest
-                  pause
-                  sets {
-                    rep
-                    slugs
-                    duration
-                    rest
-                    pause
-                    sets {
-                      rep
-                      slugs
-                      duration
-                      rest
-                      pause
-                      sets {
-                        rep
-                        slugs
-                        duration
-                        rest
-                        pause
-                        sets {
-                          rep
-                          slugs
-                          duration
-                          rest
-                          pause
-                        }
-                      }
-                    }
-                  }
-                }
-              }
             }
           }`
         }

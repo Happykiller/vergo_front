@@ -1,7 +1,7 @@
 export interface TrainingUsecaseModel {
   id: string;
   slug: string;
-  workout: WorkoutUsecaseModel[];
+  workout?: WorkoutUsecaseModel[];
 }
 
 export interface WorkoutUsecaseModel {
