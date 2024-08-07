@@ -101,18 +101,16 @@ const Chrono: React.FC<CountdownProps> = ({ duration, onComplete }) => {
   };
 
   return (
-    <Box display="flex" flexDirection="column" alignItems="center">
+    <Box display="flex" flexDirection="row" alignItems="center" justifyContent="center" gap={2}>
+      <Button variant="contained" color="primary" onClick={handlePause}>
+        {isPaused ? <Trans>chrono.resume</Trans> : <Trans>chrono.pause</Trans>}
+      </Button>
       <Typography variant="h3" gutterBottom>
         {timeLeft}s
       </Typography>
-      <Box display="flex" gap={2}>
-        <Button variant="contained" color="primary" onClick={handlePause}>
-          {isPaused ? <Trans>chrono.resume</Trans> : <Trans>chrono.pause</Trans>}
-        </Button>
-        <Button variant="outlined" color="secondary" onClick={handleReset}>
-          <Trans>chrono.reset</Trans>
-        </Button>
-      </Box>
+      <Button variant="outlined" color="secondary" onClick={handleReset}>
+        <Trans>chrono.reset</Trans>
+      </Button>
     </Box>
   );
 };

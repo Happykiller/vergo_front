@@ -1,6 +1,6 @@
 {
   "name": "vergo_front",
-  "version": "0.9.0",
+  "version": "0.11.0",
   "description": "Web Client for Service Vergo",
   "main": "index.js",
   "scripts": {
@@ -21,6 +21,7 @@
     "i18next-browser-languagedetector": "^8.0.0",
     "i18next-http-backend": "^2.5.2",
     "jest-mock-extended": "^3.0.7",
+    "moment": "^2.30.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-i18next": "^15.0.0",
