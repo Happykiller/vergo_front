@@ -14,7 +14,7 @@ export class GraphqlServiceFetch implements GraphqlService {
       const storage = JSON.parse(localStorage.getItem("vergo-storage")??"");
       const token = storage?.state.access_token;
 
-      const response = await fetch(process.env.API_URL??ERRORS.API_URL_NOT_FOUND, {
+      const response = await fetch(process.env.API_URL+'/graphql'??ERRORS.API_URL_NOT_FOUND, {
         method: 'POST',
         mode: 'cors', // no-cors, *cors, same-origin
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached

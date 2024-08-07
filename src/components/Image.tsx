@@ -1,14 +1,26 @@
 import React, { useState, useEffect } from 'react';
+import { contextStore, ContextStoreModel } from '@src/stores/contextStore';
 
-const ImageFetcher = () => {
+const ImageFetcher = (dto: {
+  name: string,
+  width?: number,
+  height?: number,
+  title?: string
+}) => {
+  const context:ContextStoreModel = contextStore();
   const [imageUrl, setImageUrl] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchImage = async () => {
+    const fetchImage = async (dto: {
+      name: string,
+      width?: number,
+      height?: number
+    }) => {
       try {
-        const response = await fetch(`http://localhost:3000/image/man-doing-seated.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RlIjoiYWRtaW4iLCJpZCI6IjY2YjBiOGFkM2FjYmExMTdiMjdjNjA3YyIsImlhdCI6MTcyMjk1NDU0NywiZXhwIjoxNzIyOTgzMzQ3fQ.l4ydrKHxLsZlq6R_o08qWrlQZ9XSX2Laneyj5Df964o`, {
+        
+        const response = await fetch(`${process.env.API_URL}/image/${dto.name}?token=${context.access_token}${(dto.width)?`&width=${dto.width}`:''}${(dto.height)?`&height=${dto.height}`:''}`, {
           method: 'GET',
           mode: 'cors', // no-cors, *cors, same-origin
         });
@@ -25,7 +37,7 @@ const ImageFetcher = () => {
       }
     };
 
-    fetchImage();
+    fetchImage(dto);
   }, []);
 
   if (loading) {
@@ -38,7 +50,7 @@ const ImageFetcher = () => {
 
   return (
     <div>
-      <img src={imageUrl} alt="Fetched content" />
+      <img src={imageUrl} alt={dto.title} />
     </div>
   );
 };

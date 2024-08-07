@@ -6,6 +6,7 @@ import { Container, Box, Typography, Grid, Paper } from '@mui/material'; // Impo
 import Header from '@components/Header';
 import Chrono from '@components/Chrono';
 import { CODES } from '@src/commons/codes';
+import ImageFetcher from '@components/Image';
 import inversify from '@src/commons/inversify';
 import { ExerciceUsecaseModel } from '@usecases/exercice/model/exercice.usecase.model';
 import { TrainingNormalizedUsecaseModel } from '@usecases/training/model/training.normalized.usecase.model';
@@ -37,6 +38,10 @@ const Training: React.FC = () => {
         exercice += `${(pas===1)?'':' | '}${thing.slugs[pas]}`;
       }
     }
+    let show = <Typography variant="h5" align="center">{thing.type}</Typography>;
+    if (thing.type === 'pause' || thing.type === 'rest') {
+      show = <ImageFetcher name="man-doing-seated.jpg" height={100} title={thing.type}/>
+    }
     return (<>
       <Grid item xs={12} p={1} border={1} borderColor="grey.300" borderRadius={2}>
         <Typography variant="h4" align="center" color={'#664FA1'}>{title}</Typography>
@@ -47,7 +52,7 @@ const Training: React.FC = () => {
         </Grid>
       }
       <Grid item xs={12} p={1} border={1} borderColor="grey.300" borderRadius={2}>
-        <Typography variant="h5" align="center">{thing.type}</Typography>
+        {show}
       </Grid>
       <Grid item xs={12} p={1} border={1} borderColor="grey.300" borderRadius={2}>
         <Chrono key={index} duration={thing.duration} onComplete={() => {

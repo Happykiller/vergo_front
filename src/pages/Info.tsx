@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next'; // Import translation hook for i
 import { Container, Typography, Box } from '@mui/material'; // Import Material-UI components
 
 import Header from '@components/Header';
-import ImageFetcher from '../components/Image';
 
 const Info: React.FC = () => {
   // Use the translation hook to get the translation function
@@ -24,7 +23,6 @@ const Info: React.FC = () => {
         <Typography variant="h2">
           {t('info.infoPage')} {/* Translation key for the page title */}
         </Typography>
-        <ImageFetcher/>
       </Box>
     </Container>
   </>);
