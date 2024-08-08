@@ -19,17 +19,20 @@ const ImageFetcher = (dto: {
       height?: number
     }) => {
       try {
-        
-        const response = await fetch(`${process.env.API_URL}/image/${dto.name}?token=${context.access_token}${(dto.width)?`&width=${dto.width}`:''}${(dto.height)?`&height=${dto.height}`:''}`, {
+        fetch(`${process.env.API_URL}/image/${dto.name}?token=${context.access_token}${(dto.width)?`&width=${dto.width}`:''}${(dto.height)?`&height=${dto.height}`:''}`, {
           method: 'GET',
           mode: 'cors', // no-cors, *cors, same-origin
-        });
-        if (!response.ok) {
+        }).then(async (response:any) => {
+          if (!response.ok) {
+            throw new Error('Erreur lors du fetch');
+          } else {
+            const blob = await response.blob();
+            const url = URL.createObjectURL(blob);
+            setImageUrl(url);
+          }
+        }).catch((err:any) => {
           throw new Error('Erreur lors du fetch');
-        }
-        const blob = await response.blob();
-        const url = URL.createObjectURL(blob);
-        setImageUrl(url);
+        });
       } catch (err:any) {
         setError(err.message);
       } finally {

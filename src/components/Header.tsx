@@ -16,6 +16,7 @@ import { Trans, useTranslation } from 'react-i18next';
 
 import '@components/header.scss';
 import { contextStore, ContextStoreModel } from '@src/stores/contextStore';
+import { volatileStore, VolatileStoreModel } from '@src/stores/volatileStore';
 
 const pages = ['trainings', 'info'];
 const settings = ['profile', 'logout'];
@@ -25,6 +26,7 @@ function Header() {
   const navigate = useNavigate();
   const context:ContextStoreModel = contextStore();
   const reset = contextStore((state:any) => state.reset);
+  const volatileContext:VolatileStoreModel = volatileStore();
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
@@ -36,7 +38,7 @@ function Header() {
     setAnchorElUser(event.currentTarget);
   };
 
-  return (
+  return !volatileContext.fullscreen && (
     <AppBar position="static"
       sx={{
         backgroundColor: '#3C4042'

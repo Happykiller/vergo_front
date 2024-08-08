@@ -1,24 +1,35 @@
 import moment from 'moment';
-import { Trans, useTranslation } from 'react-i18next';
 import React, { useState } from 'react';
+import InfoIcon from '@mui/icons-material/Info';
 import { useSearchParams } from 'react-router-dom';
-import { Container, Box, Typography, Grid } from '@mui/material'; // Import Material-UI components
+import { Trans, useTranslation } from 'react-i18next';
+import FullscreenIcon from '@mui/icons-material/Fullscreen';
+import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
+import { Container, Box, Typography, Grid, useTheme, useMediaQuery, TypographyProps, Tooltip, IconButton } from '@mui/material'; // Import Material-UI components
 
 import Header from '@components/Header';
 import Chrono from '@components/Chrono';
 import { CODES } from '@src/commons/codes';
 import ImageFetcher from '@components/Image';
 import inversify from '@src/commons/inversify';
+import { contextStore, ContextStoreModel } from '@src/stores/contextStore';
+import { volatileStore, VolatileStoreModel } from '@src/stores/volatileStore';
 import { ExerciceUsecaseModel } from '@usecases/exercice/model/exercice.usecase.model';
 import { TrainingNormalizedUsecaseModel } from '@usecases/training/model/training.normalized.usecase.model';
 
 const Training: React.FC = () => {
-  const start = moment();
+  const theme = useTheme();
   const { i18n } = useTranslation();
   const currentLocale = i18n.language;
   const [searchParams] = useSearchParams();
   const training_id = searchParams.get('id');
   const training_slug = searchParams.get('slug');
+  const context:ContextStoreModel = contextStore();
+  const [start] = useState<string>(moment().format());
+  const isXs = useMediaQuery(theme.breakpoints.only('xs'));
+  const isMd = useMediaQuery(theme.breakpoints.only('md'));
+  const volatileContext:VolatileStoreModel = volatileStore();
+
   const [currentIndex, setCurrentIndex] = useState<number|null>(0);
   const [training, setTraining] = React.useState<{
     training: TrainingNormalizedUsecaseModel[],
@@ -33,6 +44,46 @@ const Training: React.FC = () => {
 
   let content = <></>;
 
+  let variant: TypographyProps['variant'];
+  if (isXs) {
+    variant = 'h6';
+  } else if (isMd) {
+    variant = 'h4';
+  } else {
+    variant = 'h5'; // Variante par défaut pour d'autres tailles d'écran
+  }
+
+  const handleToggle = () => {
+    if (volatileContext.fullscreen) {
+      // Sortir du mode plein écran
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.webkitExitFullscreen) { // Safari
+        document.webkitExitFullscreen();
+      } else if (document.mozCancelFullScreen) { // Firefox
+        document.mozCancelFullScreen();
+      } else if (document.msExitFullscreen) { // IE/Edge
+        document.msExitFullscreen();
+      }
+    } else {
+      // Entrer en mode plein écran
+      const elem = document.documentElement; // Utilisez l'élément racine du document
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if (elem.webkitRequestFullscreen) { // Safari
+        elem.webkitRequestFullscreen();
+      } else if (elem.mozRequestFullScreen) { // Firefox
+        elem.mozRequestFullScreen();
+      } else if (elem.msRequestFullscreen) { // IE/Edge
+        elem.msRequestFullscreen();
+      }
+    }
+    volatileStore.setState({ 
+      ... context,
+      fullscreen: !volatileContext.fullscreen
+    });
+  };
+
   const doThing = (index: number|null) => {
     if (index === null || training === null) return <></>;
 
@@ -40,10 +91,9 @@ const Training: React.FC = () => {
     // Convertir la durée totale en format MM:SS
     const durationFormatted = moment.utc(totalDuration * 1000).format('mm:ss');
     // Calculer la date et l'heure de fin en ajoutant la durée totale à maintenant
-    const endDateTime = start.add(totalDuration, 'seconds').format('HH:mm:ss');
+    const endDateTime = moment(start).add(totalDuration, 'seconds').format('HH:mm:ss');
 
     const thing = training.training[index];
-    let title = `${training_slug} | ${durationFormatted} | ${endDateTime}`;
     let exercice = null;
     let ex_details:any = null;
     if (thing.slugs.length > 1) {
@@ -63,15 +113,15 @@ const Training: React.FC = () => {
       }
     }
     let show = <Grid item xs={12} p={1} border={1} borderColor="grey.300" borderRadius={2}>
-      <Typography variant="h3" align="center" noWrap>{thing.type.toUpperCase()}</Typography>
+      <Typography variant={variant} align="center" noWrap>{thing.type.toUpperCase()}</Typography>
     </Grid>;
     if (thing.type === 'pause' || thing.type === 'rest') {
       show = <Grid item xs={12} p={1} border={1} borderColor="grey.300" borderRadius={2}>
-        <ImageFetcher key={"man-doing-seated.jpg"} name="man-doing-seated.jpg" height={150} title={thing.type}/><Typography variant="h5" align="center" noWrap>{thing.type}</Typography>
+        <ImageFetcher key={"man-doing-seated.jpg"} name="man-doing-seated.jpg" height={200} title={thing.type}/><Typography variant="h5" align="center" noWrap>{thing.type}</Typography>
       </Grid>;
     } else if (ex_details?.image) {
       show = <Grid item xs={12} p={1} border={1} borderColor="grey.300" borderRadius={2}>
-        <ImageFetcher key={ex_details?.image} name={ex_details.image} height={150} title={thing.type}/>
+        <ImageFetcher key={ex_details?.image} name={ex_details.image} height={200} title={thing.type}/>
       </Grid>;
     }
     let next = <></>;
@@ -84,16 +134,25 @@ const Training: React.FC = () => {
         }
       }
       next = <Grid item xs={12} p={1} border={1} borderColor="grey.300" borderRadius={2}>
-        <Typography variant="h5" align="center" color={'#664FA1'} noWrap>Next: {training.training[index+1].slugs[0]}{(next_exercice)?` | ${next_exercice}`:''} | {training.training[index+1].type}</Typography>
+        <Typography variant={variant} align="center" color={'#664FA1'} noWrap>{(next_exercice)?`${next_exercice}`:''} | {training.training[index+1].type}</Typography>
       </Grid>
     }
 
     return (<>
       <Grid item xs={12} p={1} border={1} borderColor="grey.300" borderRadius={2}>
-        <Typography variant="h4" align="center" color={'#664FA1'} noWrap>{title}</Typography>
+        <Typography variant={variant} align="center" color={'#664FA1'} noWrap>{training_slug}<IconButton onClick={handleToggle}>
+      {volatileContext.fullscreen ? <FullscreenExitIcon /> : <FullscreenIcon />}
+    </IconButton></Typography>
+        <Typography variant={variant} align="center" color={'#664FA1'} noWrap>{`${durationFormatted} | ${endDateTime}`}</Typography>
       </Grid>
       <Grid item xs={12} p={1} border={1} borderColor="grey.300" borderRadius={2}>
-        <Typography variant="h4" align="center" color={'#B59DF7'} noWrap>{thing.slugs[0]}{(exercice)?` | ${exercice}`:''}</Typography>
+        <Typography variant={variant} align="center" color={'#B59DF7'} noWrap>{thing.slugs[0]}</Typography>
+        <Typography variant={variant} align="center" color={'#B59DF7'} noWrap>{exercice}{(ex_details?.description)?(
+          <Tooltip title={ex_details.description}>
+            <IconButton><InfoIcon/></IconButton>
+          </Tooltip>
+        ):null}
+        </Typography>
       </Grid>
       {show}
       <Grid item xs={12} p={1} border={1} borderColor="grey.300" borderRadius={2}>
