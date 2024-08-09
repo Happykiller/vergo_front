@@ -23,12 +23,16 @@ const Trainings: React.FC = () => {
   });
 
   const goTraining = async (training: TrainingUsecaseModel) => {
+    let dto:any = {
+      id: training.id,
+      slug: training.slug
+    };
+    if(training.gender) {
+      dto.gender = training.gender;
+    }
     navigate({
       pathname: '/training',
-      search: createSearchParams({
-        id: training.id,
-        slug: training.slug
-      }).toString()
+      search: createSearchParams(dto).toString()
     });
   }
 
@@ -56,7 +60,17 @@ const Trainings: React.FC = () => {
           <Typography noWrap>{training.slug}</Typography>
         </Grid>
         <Grid 
-          md={4}
+          md={2}
+          item
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          title={training.gender}
+        >
+          <Typography noWrap>{training.gender}</Typography>
+        </Grid>
+        <Grid 
+          md={2}
           item
           display="flex"
           justifyContent="center"
@@ -187,8 +201,17 @@ const Trainings: React.FC = () => {
             >
               <Trans>trainings.label</Trans>
             </Grid>
+            <Grid 
+              md={2}
+              item
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Trans>trainings.gender</Trans>
+            </Grid>
             <Grid
-              md={4}
+              md={2}
               item>
             </Grid>
           </Grid>

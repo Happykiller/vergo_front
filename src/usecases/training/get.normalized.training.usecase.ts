@@ -32,6 +32,8 @@ export class GetNormalizedTrainingUsecase {
               slugs
               type
               duration
+              ite
+              weight
             }
           }`
         }

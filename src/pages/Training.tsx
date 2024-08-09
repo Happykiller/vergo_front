@@ -24,12 +24,13 @@ const Training: React.FC = () => {
   const [searchParams] = useSearchParams();
   const training_id = searchParams.get('id');
   const training_slug = searchParams.get('slug');
+  let training_gender = searchParams.get('gender');
+  training_gender = training_gender??'female';
   const context:ContextStoreModel = contextStore();
   const [start] = useState<string>(moment().format());
   const isXs = useMediaQuery(theme.breakpoints.only('xs'));
   const isMd = useMediaQuery(theme.breakpoints.only('md'));
   const volatileContext:VolatileStoreModel = volatileStore();
-
   const [currentIndex, setCurrentIndex] = useState<number|null>(0);
   const [training, setTraining] = React.useState<{
     training: TrainingNormalizedUsecaseModel[],
@@ -117,11 +118,11 @@ const Training: React.FC = () => {
     </Grid>;
     if (thing.type === 'pause' || thing.type === 'rest') {
       show = <Grid item xs={12} p={1} border={1} borderColor="grey.300" borderRadius={2}>
-        <ImageFetcher key={"man-doing-seated.jpg"} name="man-doing-seated.jpg" height={200} title={thing.type}/><Typography variant="h5" align="center" noWrap>{thing.type}</Typography>
+        <ImageFetcher key={training_gender+"_doing-seated"} name={training_gender+"_doing-seated"} height={200} title={thing.type}/><Typography variant="h5" align="center" noWrap>{thing.type}</Typography>
       </Grid>;
     } else if (ex_details?.image) {
       show = <Grid item xs={12} p={1} border={1} borderColor="grey.300" borderRadius={2}>
-        <ImageFetcher key={ex_details?.image} name={ex_details.image} height={200} title={thing.type}/>
+        <ImageFetcher key={training_gender+'_'+ex_details?.image} name={training_gender+'_'+ex_details.image} height={200} title={thing.type}/>
       </Grid>;
     }
     let next = <></>;

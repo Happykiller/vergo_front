@@ -72,7 +72,8 @@
   },
   "trainings": {
     "title": "Trainings",
-    "label": "Label"
+    "label": "Label",
+    "gender": "Gender"
   },
   "workout": {
     "title": "Training"
