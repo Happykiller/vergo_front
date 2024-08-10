@@ -43,6 +43,10 @@ const ImageFetcher = (dto: {
     fetchImage(dto);
   }, []);
 
+  if (imageUrl === '') {
+    return <div>Chargement...</div>;
+  }
+
   if (loading) {
     return <div>Chargement...</div>;
   }

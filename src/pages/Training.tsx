@@ -103,6 +103,7 @@ const Training: React.FC = () => {
         const exerciceDetails = training.exercices.find(exercice => thing.slugs[pas] === exercice.slug);
         if (exerciceDetails) {
           ex_details = {
+            slug: thing.slugs[pas],
             title: exerciceDetails?.title.find(lang => lang.lang === currentLocale)?.value,
             description: exerciceDetails?.description.find(lang => lang.lang === currentLocale)?.value,
             image: exerciceDetails?.image
@@ -118,11 +119,12 @@ const Training: React.FC = () => {
     </Grid>;
     if (thing.type === 'pause' || thing.type === 'rest') {
       show = <Grid item xs={12} p={1} border={1} borderColor="grey.300" borderRadius={2}>
-        <ImageFetcher key={training_gender+"_doing-seated"} name={training_gender+"_doing-seated"} height={200} title={thing.type}/><Typography variant="h5" align="center" noWrap>{thing.type}</Typography>
+        <ImageFetcher key={training_gender+"_bhastrika_pranayama"} name={training_gender+"_bhastrika_pranayama"} height={200} title={thing.type}/><Typography variant="h5" align="center" noWrap>{thing.type}</Typography>
       </Grid>;
-    } else if (ex_details?.image) {
+    } else {
+      const src = training_gender+'_'+((ex_details?.image)?ex_details?.image:ex_details?.slug);
       show = <Grid item xs={12} p={1} border={1} borderColor="grey.300" borderRadius={2}>
-        <ImageFetcher key={training_gender+'_'+ex_details?.image} name={training_gender+'_'+ex_details.image} height={200} title={thing.type}/>
+        <ImageFetcher key={src} name={src} height={200} title={thing.type}/>
       </Grid>;
     }
     let next = <></>;
