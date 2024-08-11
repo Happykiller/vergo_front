@@ -25,7 +25,7 @@ const Training: React.FC = () => {
   const training_id = searchParams.get('id');
   const training_slug = searchParams.get('slug');
   let training_gender = searchParams.get('gender');
-  training_gender = training_gender??'female';
+  training_gender = training_gender??'woman';
   const context:ContextStoreModel = contextStore();
   const [start] = useState<string>(moment().format());
   const isXs = useMediaQuery(theme.breakpoints.only('xs'));
@@ -85,6 +85,35 @@ const Training: React.FC = () => {
     });
   };
 
+  const findExercice = (slug: string) => {
+    if (training === null) return {
+      slug: slug,
+      title: null,
+      description: null,
+      image: null
+    };
+
+    let ex_details;
+    const exerciceDetails = training.exercices.find(exercice => slug === exercice.slug);
+    if (exerciceDetails) {
+      ex_details = {
+        slug: slug,
+        title: exerciceDetails?.title.find(lang => lang.lang === currentLocale)?.value,
+        description: exerciceDetails?.description.find(lang => lang.lang === currentLocale)?.value,
+        image: exerciceDetails?.image
+      }
+    } else {
+      ex_details = {
+        slug: slug,
+        title: null,
+        description: null,
+        image: null
+      };
+    }
+
+    return ex_details;
+  }
+
   const doThing = (index: number|null) => {
     if (index === null || training === null) return <></>;
 
@@ -95,31 +124,35 @@ const Training: React.FC = () => {
     const endDateTime = moment(start).add(totalDuration, 'seconds').format('HH:mm:ss');
 
     const thing = training.training[index];
+
+    /**
+     * Header block
+     */
     let exercice = null;
     let ex_details:any = null;
     if (thing.slugs.length > 1) {
       exercice = '';
       for (let pas = 1; pas < thing.slugs.length; pas++) {
-        const exerciceDetails = training.exercices.find(exercice => thing.slugs[pas] === exercice.slug);
-        if (exerciceDetails) {
-          ex_details = {
-            slug: thing.slugs[pas],
-            title: exerciceDetails?.title.find(lang => lang.lang === currentLocale)?.value,
-            description: exerciceDetails?.description.find(lang => lang.lang === currentLocale)?.value,
-            image: exerciceDetails?.image
-          }
-        } else {
-          ex_details = null;
+        const finded = findExercice(thing.slugs[pas]);
+        if (!ex_details && finded) {
+          ex_details = finded;
         }
-        exercice += `${(pas===1)?'':' | '}${(ex_details?.title)?ex_details.title:thing.slugs[pas]}`;
+        exercice += `${(pas===1)?'':' | '}${(finded?.title)?finded.title:thing.slugs[pas]}`;
+      }
+      if (thing.type === 'pause' || thing.type === 'rest') {
+        exercice = <Trans>training.{thing.type}</Trans>;
       }
     }
+
+    /**
+     * Main Block
+     */
     let show = <Grid item xs={12} p={1} border={1} borderColor="grey.300" borderRadius={2}>
       <Typography variant={variant} align="center" noWrap>{thing.type.toUpperCase()}</Typography>
     </Grid>;
     if (thing.type === 'pause' || thing.type === 'rest') {
       show = <Grid item xs={12} p={1} border={1} borderColor="grey.300" borderRadius={2}>
-        <ImageFetcher key={training_gender+"_bhastrika_pranayama"} name={training_gender+"_bhastrika_pranayama"} height={200} title={thing.type}/><Typography variant="h5" align="center" noWrap>{thing.type}</Typography>
+        <ImageFetcher key={training_gender+"_bhastrika_pranayama"} name={training_gender+"_bhastrika_pranayama"} height={200} title={thing.type}/>
       </Grid>;
     } else {
       const src = training_gender+'_'+((ex_details?.image)?ex_details?.image:ex_details?.slug);
@@ -127,18 +160,33 @@ const Training: React.FC = () => {
         <ImageFetcher key={src} name={src} height={200} title={thing.type}/>
       </Grid>;
     }
+
+    /**
+     * Block Next
+     */
     let next = <></>;
     if (training.training[index+1]) {
       let next_exercice;
       if (training.training[index+1].slugs.length > 1) {
         next_exercice = '';
+        let next_details:any = null;
         for (let pas = 1; pas < training.training[index+1].slugs.length; pas++) {
-          next_exercice += `${(pas===1)?'':' | '}${training.training[index+1].slugs[pas]}`;
+          const finded = findExercice(training.training[index+1].slugs[pas]);
+          if (!next_details && finded) {
+            next_details = finded;
+          }
+          next_exercice += `${(pas===1)?'':' | '}${(next_details?.title)?next_details.title:training.training[index+1].slugs[pas]}`;
         }
       }
-      next = <Grid item xs={12} p={1} border={1} borderColor="grey.300" borderRadius={2}>
-        <Typography variant={variant} align="center" color={'#664FA1'} noWrap>{(next_exercice)?`${next_exercice}`:''} | {training.training[index+1].type}</Typography>
-      </Grid>
+      if (training.training[index+1].type === 'effort') {
+        next = <Grid item xs={12} p={1} border={1} borderColor="grey.300" borderRadius={2}>
+          <Typography variant={variant} align="center" color={'#664FA1'} noWrap>{(next_exercice)?`${next_exercice}`:''}</Typography>
+        </Grid>
+      } else {
+        next = <Grid item xs={12} p={1} border={1} borderColor="grey.300" borderRadius={2}>
+          <Typography variant={variant} align="center" color={'#664FA1'} noWrap><Trans>training.{training.training[index+1].type}</Trans></Typography>
+        </Grid>
+      }
     }
 
     return (<>
@@ -150,7 +198,7 @@ const Training: React.FC = () => {
       </Grid>
       <Grid item xs={12} p={1} border={1} borderColor="grey.300" borderRadius={2}>
         <Typography variant={variant} align="center" color={'#B59DF7'} noWrap>{thing.slugs[0]}</Typography>
-        <Typography variant={variant} align="center" color={'#B59DF7'} noWrap>{exercice}{(ex_details?.description)?(
+        <Typography variant={variant} align="center" color={'#B59DF7'} noWrap>{exercice}{(thing.type !== 'pause' && thing.type !== 'rest' && ex_details?.description)?(
           <Tooltip title={ex_details.description}>
             <IconButton><InfoIcon/></IconButton>
           </Tooltip>

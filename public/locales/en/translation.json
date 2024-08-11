@@ -70,6 +70,10 @@
     "PASSWORD": "De 3 à 50, lettres et chiffres avec possible @$€!%*?&.-_:;,",
     "PASSKEY_LABEL": "De 3 à 50, juste des lettres"
   },
+  "training": {
+    "rest": "Reste",
+    "pause": "Pause"
+  },
   "trainings": {
     "title": "Trainings",
     "label": "Label",

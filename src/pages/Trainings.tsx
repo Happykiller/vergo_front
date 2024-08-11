@@ -7,13 +7,11 @@ import { Container, Box, Typography, Grid, IconButton } from '@mui/material'; //
 import Header from '@components/Header';
 import { CODES } from '@src/commons/codes';
 import inversify from '@src/commons/inversify';
-import { contextStore, ContextStoreModel } from '@src/stores/contextStore';
 import { TrainingUsecaseModel } from '@usecases/training/model/training.usecase.model';
 
 const Trainings: React.FC = () => {
   // Use the translation hook to get the translation function
   const navigate = useNavigate();
-  const context:ContextStoreModel = contextStore();
   const [trainings, setTrainings] = React.useState<TrainingUsecaseModel[]|null>(null);
 
   const [qry, setQry] = React.useState({
@@ -50,7 +48,7 @@ const Trainings: React.FC = () => {
         }}
       >
         <Grid 
-          md={8}
+          xs={8} sm={8} md={8} lg={8} xl={8}
           item
           display="flex"
           justifyContent="center"
@@ -60,7 +58,7 @@ const Trainings: React.FC = () => {
           <Typography noWrap>{training.slug}</Typography>
         </Grid>
         <Grid 
-          md={2}
+          xs={2} sm={2} md={2} lg={2} xl={2}
           item
           display="flex"
           justifyContent="center"
@@ -70,7 +68,7 @@ const Trainings: React.FC = () => {
           <Typography noWrap>{training.gender}</Typography>
         </Grid>
         <Grid 
-          md={2}
+          xs={2} sm={2} md={2} lg={2} xl={2}
           item
           display="flex"
           justifyContent="center"
@@ -193,7 +191,7 @@ const Trainings: React.FC = () => {
             }}
           >
             <Grid 
-              md={8}
+              xs={8} sm={8} md={8} lg={8} xl={8}
               item
               display="flex"
               justifyContent="center"
@@ -202,7 +200,7 @@ const Trainings: React.FC = () => {
               <Trans>trainings.label</Trans>
             </Grid>
             <Grid 
-              md={2}
+              xs={2} sm={2} md={2} lg={2} xl={2}
               item
               display="flex"
               justifyContent="center"
@@ -211,7 +209,7 @@ const Trainings: React.FC = () => {
               <Trans>trainings.gender</Trans>
             </Grid>
             <Grid
-              md={2}
+              xs={2} sm={2} md={2} lg={2} xl={2}
               item>
             </Grid>
           </Grid>

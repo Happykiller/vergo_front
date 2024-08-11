@@ -46,9 +46,13 @@ export class GetNormalizedTrainingUsecase {
       const exercices_request:any = await this.inversify.graphqlService.send(
         {
           operationName: 'exercices',
-          variables: {},
-          query: `query exercices {
-            exercices {
+          variables: dto,
+          query: `query exercices($id: String!) {
+            exercices (
+              dto: {
+                id: $id
+              }
+            ) {
               id
               slug
               title {

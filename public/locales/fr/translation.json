@@ -65,6 +65,10 @@
     "title": "Profil",
     "UPDATE_PASSWORD_FAIL": "Echec du changement de mot de passe"
   },
+  "training": {
+    "rest": "Repos",
+    "pause": "Pause"
+  },
   "trainings": {
     "title": "Entrainements",
     "label": "Titre",
