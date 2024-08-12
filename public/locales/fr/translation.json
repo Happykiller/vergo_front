@@ -72,7 +72,9 @@
   "trainings": {
     "title": "Entrainements",
     "label": "Titre",
-    "gender": "Genre"
+    "gender": "Genre",
+    "woman": "Femme",
+    "man": "Homme"
   },
   "REGEX": {
     "LOGIN": "De 3 à 50, juste des lettres",

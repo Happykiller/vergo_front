@@ -65,7 +65,7 @@ const Trainings: React.FC = () => {
           alignItems="center"
           title={training.gender}
         >
-          <Typography noWrap>{training.gender}</Typography>
+          <Typography noWrap><Trans>trainings.{training.gender??'woman'}</Trans></Typography>
         </Grid>
         <Grid 
           xs={2} sm={2} md={2} lg={2} xl={2}
