@@ -23,6 +23,7 @@ export class GetTrainingsUsecase {
             {
               id
               slug
+              label
               gender
             }
           }`

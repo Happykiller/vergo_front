@@ -2,6 +2,7 @@ export interface TrainingUsecaseModel {
   id: string;
   slug: string;
   gender?: string;
+  label?: string;
   workout?: WorkoutUsecaseModel[];
 }
 

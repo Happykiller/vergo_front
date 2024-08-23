@@ -1,18 +1,18 @@
 {
   "chrono": {
     "pause": "Pause",
-    "resume": "Resume",
-    "reset": "Reset"
+    "reset": "Reset",
+    "resume": "Resume"
   },
   "common": {
-    "cancel": "Annuler",
-    "create": "Créer",
-    "done": "Valider",
-    "field_incorrect": "Champ inccorect",
-    "loading": "Chargement..."
+    "cancel": "Cancel",
+    "create": "Create",
+    "done": "Done",
+    "field_incorrect": "Incorrect field",
+    "loading": "Loading..."
   },
   "footer": {
-    "issues": "Issues",  
+    "issues": "Issues",
     "roadmap": "Roadmap",
     "version": {
       "back": "Apis: ",
@@ -20,13 +20,13 @@
     }
   },
   "header": {
-    "title": "Vergo",
     "home": "Home",
     "info": "Info",
-    "training": "Training",
     "logout": "Logout",
-    "profile": "Profil",
+    "profile": "Profile",
     "settings": "Settings",
+    "title": "Vergo",
+    "training": "Training",
     "trainings": "Trainings"
   },
   "home": {
@@ -36,50 +36,52 @@
     "infoPage": "Info Page"
   },
   "login": {
-    "title": "Authentification",
-    "login": "Entrer votre nom",
-    "password": "Entrer votre mot de passe",
-    "AUTH_FAIL_WRONG_CREDENTIAL": "Identifiants incorrects",
-    "passkey": "Clés d'accés"
+    "AUTH_FAIL_WRONG_CREDENTIAL": "Incorrect credentials",
+    "login": "Enter your name",
+    "passkey": "Access keys",
+    "password": "Enter your password",
+    "title": "Authentication"
   },
   "profile": {
-    "addPasskey": "Ajouter une clé",
-    "code": "Identifiant: ",
-    "confPassword": "Confirmer mot de passe",
-    "keys": "Voir les clés du système",
-    "name_first": "Prénom: ",
-    "name_last": "Nom: ",
-    "newPassword": "Nouveau mot de passe",
-    "oldPassword": "Mot de passe actuel",
+    "addPasskey": "Add a key",
+    "code": "Identifier: ",
+    "confPassword": "Confirm password",
+    "keys": "View system keys",
+    "name_first": "First name: ",
+    "name_last": "Last name: ",
+    "newPassword": "New password",
+    "oldPassword": "Current password",
     "passkey": {
       "table": {
-        "label": "Nom",
-        "delete": "Supprimer",
-        "active": "Activer"
+        "active": "Activate",
+        "delete": "Delete",
+        "label": "Name"
       }
     },
-    "passkeys": "Clés d'accés",
-    "passkey_label": "Nom de l'appareil",
-    "password": "Changer mot de passe",
-    "passwordUpdated": "Mise à jour du mot de passe réussi",
-    "title": "Profil",
-    "UPDATE_PASSWORD_FAIL": "Echec du changement de mot de passe"
+    "passkey_label": "Device name",
+    "passkeys": "Access keys",
+    "password": "Change password",
+    "passwordUpdated": "Password update successful",
+    "title": "Profile",
+    "UPDATE_PASSWORD_FAIL": "Password change failed"
   },
   "REGEX": {
-    "LOGIN": "De 3 à 50, juste des lettres",
-    "PASSWORD": "De 3 à 50, lettres et chiffres avec possible @$€!%*?&.-_:;,",
-    "PASSKEY_LABEL": "De 3 à 50, juste des lettres"
+    "LOGIN": "From 3 to 50, letters only",
+    "PASSKEY_LABEL": "From 3 to 50, letters only",
+    "PASSWORD": "From 3 to 50, letters and numbers with possible @$€!%*?&.-_:;,"
   },
   "training": {
-    "rest": "Reste",
-    "pause": "Pause"
+    "pause": "Pause",
+    "rest": "Rest"
   },
   "trainings": {
-    "title": "Trainings",
-    "label": "Label",
+    "date": "Date",
     "gender": "Gender",
-    "woman": "Woman",
-    "man": "Man"
+    "label": "Label",
+    "male": "Man",
+    "man": "Man",
+    "title": "Trainings",
+    "woman": "Woman"
   },
   "workout": {
     "title": "Training"

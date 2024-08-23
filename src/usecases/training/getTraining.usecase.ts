@@ -27,6 +27,7 @@ export class GetTrainingUsecase {
             ) {
               id
               slug
+              label
               gender
               workout {
                 slug

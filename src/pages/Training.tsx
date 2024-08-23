@@ -156,8 +156,22 @@ const Training: React.FC = () => {
       </Grid>;
     } else {
       const src = training_gender+'_'+((ex_details?.image)?ex_details?.image:ex_details?.slug);
-      show = <Grid item xs={12} p={1} border={1} borderColor="grey.300" borderRadius={2}>
-        <ImageFetcher key={src} name={src} height={200} title={thing.type}/>
+      show = <Grid 
+        item 
+        xs={12} 
+        p={1} 
+        border={1} 
+        borderColor="grey.300" 
+        borderRadius={2}
+        display="flex" 
+        justifyContent="center" 
+        alignItems="center"
+      >
+        <Box display="flex" alignItems="center" gap={2}>
+          {thing.ite?<Typography variant={variant} align="center" noWrap>X{thing.ite}</Typography>:<></>}
+          <ImageFetcher key={src} name={src} height={200} title={thing.type}/>
+          {thing.weight?<Typography variant={variant} align="center" noWrap>{thing.weight}Kg</Typography>:<></>}
+        </Box>
       </Grid>;
     }
 

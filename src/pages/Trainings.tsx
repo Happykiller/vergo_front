@@ -8,6 +8,8 @@ import Header from '@components/Header';
 import { CODES } from '@src/commons/codes';
 import inversify from '@src/commons/inversify';
 import { TrainingUsecaseModel } from '@usecases/training/model/training.usecase.model';
+import moment from 'moment';
+import commons from '../commons/commons';
 
 const Trainings: React.FC = () => {
   // Use the translation hook to get the translation function
@@ -36,6 +38,7 @@ const Trainings: React.FC = () => {
 
   const Row = (props: { training: TrainingUsecaseModel }) => {
     const { training } = props;
+    const strDate = moment(commons.getTimestampFromObjectId(training.id)).format('DD/MM/YY HH:mm:ss');
 
     return (
       <Grid
@@ -48,14 +51,14 @@ const Trainings: React.FC = () => {
         }}
       >
         <Grid 
-          xs={8} sm={8} md={8} lg={8} xl={8}
+          xs={6} sm={6} md={6} lg={6} xl={6}
           item
           display="flex"
           justifyContent="center"
           alignItems="center"
-          title={training.slug}
+          title={training.label??training.slug}
         >
-          <Typography noWrap>{training.slug}</Typography>
+          <Typography noWrap>{training.label??training.slug}</Typography>
         </Grid>
         <Grid 
           xs={2} sm={2} md={2} lg={2} xl={2}
@@ -66,6 +69,16 @@ const Trainings: React.FC = () => {
           title={training.gender}
         >
           <Typography noWrap><Trans>trainings.{training.gender??'woman'}</Trans></Typography>
+        </Grid>
+        <Grid 
+          xs={2} sm={2} md={2} lg={2} xl={2}
+          item
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          title={training.gender}
+        >
+          <Typography noWrap><Trans>{strDate}</Trans></Typography>
         </Grid>
         <Grid 
           xs={2} sm={2} md={2} lg={2} xl={2}
@@ -142,7 +155,7 @@ const Trainings: React.FC = () => {
         data?: TrainingUsecaseModel[]
       }) => {
         if(response.message === CODES.SUCCESS && response.data) {
-          setTrainings(response.data);
+          setTrainings(response.data.slice().sort(((elt1: TrainingUsecaseModel, elt2: TrainingUsecaseModel) => (elt1.label??elt1.slug) < (elt2.label??elt2.slug) ? -1 : 1 )));
         } else {
           inversify.loggerService.debug(response.error);
           setQry((qry:any) => ({
@@ -191,7 +204,7 @@ const Trainings: React.FC = () => {
             }}
           >
             <Grid 
-              xs={8} sm={8} md={8} lg={8} xl={8}
+              xs={6} sm={6} md={6} lg={6} xl={6}
               item
               display="flex"
               justifyContent="center"
@@ -207,6 +220,15 @@ const Trainings: React.FC = () => {
               alignItems="center"
             >
               <Trans>trainings.gender</Trans>
+            </Grid>
+            <Grid 
+              xs={2} sm={2} md={2} lg={2} xl={2}
+              item
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Trans>trainings.date</Trans>
             </Grid>
             <Grid
               xs={2} sm={2} md={2} lg={2} xl={2}
