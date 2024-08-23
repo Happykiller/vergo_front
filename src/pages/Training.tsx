@@ -124,28 +124,62 @@ const Training: React.FC = () => {
     const endDateTime = moment(start).add(totalDuration, 'seconds').format('HH:mm:ss');
 
     const thing = training.training[index];
+    const thing_next = training.training[index+1]??null;
 
     /**
-     * Header block
+     * Exercice block
      */
-    let exercice = null;
+    let exercice = [];
     let ex_details:any = null;
     if (thing.slugs.length > 1) {
-      exercice = '';
+      exercice = [];
+      if (thing.type !== 'pause' && thing.type !== 'rest' && ex_details?.description) {
+        exercice.push(<Tooltip title={ex_details.description}>
+          <IconButton><InfoIcon/></IconButton>
+        </Tooltip>)
+      }
       for (let pas = 1; pas < thing.slugs.length; pas++) {
         const finded = findExercice(thing.slugs[pas]);
         if (!ex_details && finded) {
           ex_details = finded;
         }
-        exercice += `${(pas===1)?'':' | '}${(finded?.title)?finded.title:thing.slugs[pas]}`;
-      }
-      if (thing.type === 'pause' || thing.type === 'rest') {
-        exercice = <Trans>training.{thing.type}</Trans>;
+        exercice.push(<Typography key={thing.slugs[pas]} variant={variant} align="center" color={'#B59DF7'} noWrap>{(finded?.title)?finded.title:<Trans>{thing.slugs[pas]}</Trans>}</Typography>);
       }
     }
 
     /**
-     * Main Block
+     * Block Next
+     */
+    let next = <></>;
+    if (thing_next) {
+      let next_exercice = [];
+      if (thing_next.slugs.length > 1) {
+        next_exercice = [];
+        let next_details:any = null;
+        for (let pas = 1; pas < thing_next.slugs.length; pas++) {
+          const finded = findExercice(thing_next.slugs[pas]);
+          if (!next_details && finded) {
+            next_details = finded;
+          }
+          next_exercice.push(<Typography key={finded.slug} variant={variant} align="center" color={'#664FA1'} noWrap>{(finded?.title)?finded.title:<Trans>{thing.slugs[pas]}</Trans>}</Typography>)
+        }
+        if(thing_next.weight) {
+          next_exercice.push(<Typography key='weight' variant={variant} align="center" color={'#664FA1'} noWrap>{thing_next.weight}Kg</Typography>)
+        }
+      }
+      if (thing_next.type === 'effort') {
+        next = <Grid item xs={12} p={1} border={1} borderColor="grey.300" borderRadius={2}>
+          {next_exercice}
+        </Grid>
+      } else {
+        next = <Grid item xs={12} p={1} border={1} borderColor="grey.300" borderRadius={2}>
+          <Typography variant={variant} align="center" color={'#664FA1'} noWrap><Trans>training.{thing_next.type}</Trans></Typography>
+        </Grid>
+      }
+    }
+
+    /**
+     * Image Block
      */
     let show = <Grid item xs={12} p={1} border={1} borderColor="grey.300" borderRadius={2}>
       <Typography variant={variant} align="center" noWrap>{thing.type.toUpperCase()}</Typography>
@@ -175,49 +209,14 @@ const Training: React.FC = () => {
       </Grid>;
     }
 
-    /**
-     * Block Next
-     */
-    let next = <></>;
-    if (training.training[index+1]) {
-      let next_exercice;
-      if (training.training[index+1].slugs.length > 1) {
-        next_exercice = '';
-        let next_details:any = null;
-        for (let pas = 1; pas < training.training[index+1].slugs.length; pas++) {
-          const finded = findExercice(training.training[index+1].slugs[pas]);
-          if (!next_details && finded) {
-            next_details = finded;
-          }
-          next_exercice += `${(pas===1)?'':' | '}${(next_details?.title)?next_details.title:training.training[index+1].slugs[pas]}`;
-        }
-      }
-      if (training.training[index+1].type === 'effort') {
-        next = <Grid item xs={12} p={1} border={1} borderColor="grey.300" borderRadius={2}>
-          <Typography variant={variant} align="center" color={'#664FA1'} noWrap>{(next_exercice)?`${next_exercice}`:''}</Typography>
-        </Grid>
-      } else {
-        next = <Grid item xs={12} p={1} border={1} borderColor="grey.300" borderRadius={2}>
-          <Typography variant={variant} align="center" color={'#664FA1'} noWrap><Trans>training.{training.training[index+1].type}</Trans></Typography>
-        </Grid>
-      }
-    }
-
     return (<>
       <Grid item xs={12} p={1} border={1} borderColor="grey.300" borderRadius={2}>
-        <Typography variant={variant} align="center" color={'#664FA1'} noWrap>{training_slug}<IconButton onClick={handleToggle}>
-      {volatileContext.fullscreen ? <FullscreenExitIcon /> : <FullscreenIcon />}
-    </IconButton></Typography>
-        <Typography variant={variant} align="center" color={'#664FA1'} noWrap>{`${durationFormatted} | ${endDateTime}`}</Typography>
-      </Grid>
-      <Grid item xs={12} p={1} border={1} borderColor="grey.300" borderRadius={2}>
         <Typography variant={variant} align="center" color={'#B59DF7'} noWrap>{thing.slugs[0]}</Typography>
-        <Typography variant={variant} align="center" color={'#B59DF7'} noWrap>{exercice}{(thing.type !== 'pause' && thing.type !== 'rest' && ex_details?.description)?(
-          <Tooltip title={ex_details.description}>
-            <IconButton><InfoIcon/></IconButton>
-          </Tooltip>
-        ):null}
-        </Typography>
+        {(thing.type !== 'pause' && thing.type !== 'rest')?(
+          exercice
+        ):
+          <Typography variant={variant} align="center" color={'#B59DF7'} noWrap><Trans>training.{thing.type}</Trans></Typography>
+        }
       </Grid>
       {show}
       <Grid item xs={12} p={1} border={1} borderColor="grey.300" borderRadius={2}>
@@ -230,6 +229,22 @@ const Training: React.FC = () => {
         }} />
       </Grid>
       {next}
+      <Grid 
+        item 
+        xs={12} 
+        p={1} 
+        border={1} 
+        borderColor="grey.300" 
+        borderRadius={2}
+        display="flex" 
+        justifyContent="center" 
+        alignItems="center"
+      >
+        <Typography variant={variant} align="center" color={'#664FA1'} noWrap>{`${durationFormatted} | ${endDateTime}`}</Typography>
+        <IconButton onClick={handleToggle}>
+          {volatileContext.fullscreen ? <FullscreenExitIcon /> : <FullscreenIcon />}
+        </IconButton>
+      </Grid>
     </>);
   }
 

@@ -1,4 +1,6 @@
 {
+  "left": "Left",
+  "right": "Right",
   "chrono": {
     "pause": "Pause",
     "reset": "Reset",

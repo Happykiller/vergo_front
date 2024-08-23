@@ -1,4 +1,6 @@
 {
+  "left": "Gauche",
+  "right": "Droite",
   "chrono": {
     "pause": "Pause",
     "reset": "Réinitialiser",
