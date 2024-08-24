@@ -1,15 +1,16 @@
 import React from 'react';
+import moment from 'moment';
 import { Trans } from 'react-i18next'; // Import translation hook for i18n
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import { createSearchParams, useNavigate } from 'react-router-dom';
 import { Container, Box, Typography, Grid, IconButton } from '@mui/material'; // Import Material-UI components
 
 import Header from '@components/Header';
 import { CODES } from '@src/commons/codes';
+import commons from '@src/commons/commons';
 import inversify from '@src/commons/inversify';
 import { TrainingUsecaseModel } from '@usecases/training/model/training.usecase.model';
-import moment from 'moment';
-import commons from '../commons/commons';
 
 const Trainings: React.FC = () => {
   // Use the translation hook to get the translation function
@@ -24,14 +25,23 @@ const Trainings: React.FC = () => {
 
   const goTraining = async (training: TrainingUsecaseModel) => {
     let dto:any = {
-      id: training.id,
-      slug: training.slug
+      id: training.id
     };
     if(training.gender) {
       dto.gender = training.gender;
     }
     navigate({
       pathname: '/training',
+      search: createSearchParams(dto).toString()
+    });
+  }
+
+  const goPreview = async (training: TrainingUsecaseModel) => {
+    let dto:any = {
+      id: training.id
+    };
+    navigate({
+      pathname: '/preview',
       search: createSearchParams(dto).toString()
     });
   }
@@ -78,7 +88,7 @@ const Trainings: React.FC = () => {
           alignItems="center"
           title={training.gender}
         >
-          <Typography noWrap><Trans>{strDate}</Trans></Typography>
+          <Typography noWrap>{strDate}</Typography>
         </Grid>
         <Grid 
           xs={2} sm={2} md={2} lg={2} xl={2}
@@ -95,6 +105,15 @@ const Trainings: React.FC = () => {
             }}
           >
             <FitnessCenterIcon/>
+          </IconButton>
+          <IconButton
+            size="small"
+            onClick={(e) => {
+              e.preventDefault();
+              goPreview(training);
+            }}
+          >
+            <VisibilityIcon/>
           </IconButton>
         </Grid>
       </Grid>

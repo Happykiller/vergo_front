@@ -4,6 +4,7 @@ import { Routes, Route } from 'react-router-dom';
 import Home from '@pages/Home';
 import Info from '@pages/Info';
 import { CGU } from '@pages/CGU';
+import Preview from '@pages/Preview';
 import { Login } from '@pages/Login';
 import Flash from '@components/Flash';
 import Training from '@pages/Training';
@@ -36,6 +37,9 @@ const App: React.FC = () => {
 
         {/* Route for the trainings page */}
         <Route path="/trainings" element={<Guard><Trainings /></Guard>} />
+
+        {/* Route for the preview page */}
+        <Route path="/preview" element={<Guard><Preview /></Guard>} />
 
         {/* Route for the cgu page */}
         <Route path="/cgu" element={<CGU />} />

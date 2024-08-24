@@ -11,6 +11,11 @@ export class Commons {
     
     return date;
   }
+
+  // Fonction sleep qui retourne une promesse résolue après un certain délai
+  sleep = (s: number) => {
+    return new Promise(resolve => setTimeout(resolve, s * 1000));
+  };
 }
 
 const commons = new Commons();

@@ -6,6 +6,10 @@
     "reset": "Réinitialiser",
     "resume": "Reprendre"
   },
+  "CODES": {
+    "FAIL": "Erreur lors du chargement des données",
+    "SUCCESS": "Données chargées avec succès"
+  },
   "common": {
     "cancel": "Annuler",
     "create": "Créer",

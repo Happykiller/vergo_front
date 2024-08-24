@@ -14,12 +14,14 @@ import { DeletePasskeyUsecase } from '@usecases/deletePasskey/deletePasskey.usec
 import { CreatePasskeyUsecase } from '@usecases/createPasskey/createPasskey.usecase';
 import { GetPasskeyForUserUsecase } from '@usecases/getPasskeyForUser/getPasskeyForUser.usecase';
 import { GetNormalizedTrainingUsecase } from '@usecases/training/get.normalized.training.usecase';
+import { GetPreviewUsecase } from '@src/usecases/preview/get.preview.usecase';
 
 export class Inversify {
   authUsecase: AuthUsecase;
   loggerService: LoggerService;
   graphqlService: GraphqlService;
   sessionInfo: SessionInfoUsecase;
+  getPreviewUsecase: GetPreviewUsecase;
   systemInfoUsecase: SystemInfoUsecase;
   updPasswordUsecase: UpdPasswordUsecase;
   authPasskeyUsecase: AuthPasskeyUsecase;
@@ -35,6 +37,7 @@ export class Inversify {
     this.authUsecase = new AuthUsecase(this);
     this.loggerService = new LoggerServiceReal();
     this.sessionInfo = new SessionInfoUsecase(this);
+    this.getPreviewUsecase = new GetPreviewUsecase(this);
     this.systemInfoUsecase = new SystemInfoUsecase(this);
     this.updPasswordUsecase = new UpdPasswordUsecase(this);
     this.authPasskeyUsecase = new AuthPasskeyUsecase(this);

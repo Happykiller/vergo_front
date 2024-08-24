@@ -1,6 +1,21 @@
-import { Trans } from 'react-i18next';
-import { Button, Box, Typography } from '@mui/material';
+import SkipNextIcon from '@mui/icons-material/SkipNext';
 import React, { useState, useEffect, useRef } from 'react';
+import NotStartedIcon from '@mui/icons-material/NotStarted';
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import { Box, Typography, IconButton } from '@mui/material';
+import PauseCircleIcon from '@mui/icons-material/PauseCircle';
+
+
+import { styled } from '@mui/material/styles';
+
+const LargeIconButton = styled(IconButton)({
+  width: 60,
+  height: 60,
+  '& .MuiSvgIcon-root': {
+    fontSize: 40,
+  },
+});
+
 
 // Définir les types des props
 interface CountdownProps {
@@ -100,17 +115,31 @@ const Chrono: React.FC<CountdownProps> = ({ duration, onComplete }) => {
     reset();
   };
 
+  const handleSkip = () => {
+    clearInterval(intervalRef.current as NodeJS.Timeout);
+    onComplete();
+  };
+
   return (
     <Box display="flex" flexDirection="row" alignItems="center" justifyContent="center" gap={2}>
-      <Button variant="contained" color="primary" onClick={handlePause}>
-        {isPaused ? <Trans>chrono.resume</Trans> : <Trans>chrono.pause</Trans>}
-      </Button>
+      <LargeIconButton
+        onClick={handlePause}
+      >
+        {isPaused ? <NotStartedIcon/> : <PauseCircleIcon/>}
+      </LargeIconButton>
       <Typography variant="h3" gutterBottom>
         {timeLeft}s
       </Typography>
-      <Button variant="outlined" color="secondary" onClick={handleReset}>
-        <Trans>chrono.reset</Trans>
-      </Button>
+      <LargeIconButton
+        onClick={handleReset}
+      >
+        <RestartAltIcon/>
+      </LargeIconButton>
+      <LargeIconButton
+        onClick={handleSkip}
+      >
+        <SkipNextIcon/>
+      </LargeIconButton>
     </Box>
   );
 };

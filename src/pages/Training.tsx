@@ -12,6 +12,7 @@ import Chrono from '@components/Chrono';
 import { CODES } from '@src/commons/codes';
 import ImageFetcher from '@components/Image';
 import inversify from '@src/commons/inversify';
+import WakeLockComponent from '@components/WakeLockComponent';
 import { contextStore, ContextStoreModel } from '@src/stores/contextStore';
 import { volatileStore, VolatileStoreModel } from '@src/stores/volatileStore';
 import { ExerciceUsecaseModel } from '@usecases/exercice/model/exercice.usecase.model';
@@ -23,7 +24,6 @@ const Training: React.FC = () => {
   const currentLocale = i18n.language;
   const [searchParams] = useSearchParams();
   const training_id = searchParams.get('id');
-  const training_slug = searchParams.get('slug');
   let training_gender = searchParams.get('gender');
   training_gender = training_gender??'woman';
   const context:ContextStoreModel = contextStore();
@@ -314,6 +314,7 @@ const Training: React.FC = () => {
         </Grid>
       </Box>
     </Container>
+    <WakeLockComponent/>
   </>);
 }
 
