@@ -6,24 +6,18 @@ import { Container, Typography, Box, CircularProgress, Alert, Grid, Badge, Card,
 import Header from '@components/Header';
 import inversify from '@src/commons/inversify';
 import { CODES } from '@src/commons/codes';
-
-type GridItem =
-  | { _type: 'text'; value: string }
-  | { _type: 'badge'; title: string; img: string; ite: number; weight: number };
-
-const itemList: GridItem[] = [
-  { _type: 'badge', title: 'Exercice', img: 'https://via.placeholder.com/150', ite: 12, weight: 5 },
-  { _type: 'text', value: 'blabla' },
-  { _type: 'text', value: 'another text' },
-  { _type: 'badge', title: 'Another Exercise', img: 'https://via.placeholder.com/150', ite: 10, weight: 10 },
-  // Ajoute d'autres éléments ici...
-];
+import { GridItem } from '@src/usecases/preview/build.preview.items.usecase';
+import moment from 'moment';
+import ImageFetcher from '@src/components/Image';
 
 const Preview: React.FC = () => {
   // Use the translation hook to get the translation function
-  const { t } = useTranslation();
+  const { i18n } = useTranslation();
+  const currentLocale = i18n.language;
   const [searchParams] = useSearchParams();
   const training_id = searchParams.get('id');
+  const [items, setItems] = React.useState<GridItem[]>([]);
+  const [duration, setDuration] = React.useState("MM:SS");
 
   const [qry, setQry] = React.useState<{
     loading: boolean,
@@ -42,8 +36,15 @@ const Preview: React.FC = () => {
         const result = await inversify.getPreviewUsecase.execute({id: training_id});
         if (result.message !== CODES.SUCCESS) {
           throw new Error(result.message);
-        } else {
-          console.log(result)
+        } else if (result.data) {
+          const totalDuration = result.data.training_normalized.reduce((acc, exercise) => acc + exercise.duration, 0);
+          // Convertir la durée totale en format MM:SS
+          const durationFormatted = moment.utc(totalDuration * 1000).format('mm:ss');
+          setDuration(durationFormatted);
+          setItems(inversify.buildPreviewItemsUsecase.execute({
+            ...result.data,
+            locale: currentLocale
+          }));
           setQry({ loading: false, data: result, error: null });
         }
       } catch (err) {
@@ -91,46 +92,43 @@ const Preview: React.FC = () => {
         >
           {/* Titre et icône d'information */}
           <Box display="flex" justifyContent="space-between" alignItems="center" marginBottom={2}>
-            <Typography variant="h3" fontWeight="bold">
-              TITRE
+            <Typography variant="h4" fontWeight="bold">
+              {qry.data.data.training.label??qry.data.data.training.slug}
             </Typography>
           </Box>
     
           {/* Chronomètre */}
           <Typography variant="h4" align="center" marginBottom={4}>
-            MM:SS
+            {duration}
           </Typography>
     
           {/* Grille des éléments */}
           <Grid container spacing={2}>
-            {itemList.map((item, index) => (
-              <Grid item xs={12} sm={6} md={4} key={index}>
-                {item._type === 'badge' ? (
-                  <Badge badgeContent={`x${item.ite}`} color="primary">
+            {items.map((item, index) => (
+              <Grid item xs={4} sm={3} md={2} key={index}>
+                {item.serie!==1 ? 
+                  <Badge badgeContent={`x${item.serie}`} color="primary">
                     <Card sx={{ backgroundColor: '#333' }}>
-                      <CardMedia component="img" height="140" image={item.img} alt={item.title} />
+                      <ImageFetcher name={item.img} height={100} width={100}/>
                       <CardContent>
-                        <Typography variant="h6">{item.title}</Typography>
-                        <Typography variant="body2">
-                          x{item.ite} {item.weight}kg
+                        <Typography>{item.title}</Typography>
+                        <Typography variant="body2" >
+                          {item.ite?`X${item.ite}`:''}  {item.weight?`${item.weight}kg`:''}
                         </Typography>
                       </CardContent>
                     </Card>
                   </Badge>
-                ) : (
-                  <Box
-                    sx={{
-                      height: '100%',
-                      border: '1px solid #fff',
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      padding: 2,
-                    }}
-                  >
-                    <Typography variant="body1">{item.value}</Typography>
-                  </Box>
-                )}
+                  :
+                  <Card sx={{ backgroundColor: '#333' }}>
+                    <ImageFetcher name={item.img} height={100} width={100}/>
+                    <CardContent>
+                      <Typography >{item.title}</Typography>
+                      <Typography variant="body2" >
+                        {item.ite?`X${item.ite}`:''} {item.weight?`${item.weight}kg`:''}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                }
               </Grid>
             ))}
           </Grid>
