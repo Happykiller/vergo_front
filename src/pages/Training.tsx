@@ -5,14 +5,14 @@ import { useSearchParams } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
-import { Container, Box, Typography, Grid, useTheme, useMediaQuery, TypographyProps, Tooltip, IconButton } from '@mui/material'; // Import Material-UI components
+import { Container, Box, Typography, Grid, useTheme, useMediaQuery, TypographyProps, Tooltip, IconButton, CircularProgress } from '@mui/material'; // Import Material-UI components
 
 import Header from '@components/Header';
 import Chrono from '@components/Chrono';
 import { CODES } from '@src/commons/codes';
 import ImageFetcher from '@components/Image';
 import inversify from '@src/commons/inversify';
-import WakeLockComponent from '@components/WakeLockComponent';
+import WakeLockComponent from '@src/components/WakeLock';
 import { contextStore, ContextStoreModel } from '@src/stores/contextStore';
 import { volatileStore, VolatileStoreModel } from '@src/stores/volatileStore';
 import { ExerciceUsecaseModel } from '@usecases/exercice/model/exercice.usecase.model';
@@ -131,19 +131,22 @@ const Training: React.FC = () => {
      */
     let exercice = [];
     let ex_details:any = null;
+    let tootips;
     if (thing.slugs.length > 1) {
       exercice = [];
-      if (thing.type !== 'pause' && thing.type !== 'rest' && ex_details?.description) {
-        exercice.push(<Tooltip title={ex_details.description}>
-          <IconButton><InfoIcon/></IconButton>
-        </Tooltip>)
-      }
       for (let pas = 1; pas < thing.slugs.length; pas++) {
         const finded = findExercice(thing.slugs[pas]);
         if (!ex_details && finded) {
           ex_details = finded;
+          if (thing.type !== 'pause' && thing.type !== 'rest' && ex_details?.description) {
+            tootips = <Tooltip title={ex_details.description}>
+              <IconButton><InfoIcon/></IconButton>
+            </Tooltip>
+          }
+        } else {
+          tootips = null;
         }
-        exercice.push(<Typography key={thing.slugs[pas]} variant={variant} align="center" color={'#B59DF7'} noWrap>{(finded?.title)?finded.title:<Trans>{thing.slugs[pas]}</Trans>}</Typography>);
+        exercice.push(<Typography key={thing.slugs[pas]} variant={variant} align="center" color={'#B59DF7'} noWrap>{(tootips)?tootips:''}{(finded?.title)?finded.title:<Trans>{thing.slugs[pas]}</Trans>}</Typography>);
       }
     }
 
@@ -240,6 +243,7 @@ const Training: React.FC = () => {
         justifyContent="center" 
         alignItems="center"
       >
+        <WakeLockComponent/>
         <Typography variant={variant} align="center" color={'#664FA1'} noWrap>{`${durationFormatted} | ${endDateTime}`}</Typography>
         <IconButton onClick={handleToggle}>
           {volatileContext.fullscreen ? <FullscreenExitIcon /> : <FullscreenIcon />}
@@ -249,7 +253,9 @@ const Training: React.FC = () => {
   }
 
   if(qry.loading) {
-    content = <Trans>common.loading</Trans>;
+    content = <>
+      <CircularProgress />
+    </>
   } else if(qry.error) {
     content = <span>{qry.error}</span>;
   } else if (!training && training_id) {
@@ -314,7 +320,6 @@ const Training: React.FC = () => {
         </Grid>
       </Box>
     </Container>
-    <WakeLockComponent/>
   </>);
 }
 

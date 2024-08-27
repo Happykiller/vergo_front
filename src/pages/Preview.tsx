@@ -1,17 +1,21 @@
+import moment from 'moment';
 import React, { useEffect } from 'react';
-import { Trans, useTranslation } from 'react-i18next'; // Import translation hook for i18n
-import { useSearchParams } from 'react-router-dom';
-import { Container, Typography, Box, CircularProgress, Alert, Grid, Badge, Card, CardMedia, CardContent } from '@mui/material'; // Import Material-UI components
+import InfoIcon from '@mui/icons-material/Info';
+import { Trans, useTranslation } from 'react-i18next';
+import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
+import { createSearchParams, useNavigate, useSearchParams } from 'react-router-dom';
+import { Container, Typography, Box, CircularProgress, Alert, Grid, Badge, Card, CardContent, IconButton, Tooltip } from '@mui/material'; // Import Material-UI components
 
 import Header from '@components/Header';
-import inversify from '@src/commons/inversify';
 import { CODES } from '@src/commons/codes';
-import { GridItem } from '@src/usecases/preview/build.preview.items.usecase';
-import moment from 'moment';
-import ImageFetcher from '@src/components/Image';
+import ImageFetcher from '@components/Image';
+import inversify from '@src/commons/inversify';
+import LargeIconButton from '@components/LargeIconButton';
+import { GridItem } from '@usecases/preview/build.preview.items.usecase';
+import { TrainingUsecaseModel } from '@usecases/training/model/training.usecase.model';
 
 const Preview: React.FC = () => {
-  // Use the translation hook to get the translation function
+  const navigate = useNavigate();
   const { i18n } = useTranslation();
   const currentLocale = i18n.language;
   const [searchParams] = useSearchParams();
@@ -28,6 +32,20 @@ const Preview: React.FC = () => {
     data: null,
     error: null
   });
+
+  const goTraining = async (training: TrainingUsecaseModel) => {
+    console.log(training)
+    let dto:any = {
+      id: training.id
+    };
+    if(training.gender) {
+      dto.gender = training.gender;
+    }
+    navigate({
+      pathname: '/training',
+      search: createSearchParams(dto).toString()
+    });
+  }
 
   useEffect(() => {
     const fetchData = async (training_id: string) => {
@@ -90,17 +108,27 @@ const Preview: React.FC = () => {
             padding: 2,
           }}
         >
-          {/* Titre et icône d'information */}
-          <Box display="flex" justifyContent="space-between" alignItems="center" marginBottom={2}>
+          <Box display="flex" flexDirection="column" alignItems="center" marginBottom={2}>
+            {/* Titre */}
             <Typography variant="h4" fontWeight="bold">
               {qry.data.data.training.label??qry.data.data.training.slug}
             </Typography>
-          </Box>
     
-          {/* Chronomètre */}
-          <Typography variant="h4" align="center" marginBottom={4}>
-            {duration}
-          </Typography>
+            {/* Chronomètre */}
+            <Typography variant="h4">
+              {duration}
+            </Typography>
+
+            {/* Bt Go Training */}
+            <LargeIconButton
+              onClick={(e) => {
+                e.preventDefault();
+                goTraining(qry.data.data.training);
+              }}
+            >
+              <PlayCircleOutlineIcon/>
+            </LargeIconButton>
+          </Box>
     
           {/* Grille des éléments */}
           <Grid container spacing={2}>
@@ -122,7 +150,11 @@ const Preview: React.FC = () => {
                   <Card sx={{ backgroundColor: '#333' }}>
                     <ImageFetcher name={item.img} height={100} width={100}/>
                     <CardContent>
-                      <Typography >{item.title}</Typography>
+                      <Typography>{
+                      item.description && (<Tooltip title={item.description}>
+                        <IconButton><InfoIcon/></IconButton>
+                      </Tooltip>)
+                      }{item.title}</Typography>
                       <Typography variant="body2" >
                         {item.ite?`X${item.ite}`:''} {item.weight?`${item.weight}kg`:''}
                       </Typography>

@@ -20,8 +20,11 @@ const App: React.FC = () => {
     <div>
       {/* Define the application's routing structure */}
       <Routes>
+        {/* Route for root */}
+        <Route path="/" element={<Guard><Trainings /></Guard>} />
+
         {/* Route for the home page */}
-        <Route path="/" element={<Guard><Home /></Guard>} />
+        <Route path="/home" element={<Guard><Home /></Guard>} />
 
         {/* Route for the login page */}
         <Route path="/login" element={<Login />} />

@@ -16,6 +16,7 @@
       "@components/*": ["src/components/*"], // Map @components alias to components directory
       "@usecases/*": ["src/usecases/*"],
       "@services/*": ["src/services/*"],
+      "@stores/*": ["src/stores/*"],
       // Add other paths as needed
     },
     "sourceMap": true,                           // Generate source maps for debugging

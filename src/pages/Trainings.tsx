@@ -61,7 +61,7 @@ const Trainings: React.FC = () => {
         }}
       >
         <Grid 
-          xs={6} sm={6} md={6} lg={6} xl={6}
+          xs={8} sm={6} md={6} lg={6} xl={6}
           item
           display="flex"
           justifyContent="center"
@@ -81,12 +81,15 @@ const Trainings: React.FC = () => {
           <Typography noWrap><Trans>trainings.{training.gender??'woman'}</Trans></Typography>
         </Grid>
         <Grid 
-          xs={2} sm={2} md={2} lg={2} xl={2}
+          sm={2} md={2} lg={2} xl={2}
           item
           display="flex"
           justifyContent="center"
           alignItems="center"
           title={training.gender}
+          sx={{
+            display: { xs: 'none', sm: 'block' }
+          }}
         >
           <Typography noWrap>{strDate}</Typography>
         </Grid>
@@ -223,7 +226,7 @@ const Trainings: React.FC = () => {
             }}
           >
             <Grid 
-              xs={6} sm={6} md={6} lg={6} xl={6}
+              xs={8} sm={6} md={6} lg={6} xl={6}
               item
               display="flex"
               justifyContent="center"
@@ -241,11 +244,14 @@ const Trainings: React.FC = () => {
               <Trans>trainings.gender</Trans>
             </Grid>
             <Grid 
-              xs={2} sm={2} md={2} lg={2} xl={2}
+              sm={2} md={2} lg={2} xl={2}
               item
               display="flex"
               justifyContent="center"
               alignItems="center"
+              sx={{
+                display: { xs: 'none', sm: 'block' }
+              }}
             >
               <Trans>trainings.date</Trans>
             </Grid>

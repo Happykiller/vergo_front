@@ -1,21 +1,11 @@
+import { Box, Typography } from '@mui/material';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import React, { useState, useEffect, useRef } from 'react';
 import NotStartedIcon from '@mui/icons-material/NotStarted';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
-import { Box, Typography, IconButton } from '@mui/material';
 import PauseCircleIcon from '@mui/icons-material/PauseCircle';
 
-
-import { styled } from '@mui/material/styles';
-
-const LargeIconButton = styled(IconButton)({
-  width: 60,
-  height: 60,
-  '& .MuiSvgIcon-root': {
-    fontSize: 40,
-  },
-});
-
+import LargeIconButton from '@components/LargeIconButton';
 
 // Définir les types des props
 interface CountdownProps {

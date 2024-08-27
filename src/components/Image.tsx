@@ -1,5 +1,7 @@
+import { CircularProgress } from '@mui/material';
 import React, { useState, useEffect } from 'react';
-import { contextStore, ContextStoreModel } from '@src/stores/contextStore';
+
+import { contextStore, ContextStoreModel } from '@stores/contextStore';
 
 const ImageFetcher = (dto: {
   name: string,
@@ -44,11 +46,15 @@ const ImageFetcher = (dto: {
   }, []);
 
   if (imageUrl === '') {
-    return <div>Chargement...</div>;
+    return <>
+      <CircularProgress />
+    </>
   }
 
   if (loading) {
-    return <div>Chargement...</div>;
+    return <>
+      <CircularProgress />
+    </>
   }
 
   if (error) {

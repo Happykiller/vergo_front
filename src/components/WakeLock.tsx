@@ -1,5 +1,7 @@
 import { Box, Typography } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
+import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
+import HourglassDisabledIcon from '@mui/icons-material/HourglassDisabled';
 
 const WakeLockComponent = () => {
   const wakeLockRef = useRef<WakeLockSentinel | null>(null);
@@ -38,14 +40,13 @@ const WakeLockComponent = () => {
 
   return (
     <Box
+      p={1} 
       display="flex"
       justifyContent="center"
       alignItems="center"
       textAlign="center"
     >
-      <Typography variant="h6">
-        {isWakeLockActive ? 'Wake Lock is active' : 'Wake Lock is not active'}
-      </Typography>
+      {isWakeLockActive ? <HourglassDisabledIcon/> : <HourglassEmptyIcon/>}
     </Box>
   );
 };

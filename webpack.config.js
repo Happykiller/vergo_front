@@ -39,6 +39,7 @@ module.exports = (env, argv) => {
         '@components': path.resolve(__dirname, 'src/components'), // Alias for the components directory
         '@usecases': path.resolve(__dirname, 'src/usecases'),
         '@services': path.resolve(__dirname, 'src/services'),
+        '@stores': path.resolve(__dirname, 'src/stores'),
         // Add other aliases as needed
       },
     },

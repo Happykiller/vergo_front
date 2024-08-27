@@ -1,7 +1,7 @@
 import { ExerciceUsecaseModel } from '@usecases/exercice/model/exercice.usecase.model';
 import { TrainingNormalizedUsecaseModel } from '@usecases/training/model/training.normalized.usecase.model';
 
-export type GridItem = { serie: number; title: string; img: string; ite?: number; weight?: number };
+export type GridItem = { serie: number; title: string; img: string; ite?: number; weight?: number; description?: string };
 
 export class BuildPreviewItemsUsecase {
 
