@@ -34,7 +34,6 @@ const Preview: React.FC = () => {
   });
 
   const goTraining = async (training: TrainingUsecaseModel) => {
-    console.log(training)
     let dto:any = {
       id: training.id
     };
@@ -148,7 +147,7 @@ const Preview: React.FC = () => {
                   </Badge>
                   :
                   <Card sx={{ backgroundColor: '#333' }}>
-                    <ImageFetcher name={item.img} height={100} width={100}/>
+                    <ImageFetcher name={(qry.data.data.training.gender??'woman')+'_'+item.img} height={100} width={100}/>
                     <CardContent>
                       <Typography>{
                       item.description && (<Tooltip title={item.description}>

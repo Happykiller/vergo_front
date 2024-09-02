@@ -1,7 +1,6 @@
+import { ERRORS } from "@src/commons/errors";
 import { Inversify } from "@src/commons/inversify";
 import GraphqlService from "@services/graphql/graphql.service";
-import { ERRORS } from "@src/commons/errors";
-
 
 export class GraphqlServiceFetch implements GraphqlService {
 

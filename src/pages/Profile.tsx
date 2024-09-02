@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Add from '@mui/icons-material/Add';
 import { Chip, Grid, Link } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';

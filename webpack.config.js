@@ -1,9 +1,10 @@
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin'); // Import MiniCssExtractPlugin
-const Dotenv = require('dotenv-webpack');
-const webpack = require('webpack');
 const dotenv = require('dotenv');
+const webpack = require('webpack');
+const Dotenv = require('dotenv-webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin'); // Import MiniCssExtractPlugin
 
 // Load environment variables from .env and .env.local files
 dotenv.config({ path: '.env' });
@@ -24,10 +25,12 @@ module.exports = (env, argv) => {
 
     output: {
       // The name of the output bundle.
-      filename: 'bundle.js',
+      filename: 'bundle.[contenthash].js',
 
       // The path to the output directory, where the bundled files will be saved.
       path: path.resolve(__dirname, 'dist'),
+
+      publicPath: '/',
     },
 
     resolve: {
@@ -71,9 +74,15 @@ module.exports = (env, argv) => {
     },
 
     plugins: [
+      new CleanWebpackPlugin(),  // Nettoie le dossier dist avant chaque build
+
       // Plugin to generate an HTML file from a template, and include the bundled assets.
       new HtmlWebpackPlugin({
         template: './src/index.html',
+        minify: {
+          removeComments: true,
+          collapseWhitespace: true,
+        },
       }),
 
       // Define global constants for use in the application.
@@ -84,9 +93,23 @@ module.exports = (env, argv) => {
       }),
 
       isProduction && new MiniCssExtractPlugin({
-        filename: 'styles.css' // Output CSS file
+        filename: 'styles.[contenthash].css' // Output CSS file
       }), // Only add plugin in production
     ],
+
+    optimization: {
+      splitChunks: {
+        chunks: 'all', // Divise tous les types de chunks
+        cacheGroups: {
+          vendor: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'vendors',
+            chunks: 'all',
+          },
+        },
+      },
+      runtimeChunk: 'single',
+    },
 
     devServer: {
       // Serve static files from the 'public' directory.

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Box from '@mui/material/Box';
 import Menu from '@mui/material/Menu';
 import AppBar from '@mui/material/AppBar';

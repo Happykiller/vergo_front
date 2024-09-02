@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Trans } from 'react-i18next';
 import InfoIcon from '@mui/icons-material/Info';
 import VisibilityIcon from '@mui/icons-material/Visibility';
