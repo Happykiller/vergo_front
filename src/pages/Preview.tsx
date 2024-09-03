@@ -136,7 +136,7 @@ const Preview: React.FC = () => {
                 {item.serie!==1 ? 
                   <Badge badgeContent={`x${item.serie}`} color="primary">
                     <Card sx={{ backgroundColor: '#333' }}>
-                      <ImageFetcher name={item.img} height={100} width={100}/>
+                      <ImageFetcher name={(qry.data.data.training.gender??'woman')+'_'+item.img} height={100} width={100}/>
                       <CardContent>
                         <Typography>{item.title}</Typography>
                         <Typography variant="body2" >
