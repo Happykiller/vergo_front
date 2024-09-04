@@ -1,7 +1,7 @@
 import { ExerciceUsecaseModel } from '@usecases/exercice/model/exercice.usecase.model';
 import { TrainingNormalizedUsecaseModel } from '@usecases/training/model/training.normalized.usecase.model';
 
-export type GridItem = { serie: number; title: string; img: string; ite?: number; weight?: number; description?: string };
+export type GridItem = { serie: number; title: string; img: string; ite?: number; weight?: number; description?: string; workout_slug?:string };
 
 export class BuildPreviewItemsUsecase {
 
@@ -14,6 +14,7 @@ export class BuildPreviewItemsUsecase {
       const exercice = dto.exercices.find(exe => exe.slug === elt.slugs[1]);
       return {
         serie: 1,
+        workout_slug: elt.slugs[0],
         title: exercice?.title.find(value => value.lang === dto.locale)?.value??'',
         description: exercice?.description.find(value => value.lang === dto.locale)?.value??'',
         img: exercice?.image??'not_found',

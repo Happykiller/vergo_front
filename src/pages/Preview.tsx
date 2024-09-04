@@ -4,7 +4,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import { Trans, useTranslation } from 'react-i18next';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import { createSearchParams, useNavigate, useSearchParams } from 'react-router-dom';
-import { Container, Typography, Box, CircularProgress, Alert, Grid, Badge, Card, CardContent, IconButton, Tooltip } from '@mui/material'; // Import Material-UI components
+import { Container, Typography, Box, CircularProgress, Alert, Grid, Badge, Card, CardContent, IconButton, Tooltip, Divider } from '@mui/material'; // Import Material-UI components
 
 import Header from '@components/Header';
 import { CODES } from '@src/commons/codes';
@@ -15,6 +15,7 @@ import { GridItem } from '@usecases/preview/build.preview.items.usecase';
 import { TrainingUsecaseModel } from '@usecases/training/model/training.usecase.model';
 
 const Preview: React.FC = () => {
+  let old_workout_slug = '';
   const navigate = useNavigate();
   const { i18n } = useTranslation();
   const currentLocale = i18n.language;
@@ -131,8 +132,18 @@ const Preview: React.FC = () => {
     
           {/* Grille des éléments */}
           <Grid container spacing={2}>
-            {items.map((item, index) => (
-              <Grid item xs={4} sm={3} md={2} key={index}>
+            {items.map((item, index) => {
+              let divider = <></>;
+              if (item.workout_slug && old_workout_slug !== item.workout_slug) {
+                divider = (<>{/* Divider to separate the two sections */}
+                  <Grid item xs={12} key={999}>
+                    <Typography>{item.workout_slug}</Typography>
+                    <Divider />
+                  </Grid></>)
+                old_workout_slug = item.workout_slug;
+              }
+
+              return (<>{divider}<Grid item xs={4} sm={3} md={2} key={index}>
                 {item.serie!==1 ? 
                   <Badge badgeContent={`x${item.serie}`} color="primary">
                     <Card sx={{ backgroundColor: '#333' }}>
@@ -160,8 +171,9 @@ const Preview: React.FC = () => {
                     </CardContent>
                   </Card>
                 }
-              </Grid>
-            ))}
+                </Grid></>)
+              })
+            }
           </Grid>
         </Box>
         )}
