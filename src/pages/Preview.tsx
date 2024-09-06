@@ -103,7 +103,6 @@ const Preview: React.FC = () => {
           <Box
           sx={{
             height: '100vh',
-            backgroundColor: '#000', // Fond noir
             color: '#fff',
             padding: 2,
           }}
@@ -133,17 +132,24 @@ const Preview: React.FC = () => {
           {/* Grille des éléments */}
           <Grid container spacing={2}>
             {items.map((item, index) => {
-              let divider = <></>;
+              let divider = null;
               if (item.workout_slug && old_workout_slug !== item.workout_slug) {
-                divider = (<>{/* Divider to separate the two sections */}
-                  <Grid item xs={12} key={999}>
-                    <Typography>{item.workout_slug}</Typography>
+                const ex = qry.data?.data?.workouts.find((workout:any) => workout.search === item.workout_slug)?.found;
+                const title = ex?.title.find((elt:any) => elt.lang === currentLocale).value??item.workout_slug;
+                const description = ex?.description.find((elt:any) => elt.lang === currentLocale).value;
+                divider = (
+                  <Grid item xs={12}>
+                    <Typography>{
+                      description && (<Tooltip title={description}>
+                        <IconButton><InfoIcon/></IconButton>
+                      </Tooltip>)
+                      }{title}</Typography>
                     <Divider />
-                  </Grid></>)
+                  </Grid>)
                 old_workout_slug = item.workout_slug;
               }
 
-              return (<>{divider}<Grid item xs={4} sm={3} md={2} key={index}>
+              return <React.Fragment key={index}>{divider}<Grid item xs={4} sm={3} md={2}>
                 {item.serie!==1 ? 
                   <Badge badgeContent={`x${item.serie}`} color="primary">
                     <Card sx={{ backgroundColor: '#333' }}>
@@ -171,7 +177,7 @@ const Preview: React.FC = () => {
                     </CardContent>
                   </Card>
                 }
-                </Grid></>)
+                </Grid></React.Fragment>
               })
             }
           </Grid>

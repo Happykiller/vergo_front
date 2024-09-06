@@ -3,6 +3,7 @@ import commons from '@src/commons/commons';
 import { Inversify } from '@src/commons/inversify';
 import { GetPreviewUsecaseDto } from '@usecases/preview/dto/get.preview.usecase.dto';
 import { ExerciceUsecaseModel } from '@usecases/exercice/model/exercice.usecase.model';
+import { WorkoutDefUsecaseModel } from '@usecases/workout/model/workout.def.usecase.model';
 import { TrainingNormalizedUsecaseModel } from '@usecases/training/model/training.normalized.usecase.model';
 
 export class GetPreviewUsecase {
@@ -22,7 +23,8 @@ export class GetPreviewUsecase {
         label?: string;
       },
       training_normalized: TrainingNormalizedUsecaseModel[],
-      exercices: ExerciceUsecaseModel[]
+      exercices: ExerciceUsecaseModel[],
+      workouts: WorkoutDefUsecaseModel[]
     }
   }>  {
     try {
@@ -104,12 +106,59 @@ export class GetPreviewUsecase {
         throw new Error(exercices_request.errors[0].message);
       }
 
+      let workouts_slug:string[] = [];
+
+      for(let elt of training_normalized.data.training_normalized) {
+        if(!workouts_slug.includes(elt.slugs[0])) {
+          workouts_slug.push(elt.slugs[0]);
+        }
+      }
+
+      const workouts_request:any = await this.inversify.graphqlService.send(
+        {
+          operationName: 'searchWorkoutsPaginated',
+          variables: {
+            workouts_slug: workouts_slug
+          },
+          query: `query searchWorkoutsPaginated($workouts_slug: [String!]!) {
+            searchWorkoutsPaginated (
+              dto: {
+                workouts_slug: $workouts_slug
+              }
+            ) {
+              count
+              nodes {
+                search
+                found {
+                  id
+                  slug
+                  title {
+                    lang
+                    value
+                  }
+                  description {
+                    lang
+                    value
+                  }
+                  image
+                }
+              }
+            }
+          }`
+        }
+      );
+
+      if(workouts_request.errors) {
+        throw new Error(workouts_request.errors[0].message);
+      }
+
       return {
         message: CODES.SUCCESS,
         data: {
           training: training.data.training,
           training_normalized: training_normalized.data.training_normalized,
-          exercices: exercices_request.data.exercices
+          exercices: exercices_request.data.exercices,
+          workouts: workouts_request.data.searchWorkoutsPaginated.nodes
         }
       }
     } catch (e: any) {
