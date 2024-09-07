@@ -83,11 +83,13 @@
   "trainings": {
     "date": "Date",
     "gender": "Genre",
-    "label": "Étiquette",
+    "label": "Titre",
     "male": "Homme",
     "man": "Homme",
     "title": "Entraînements",
-    "woman": "Femme"
+    "woman": "Femme",
+    "private": "Privé",
+    "public": "Public"
   },
   "workout": {
     "title": "Entraînement"

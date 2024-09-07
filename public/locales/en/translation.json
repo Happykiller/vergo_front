@@ -83,7 +83,9 @@
     "male": "Man",
     "man": "Man",
     "title": "Trainings",
-    "woman": "Woman"
+    "woman": "Woman",
+    "pritate": "Private",
+    "public": "Public"
   },
   "workout": {
     "title": "Training"

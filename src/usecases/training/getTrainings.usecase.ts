@@ -1,6 +1,6 @@
 import { CODES } from '@src/commons/codes';
 import { Inversify } from '@src/commons/inversify';
-import { TrainingUsecaseModel } from '@usecases/training/model/training.usecase.model';
+import { GetTrainingsUsecaseModel } from '@usecases/training/model/get.trainings.usecase.model';
 
 export class GetTrainingsUsecase {
 
@@ -8,13 +8,9 @@ export class GetTrainingsUsecase {
     private inversify:Inversify
   ){}
 
-  async execute(): Promise<{
-    message: string,
-    error?: string,
-    data?: TrainingUsecaseModel[]
-  }>  {
+  async execute(): Promise<GetTrainingsUsecaseModel>  {
     try {
-      const response:any = await this.inversify.graphqlService.send(
+      const publics:any = await this.inversify.graphqlService.send(
         {
           operationName: 'trainings',
           variables: {},
@@ -30,13 +26,36 @@ export class GetTrainingsUsecase {
         }
       );
 
-      if(response.errors) {
-        throw new Error(response.errors[0].message);
+      if(publics.errors) {
+        throw new Error(publics.errors[0].message);
+      }
+
+      const privates:any = await this.inversify.graphqlService.send(
+        {
+          operationName: 'get_private_trainings',
+          variables: {},
+          query: `query get_private_trainings {
+            get_private_trainings
+            {
+              id
+              slug
+              label
+              gender
+            }
+          }`
+        }
+      );
+
+      if(privates.errors) {
+        throw new Error(privates.errors[0].message);
       }
 
       return {
         message: CODES.SUCCESS,
-        data: response.data.trainings
+        data: {
+          public: publics.data.trainings,
+          private: privates.data.get_private_trainings,
+        }
       }
     } catch (e: any) {
       if(e.message in CODES) {
