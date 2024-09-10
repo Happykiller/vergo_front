@@ -16,6 +16,7 @@ import WakeLockComponent from '@src/components/WakeLock';
 import { contextStore, ContextStoreModel } from '@src/stores/contextStore';
 import { volatileStore, VolatileStoreModel } from '@src/stores/volatileStore';
 import { ExerciceUsecaseModel } from '@usecases/exercice/model/exercice.usecase.model';
+import { WorkoutDefUsecaseModel } from '@usecases/workout/model/workout.def.usecase.model';
 import { TrainingNormalizedUsecaseModel } from '@usecases/training/model/training.normalized.usecase.model';
 
 const Training: React.FC = () => {
@@ -34,7 +35,11 @@ const Training: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState<number|null>(0);
   const [training, setTraining] = React.useState<{
     training: TrainingNormalizedUsecaseModel[],
-    exercices: ExerciceUsecaseModel[]
+    exercices: ExerciceUsecaseModel[],
+    workouts: {
+      search: string 
+      found: WorkoutDefUsecaseModel
+    }[]
   }|null>(null);
 
   const [qry, setQry] = React.useState({
@@ -126,6 +131,10 @@ const Training: React.FC = () => {
     const thing = training.training[index];
     const thing_next = training.training[index+1]??null;
 
+    const workout_def:any = training?.workouts.find((workout:any) => workout.search === thing.slugs[0])?.found;
+    const title = workout_def?.title.find((elt:any) => elt.lang === currentLocale).value??thing.slugs[0];
+    const description = workout_def?.description.find((elt:any) => elt.lang === currentLocale).value;
+
     /**
      * Exercice block
      */
@@ -214,7 +223,11 @@ const Training: React.FC = () => {
 
     return (<>
       <Grid item xs={12} p={1} border={1} borderColor="grey.300" borderRadius={2}>
-        <Typography variant={variant} align="center" color={'#B59DF7'} noWrap>{thing.slugs[0]}</Typography>
+        <Typography variant={variant} align="center" color={'#B59DF7'} noWrap>{
+          description && (<Tooltip title={description}>
+            <IconButton><InfoIcon/></IconButton>
+          </Tooltip>)
+          }{title}</Typography>
         {(thing.type !== 'pause' && thing.type !== 'rest')?(
           exercice
         ):
@@ -271,7 +284,11 @@ const Training: React.FC = () => {
         error?: string,
         data?: {
           training: TrainingNormalizedUsecaseModel[],
-          exercices: ExerciceUsecaseModel[]
+          exercices: ExerciceUsecaseModel[],
+          workouts: {
+            search: string 
+            found: WorkoutDefUsecaseModel
+          }[]
         }
       }) => {
         if(response.message === CODES.SUCCESS && response.data) {
