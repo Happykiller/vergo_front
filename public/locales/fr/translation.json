@@ -89,7 +89,11 @@
     "title": "Entraînements",
     "woman": "Femme",
     "private": "Privé",
-    "public": "Public"
+    "public": "Public",
+    "creator": "Créateur"
+  },
+  "training_edit": {
+    "title": "Edition d'entrainement"
   },
   "workout": {
     "title": "Entraînement"

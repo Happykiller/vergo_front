@@ -21,6 +21,14 @@ export class GetTrainingsUsecase {
               slug
               label
               gender
+              creator {
+                id
+                code
+              }
+              contributors {
+                id
+                code
+              }
             }
           }`
         }
@@ -41,6 +49,14 @@ export class GetTrainingsUsecase {
               slug
               label
               gender
+              creator {
+                id
+                code
+              }
+              contributors {
+                id
+                code
+              }
             }
           }`
         }

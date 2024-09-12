@@ -84,8 +84,12 @@
     "man": "Man",
     "title": "Trainings",
     "woman": "Woman",
-    "pritate": "Private",
-    "public": "Public"
+    "private": "Private",
+    "public": "Public",
+    "creator": "Creator"
+  },
+  "training_edit": {
+    "title": "Training edition"
   },
   "workout": {
     "title": "Training"

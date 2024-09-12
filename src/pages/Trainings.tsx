@@ -1,6 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import { Trans } from 'react-i18next'; // Import translation hook for i18n
+import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import { createSearchParams, useNavigate } from 'react-router-dom';
@@ -11,6 +12,7 @@ import { CODES } from '@src/commons/codes';
 import commons from '@src/commons/commons';
 import inversify from '@src/commons/inversify';
 import PaginationComponent from '@components/Pagination';
+import { contextStore, ContextStoreModel } from '@src/stores/contextStore';
 import { TrainingUsecaseModel } from '@usecases/training/model/training.usecase.model';
 import { GetTrainingsUsecaseModel } from '@usecases/training/model/get.trainings.usecase.model';
 
@@ -21,6 +23,7 @@ const Trainings: React.FC = () => {
   const [totalItem, setTotalItem] = React.useState(0);
   const [offset, setOffset] = React.useState(0);
   const [searchTerm, setSearchTerm] = React.useState('');  // État pour le champ de recherche
+  const context:ContextStoreModel = contextStore();
   const [trainings, setTrainings] = React.useState<{
     public: TrainingUsecaseModel[],
     private:TrainingUsecaseModel[]
@@ -61,6 +64,16 @@ const Trainings: React.FC = () => {
     });
   }
 
+  const go_training_edit = async (training: TrainingUsecaseModel) => {
+    let dto:any = {
+      id: training.id
+    };
+    navigate({
+      pathname: '/training_edit',
+      search: createSearchParams(dto).toString()
+    });
+  }
+
   const Row = (props: { training: TrainingUsecaseModel }) => {
     const { training } = props;
     const strDate = moment(commons.getTimestampFromObjectId(training.id)).format('DD/MM/YY HH:mm:ss');
@@ -76,7 +89,7 @@ const Trainings: React.FC = () => {
         }}
       >
         <Grid 
-          xs={8} sm={6} md={6} lg={6} xl={6}
+          xs={6} sm={4} md={4} lg={4} xl={4}
           item
           display="flex"
           justifyContent="center"
@@ -84,6 +97,19 @@ const Trainings: React.FC = () => {
           title={training.label??training.slug}
         >
           <Typography noWrap>{training.label??training.slug}</Typography>
+        </Grid>
+        <Grid 
+          sm={2} md={2} lg={2} xl={2}
+          item
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          title={training.gender}
+          sx={{
+            display: { xs: 'none', sm: 'block' }
+          }}
+        >
+          <Typography noWrap>{training?.creator?.code}</Typography>
         </Grid>
         <Grid 
           xs={2} sm={2} md={2} lg={2} xl={2}
@@ -133,6 +159,17 @@ const Trainings: React.FC = () => {
           >
             <VisibilityIcon/>
           </IconButton>
+          {training?.contributors?.find(contributor => contributor.id === context.id) && 
+            <IconButton
+              size="small"
+              onClick={(e) => {
+                e.preventDefault();
+                go_training_edit(training);
+              }}
+            >
+              <EditIcon/>
+            </IconButton>
+          }
         </Grid>
       </Grid>
     )
@@ -301,13 +338,25 @@ const Trainings: React.FC = () => {
             }}
           >
             <Grid 
-              xs={8} sm={6} md={6} lg={6} xl={6}
+              xs={6} sm={4} md={4} lg={4} xl={4}
               item
               display="flex"
               justifyContent="center"
               alignItems="center"
             >
               <Trans>trainings.label</Trans>
+            </Grid>
+            <Grid 
+              sm={2} md={2} lg={2} xl={2}
+              item
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              sx={{
+                display: { xs: 'none', sm: 'block' }
+              }}
+            >
+              <Trans>trainings.creator</Trans>
             </Grid>
             <Grid 
               xs={2} sm={2} md={2} lg={2} xl={2}

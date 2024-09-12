@@ -12,6 +12,7 @@ import Trainings from '@pages/Trainings';
 import { Profile } from '@pages/Profile';
 import { Guard } from '@components/Guard';
 import { Footer } from '@components/Footer';
+import Training_edit from '@pages/Training_edit';
 
 // Main application component
 const App: React.FC = () => {
@@ -43,6 +44,9 @@ const App: React.FC = () => {
 
         {/* Route for the preview page */}
         <Route path="/preview" element={<Guard><Preview /></Guard>} />
+
+        {/* Route for the training edit page */}
+        <Route path="/training_edit" element={<Guard><Training_edit /></Guard>} />
 
         {/* Route for the cgu page */}
         <Route path="/cgu" element={<CGU />} />

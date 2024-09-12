@@ -31,6 +31,33 @@ export class GetTrainingUsecase {
               gender
               workout {
                 slug
+                sets {
+                  rep
+                  slugs
+                  ite
+                  weight
+                  duration
+                  rest
+                  pause
+                  sets {
+                    rep
+                    slugs
+                    ite
+                    weight
+                    duration
+                    rest
+                    pause
+                    sets {
+                      rep
+                      slugs
+                      ite
+                      weight
+                      duration
+                      rest
+                      pause
+                    }
+                  }
+                }
               }
             }
           }`
