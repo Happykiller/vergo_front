@@ -89,7 +89,8 @@
     "creator": "Creator"
   },
   "training_edit": {
-    "title": "Training edition"
+    "title": "Training edition",
+    "update_sucess": "Update successful"
   },
   "workout": {
     "title": "Training"
