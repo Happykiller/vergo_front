@@ -15,7 +15,8 @@
     "create": "Créer",
     "done": "Valider",
     "field_incorrect": "Champ incorrect",
-    "loading": "Chargement..."
+    "loading": "Chargement...",
+    "update": "Mettre à jour"
   },
   "footer": {
     "issues": "Problèmes",
@@ -94,7 +95,9 @@
   },
   "training_edit": {
     "title": "Edition d'entrainement",
-    "update_sucess": "Mise à jour réussi"
+    "update_sucess": "Mise à jour réussi",
+    "update_fail": "Echec de la mise à jour",
+    "json_fail": "Erreur du formatage du JSON"
   },
   "workout": {
     "title": "Entraînement"

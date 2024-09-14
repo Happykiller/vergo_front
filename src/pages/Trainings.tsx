@@ -89,7 +89,7 @@ const Trainings: React.FC = () => {
         }}
       >
         <Grid 
-          xs={6} sm={4} md={4} lg={4} xl={4}
+          xs={8} sm={4} md={4} lg={4} xl={4}
           item
           display="flex"
           justifyContent="center"
@@ -162,6 +162,9 @@ const Trainings: React.FC = () => {
           {training?.contributors?.find(contributor => contributor.id === context.id) && 
             <IconButton
               size="small"
+              sx={{
+                display: { xs: 'none', md: 'block' },
+              }}
               onClick={(e) => {
                 e.preventDefault();
                 go_training_edit(training);

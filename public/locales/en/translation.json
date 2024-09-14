@@ -11,7 +11,8 @@
     "create": "Create",
     "done": "Done",
     "field_incorrect": "Incorrect field",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "update": "Update"
   },
   "footer": {
     "issues": "Issues",
@@ -90,7 +91,9 @@
   },
   "training_edit": {
     "title": "Training edition",
-    "update_sucess": "Update successful"
+    "update_sucess": "Update successful",
+    "update_fail": "Update fail",
+    "json_fail": "JSON format error"
   },
   "workout": {
     "title": "Training"

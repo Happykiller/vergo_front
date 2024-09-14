@@ -7,11 +7,39 @@ export class UpdateTrainingUsecase {
     private inversify:Inversify
   ){}
 
-  async execute(dto: {rawData: string}): Promise<{
+  async execute(dto: any): Promise<{
     message: string
     error?: string
   }>  {
     try {
+      const response:any = await this.inversify.graphqlService.send(
+        {
+          operationName: 'training_update',
+          variables: dto,
+          query: `mutation training_update(
+  $id: String!,
+  $slug: String, 
+  $gender: String, 
+  $label: String, 
+  $workout: [WorkoutDtoResolver!]
+) {
+  training_update(
+    dto: {
+      id: $id,
+      slug: $slug,
+      gender: $gender,
+      label: $label,
+      workout: $workout
+    }
+  )
+}`
+        }
+      );
+
+      if(response.errors) {
+        throw new Error(response.errors[0].message);
+      }
+
       return {
         message: CODES.SUCCESS
       }
