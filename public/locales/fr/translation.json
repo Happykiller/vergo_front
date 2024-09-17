@@ -93,6 +93,11 @@
     "public": "Public",
     "creator": "Créateur"
   },
+  "training_create": {
+    "create_sucess": "Création réussi",
+    "create_fail": "Echec de la création",
+    "json_fail": "Erreur du formatage du JSON"
+  },
   "training_edit": {
     "title": "Edition d'entrainement",
     "update_sucess": "Mise à jour réussi",

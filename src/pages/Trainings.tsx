@@ -1,11 +1,12 @@
 import React from 'react';
 import moment from 'moment';
 import { Trans } from 'react-i18next'; // Import translation hook for i18n
+import { Add } from '@mui/icons-material';
 import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import { createSearchParams, useNavigate } from 'react-router-dom';
-import { Container, Box, Typography, Grid, IconButton, Tabs, Tab, TextField } from '@mui/material'; // Import Material-UI components
+import { Container, Box, Typography, Grid, IconButton, Tabs, Tab, TextField, Button } from '@mui/material'; // Import Material-UI components
 
 import Header from '@components/Header';
 import { CODES } from '@src/commons/codes';
@@ -61,6 +62,12 @@ const Trainings: React.FC = () => {
     navigate({
       pathname: '/preview',
       search: createSearchParams(dto).toString()
+    });
+  }
+
+  const goCreate = async () => {
+    navigate({
+      pathname: '/training_create'
     });
   }
 
@@ -394,19 +401,33 @@ const Trainings: React.FC = () => {
 
           {content}
 
+          {/* Pagination */}
+          {
+            (totalItem/limit>1) && (
+              <PaginationComponent
+                totalItems={totalItem}
+                limit={limit}
+                onPageChange={handlePageChange}
+              />
+            )
+          }
+
+          <Grid item xs={12}>
+              {/* Submit button */}
+              <Button 
+                type="submit"
+                variant="contained"
+                size="small"
+                startIcon={<Add />}
+                onClick={(e) => { 
+                  e.preventDefault();
+                  goCreate();
+                }}
+              ><Trans>common.create</Trans></Button>
+            </Grid>
+
         </Grid>
       </Box>
-      {/* Pagination */}
-      {
-        (totalItem/limit>1) && (
-          <PaginationComponent
-            totalItems={totalItem}
-            limit={limit}
-            onPageChange={handlePageChange}
-          />
-        )
-      }
-      
     </Container>
   </>);
 }

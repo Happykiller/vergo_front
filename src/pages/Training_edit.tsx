@@ -84,7 +84,7 @@ const Training_edit: React.FC = () => {
     }
 
     try {
-      await inversify.updateTraingUsecase.execute(tmp)
+      await inversify.updateTraingUsecase.execute(tmp);
       flash.open(t('training_edit.update_sucess'));
     } catch(e) {
       flash.open(t('training_edit.update_fail'));
