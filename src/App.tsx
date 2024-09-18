@@ -10,6 +10,7 @@ import Flash from '@components/Flash';
 import Training from '@pages/Training';
 import Trainings from '@pages/Trainings';
 import { Profile } from '@pages/Profile';
+import Exercices from '@pages/Exercices';
 import { Guard } from '@components/Guard';
 import { Footer } from '@components/Footer';
 import Training_edit from '@pages/Training_edit';
@@ -51,6 +52,9 @@ const App: React.FC = () => {
 
         {/* Route for the training create page */}
         <Route path="/training_create" element={<Guard><Training_create /></Guard>} />
+
+        {/* Route for the exercices page */}
+        <Route path="/exercices" element={<Guard><Exercices /></Guard>} />
 
         {/* Route for the cgu page */}
         <Route path="/cgu" element={<CGU />} />

@@ -101,6 +101,8 @@ const Training_edit: React.FC = () => {
         flexDirection="column"
         minHeight="80vh" // Minimum height of 80% of the viewport height
         textAlign="center" // Center text alignment
+        marginBottom={"5vh"}
+        marginTop={"2vh"}
       >
         {/* Content */}
         {qry.loading && (

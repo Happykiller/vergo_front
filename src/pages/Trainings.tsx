@@ -294,8 +294,6 @@ const Trainings: React.FC = () => {
   // Gérer le changement de page depuis le composant Pagination
   const handlePageChange = (newOffset: number, newLimit: number) => {
     setOffset(newOffset);
-    // Vous pouvez aussi faire d'autres actions comme recharger les données
-    console.log(`Offset: ${newOffset}, Limit: ${newLimit}`);
   };
   
   return (<>
@@ -404,27 +402,29 @@ const Trainings: React.FC = () => {
           {/* Pagination */}
           {
             (totalItem/limit>1) && (
-              <PaginationComponent
-                totalItems={totalItem}
-                limit={limit}
-                onPageChange={handlePageChange}
-              />
+              <Grid item xs={12} sx={{ marginBottom: 2 }}>
+                <PaginationComponent
+                  totalItems={totalItem}
+                  limit={limit}
+                  onPageChange={handlePageChange}
+                />
+              </Grid>
             )
           }
 
           <Grid item xs={12}>
-              {/* Submit button */}
-              <Button 
-                type="submit"
-                variant="contained"
-                size="small"
-                startIcon={<Add />}
-                onClick={(e) => { 
-                  e.preventDefault();
-                  goCreate();
-                }}
-              ><Trans>common.create</Trans></Button>
-            </Grid>
+            {/* Submit button */}
+            <Button 
+              type="submit"
+              variant="contained"
+              size="small"
+              startIcon={<Add />}
+              onClick={(e) => { 
+                e.preventDefault();
+                goCreate();
+              }}
+            ><Trans>common.create</Trans></Button>
+          </Grid>
 
         </Grid>
       </Box>

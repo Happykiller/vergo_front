@@ -15,7 +15,7 @@ export class BuildPreviewItemsUsecase {
       return {
         serie: 1,
         workout_slug: elt.slugs[0],
-        title: exercice?.title.find(value => value.lang === dto.locale)?.value??'',
+        title: exercice?.title.find(value => value.lang === dto.locale)?.value??elt.slugs[1],
         description: exercice?.description.find(value => value.lang === dto.locale)?.value??'',
         img: exercice?.image??'not_found',
         duration: elt.duration,

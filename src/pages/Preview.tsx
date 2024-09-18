@@ -86,28 +86,34 @@ const Preview: React.FC = () => {
         minHeight="80vh" // Minimum height of 80% of the viewport height
         textAlign="center" // Center text alignment
       >
-        {/* Content */}
+        {/* loading */}
         {qry.loading && (
           <>
             <CircularProgress />
           </>
         )}
 
+        {/* error */}
         {qry.error && (
           <Alert severity="error" variant="filled">
             <Trans>CODES.FAIL</Trans>
           </Alert>
         )}
 
+        {/* data */}
         {qry.data && (
           <Box
-          sx={{
-            height: '100vh',
-            color: '#fff',
-            padding: 2,
-          }}
+            sx={{
+              height: '100vh',
+              color: '#fff',
+              padding: 2,
+            }}
         >
-          <Box display="flex" flexDirection="column" alignItems="center" marginBottom={2}>
+          <Box 
+            display="flex" 
+            flexDirection="column" 
+            alignItems="center"
+          >
             {/* Titre */}
             <Typography variant="h4" fontWeight="bold">
               {qry.data.data.training.label??qry.data.data.training.slug}
@@ -130,7 +136,10 @@ const Preview: React.FC = () => {
           </Box>
     
           {/* Grille des éléments */}
-          <Grid container spacing={2}>
+          <Grid 
+            container 
+            spacing={2}
+          >
             {items.map((item, index) => {
               let divider = null;
               if (item.workout_slug && old_workout_slug !== item.workout_slug) {
@@ -150,12 +159,16 @@ const Preview: React.FC = () => {
               }
 
               return <React.Fragment key={index}>{divider}<Grid item xs={4} sm={3} md={2}>
-                {item.serie!==1 ? 
+                {item.serie!==1 ?
                   <Badge badgeContent={`x${item.serie}`} color="primary">
                     <Card sx={{ backgroundColor: '#333' }}>
                       <ImageFetcher name={(qry.data.data.training.gender??'woman')+'_'+item.img} height={100} width={100}/>
                       <CardContent>
-                        <Typography>{item.title}</Typography>
+                        <Typography>{
+                          item.description && (<Tooltip title={item.description}>
+                            <IconButton><InfoIcon/></IconButton>
+                          </Tooltip>)
+                          }{item.title}</Typography>
                         <Typography variant="body2" >
                           {item.ite?`X${item.ite}`:''}  {item.weight?`${item.weight}kg`:''}
                         </Typography>

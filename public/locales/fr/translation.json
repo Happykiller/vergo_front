@@ -18,6 +18,13 @@
     "loading": "Chargement...",
     "update": "Mettre à jour"
   },
+  "exercices": {
+    "slug": "Slug",
+    "creation_date": "Date création",
+    "title": "Titre",
+    "description": "Description",
+    "image": "Image"
+  },
   "footer": {
     "issues": "Problèmes",
     "roadmap": "Feuille de route",
@@ -34,7 +41,8 @@
     "settings": "Paramètres",
     "title": "Vergo",
     "training": "Entraînement",
-    "trainings": "Entraînements"
+    "trainings": "Entraînements",
+    "exercices": "Exercices"
   },
   "home": {
     "helloWorld": "Bonjour le monde"

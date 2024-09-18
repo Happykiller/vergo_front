@@ -14,6 +14,13 @@
     "loading": "Loading...",
     "update": "Update"
   },
+  "exercices": {
+    "slug": "Slug",
+    "creation_date": "Creation Date",
+    "title": "Title",
+    "description": "Description",
+    "image": "Image"
+  },
   "footer": {
     "issues": "Issues",
     "roadmap": "Roadmap",
@@ -30,7 +37,8 @@
     "settings": "Settings",
     "title": "Vergo",
     "training": "Training",
-    "trainings": "Trainings"
+    "trainings": "Trainings",
+    "exercices": "Exercices"
   },
   "home": {
     "helloWorld": "Hello World"
