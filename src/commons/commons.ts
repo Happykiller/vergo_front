@@ -16,6 +16,14 @@ export class Commons {
   sleep = (s: number) => {
     return new Promise(resolve => setTimeout(resolve, s * 1000));
   };
+
+  // Fonction pour normaliser les chaînes (supprimer les accents et rendre insensible à la casse)
+  normalizeString = (str: string) => {
+    return str
+      .toLowerCase() // Mettre en minuscule
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Supprimer les accents
+      .replace(/[^a-z0-9]/g, ''); // Supprimer les caractères spéciaux
+  };
 }
 
 const commons = new Commons();

@@ -6,10 +6,12 @@ import { LoggerServiceReal } from '@services/logger/logger.service.real';
 import { GetPreviewUsecase } from '@usecases/preview/get.preview.usecase';
 import { GraphqlServiceFake } from '@services/graphql/graphql.service.fake';
 import { GetTrainingUsecase } from '@usecases/training/getTraining.usecase';
+import { GetExerciceUsecase } from '@usecases/exercice/get.exercice.usecase';
 import { GetTrainingsUsecase } from '@usecases/training/getTrainings.usecase';
 import { GraphqlServiceFetch } from '@services/graphql/graphql.service.fetch';
 import { SessionInfoUsecase } from '@usecases/sessionInfo/systemInfo.usecase';
 import { UpdPasswordUsecase } from '@usecases/updPassword/updPassword.usecase';
+import { GetExercicesUsecase } from '@usecases/exercice/get.exercices.usecase';
 import { AuthPasskeyUsecase } from '@usecases/authPasskey/authPasskey.usecase';
 import { UpdateTrainingUsecase } from '@usecases/training/update.training.usecase';
 import { CreateTrainingUsecase } from '@usecases/training/create.training.usecase';
@@ -18,7 +20,6 @@ import { CreatePasskeyUsecase } from '@usecases/createPasskey/createPasskey.usec
 import { BuildPreviewItemsUsecase } from '@usecases/preview/build.preview.items.usecase';
 import { GetPasskeyForUserUsecase } from '@usecases/getPasskeyForUser/getPasskeyForUser.usecase';
 import { GetNormalizedTrainingUsecase } from '@usecases/training/get.normalized.training.usecase';
-import { GetExercicesUsecase } from '../usecases/exercice/get.exercices.usecase';
 
 export class Inversify {
   authUsecase: AuthUsecase;
@@ -31,6 +32,7 @@ export class Inversify {
   authPasskeyUsecase: AuthPasskeyUsecase;
   getTrainingUsecase: GetTrainingUsecase;
   getTrainingsUsecase: GetTrainingsUsecase;
+  get_exercice_usecase: GetExerciceUsecase;
   get_exercices_usecase: GetExercicesUsecase;
   updateTraingUsecase: UpdateTrainingUsecase;
   deletePasskeyUsecase: DeletePasskeyUsecase;
@@ -51,6 +53,7 @@ export class Inversify {
     this.authPasskeyUsecase = new AuthPasskeyUsecase(this);
     this.getTrainingUsecase = new GetTrainingUsecase(this);
     this.getTrainingsUsecase = new GetTrainingsUsecase(this);
+    this.get_exercice_usecase = new GetExerciceUsecase(this);
     this.updateTraingUsecase = new UpdateTrainingUsecase(this);
     this.deletePasskeyUsecase = new DeletePasskeyUsecase(this);
     this.createPasskeyUsecase = new CreatePasskeyUsecase(this);

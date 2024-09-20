@@ -185,14 +185,6 @@ const Trainings: React.FC = () => {
     )
   }
 
-  // Fonction pour normaliser les chaînes (supprimer les accents et rendre insensible à la casse)
-  const normalizeString = (str: string) => {
-    return str
-      .toLowerCase() // Mettre en minuscule
-      .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Supprimer les accents
-      .replace(/[^a-z0-9]/g, ''); // Supprimer les caractères spéciaux
-  };
-
   React.useEffect(() => {
     const fetchTrainingsToShow = async () => {
       try {
@@ -205,7 +197,7 @@ const Trainings: React.FC = () => {
           }
           temps = temps.slice().sort(((elt1: TrainingUsecaseModel, elt2: TrainingUsecaseModel) => (elt1.label??elt1.slug) < (elt2.label??elt2.slug) ? -1 : 1 ));
           temps = temps.filter(training =>
-            normalizeString(training.label??training.slug).includes(normalizeString(searchTerm))
+            commons.normalizeString(training.label??training.slug).includes(commons.normalizeString(searchTerm))
           );
           setTotalItem(temps.length);
           setTrainingsShowed(temps.slice(offset, offset + limit));

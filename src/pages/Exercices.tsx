@@ -1,28 +1,37 @@
+import moment from 'moment';
 import React, { useEffect } from 'react';
 import { Trans, useTranslation } from 'react-i18next'; // Import translation hook for i18n
-import { Container, Typography, Box, CircularProgress, Alert, Grid, TextField } from '@mui/material'; // Import Material-UI components
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import { createSearchParams, useNavigate } from 'react-router-dom';
+import { Container, Typography, Box, CircularProgress, Alert, Grid, TextField, IconButton } from '@mui/material'; // Import Material-UI components
 
 import Header from '@components/Header';
+import commons from '@src/commons/commons';
 import { CODES } from '@src/commons/codes';
 import inversify from '@src/commons/inversify';
-import { ExerciceUsecaseModel } from '../usecases/exercice/model/exercice.usecase.model';
-import moment from 'moment';
-import commons from '../commons/commons';
+import PaginationComponent from '@src/components/Pagination';
+import { ExerciceUsecaseModel } from '@usecases/exercice/model/exercice.usecase.model';
 
 const Exercices: React.FC = () => {
   // Use the translation hook to get the translation function
-  const { t } = useTranslation();
+  const navigate = useNavigate();
+  const limit = 25;  // Par exemple, 10 éléments par page
+  // Use the translation hook to get the translation function
   const { i18n } = useTranslation();
   const currentLocale = i18n.language;
+  const [offset, setOffset] = React.useState(0);
+  const [tabIndex] = React.useState(0); // State for tabs
+  const [totalItem, setTotalItem] = React.useState(0);
   const [searchTerm, setSearchTerm] = React.useState('');  // État pour le champ de recherche
   const [exercices, set_exercices] = React.useState<any[]>([]);
+  const [showed, set_showed] = React.useState<ExerciceUsecaseModel[]|null>(null);
 
   const [qry, setQry] = React.useState<{
-    loading: boolean,
+    loading: boolean|null,
     data: any,
     error: Error|null
   }>({
-    loading: false,
+    loading: null,
     data: null,
     error: null
   });
@@ -35,7 +44,7 @@ const Exercices: React.FC = () => {
         if (result.message !== CODES.SUCCESS) {
           throw new Error(result.message);
         } else if (result.data) {
-          console.log(result.data)
+
           set_exercices(result.data);
           setQry({ loading: false, data: result, error: null });
         }
@@ -44,8 +53,28 @@ const Exercices: React.FC = () => {
       }
     };
 
-    fetchData();
-  }, [inversify]);
+    if(qry.loading === null) {
+      fetchData();
+    } else if(exercices.length > 0) {
+      let temps = [...exercices];
+      temps = temps.slice().sort(((elt1: ExerciceUsecaseModel, elt2: ExerciceUsecaseModel) => (elt1.slug) < (elt2.slug) ? -1 : 1 ));
+      temps = temps.filter(exercice =>
+        commons.normalizeString(exercice.slug).includes(commons.normalizeString(searchTerm))
+      );
+      setTotalItem(temps.length);
+      set_showed(temps.slice(offset, offset + limit));
+    }
+  }, [inversify, exercices, tabIndex, offset, searchTerm]);
+
+  const goView = async (exercice: ExerciceUsecaseModel) => {
+    let dto:any = {
+      id: exercice.id
+    };
+    navigate({
+      pathname: '/exercice',
+      search: createSearchParams(dto).toString()
+    });
+  }
 
   const Row = (props: { exercice: ExerciceUsecaseModel }) => {
     const { exercice } = props;
@@ -121,10 +150,24 @@ const Exercices: React.FC = () => {
           alignItems="center"
         >
           {/* actions */}
+          <IconButton
+            size="small"
+            onClick={(e) => {
+              e.preventDefault();
+              goView(exercice);
+            }}
+          >
+            <VisibilityIcon/>
+          </IconButton>
         </Grid>
       </Grid>
     )
   }
+
+  // Gérer le changement de page depuis le composant Pagination
+  const handlePageChange = (newOffset: number) => {
+    setOffset(newOffset);
+  };
 
   return (<>
     <Header/>
@@ -134,7 +177,6 @@ const Exercices: React.FC = () => {
         display="flex" 
         justifyContent="center" 
         flexDirection="column"
-        minHeight="80vh" // Minimum height of 80% of the viewport height
         textAlign="center" // Center text alignment
         marginBottom={"5vh"}
         marginTop={"2vh"}
@@ -167,7 +209,6 @@ const Exercices: React.FC = () => {
 
           <Box
             sx={{
-              height: '100vh',
               color: '#fff',
               padding: 2,
             }}
@@ -193,7 +234,7 @@ const Exercices: React.FC = () => {
                 justifyContent="center"
                 alignItems="center"
               >
-                <Trans>trainings.slug</Trans>
+                <Trans>exercices.slug</Trans>
               </Grid>
               <Grid 
                 xs={2} sm={2} md={2} lg={2} xl={2}
@@ -243,13 +284,27 @@ const Exercices: React.FC = () => {
               </Grid>
             </Grid>
 
-            {exercices?.map((exercice) => (
+            {showed?.map((exercice) => (
               <Row key={exercice.id} exercice={exercice} />
             ))}
 
           </Grid>
         </Box>
         </>)}
+
+        {/* Pagination */}
+        {
+          (totalItem/limit>1) && (
+            <Grid item xs={12} sx={{ marginBottom: 2 }}>
+              <PaginationComponent
+                totalItems={totalItem}
+                limit={limit}
+                onPageChange={handlePageChange}
+              />
+            </Grid>
+          )
+        }
+        
       </Box>
     </Container>
   </>);
