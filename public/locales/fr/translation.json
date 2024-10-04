@@ -23,7 +23,8 @@
     "creation_date": "Date création",
     "title": "Titre",
     "description": "Description",
-    "image": "Image"
+    "image": "Image",
+    "creator": "Créateur"
   },
   "footer": {
     "issues": "Problèmes",

@@ -19,7 +19,18 @@
     "creation_date": "Creation Date",
     "title": "Title",
     "description": "Description",
-    "image": "Image"
+    "image": "Image",
+    "creator": "Creator"
+  },
+  "exercice_create": {
+    "create_success": "Create successful",
+    "create_fail": "Create fail",
+    "json_fail": "JSON format error"
+  },
+  "exercice_edit": {
+    "update_sucess": "Update successful",
+    "update_fail": "Update fail",
+    "json_fail": "JSON format error"
   },
   "footer": {
     "issues": "Issues",

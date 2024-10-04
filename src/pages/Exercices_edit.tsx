@@ -9,12 +9,12 @@ import { CODES } from '@src/commons/codes';
 import inversify from '@src/commons/inversify';
 import { FlashStore, flashStore} from '@components/Flash';
 
-const Training_edit: React.FC = () => {
+const Exercice_edit: React.FC = () => {
   // Use the translation hook to get the translation function
   const { t } = useTranslation();
   const flash:FlashStore = flashStore();
   const [searchParams] = useSearchParams();
-  const training_id = searchParams.get('id');
+  const exercice_id = searchParams.get('id');
   const [data, setData] = React.useState<any>(null);
   const [rawData, setRawData] = React.useState<any>('');
 
@@ -29,10 +29,10 @@ const Training_edit: React.FC = () => {
   });
 
   useEffect(() => {
-    const fetchData = async (training_id: string) => {
+    const fetchData = async (exercice_id: string) => {
       setQry({ loading: true, data: null, error: null });
       try {
-        const result = await inversify.getTrainingUsecase.execute({id: training_id});
+        const result = await inversify.get_exercice_usecase.execute({id: exercice_id});
         if (result.message !== CODES.SUCCESS) {
           throw new Error(result.message);
         } else if (result.data) {
@@ -49,8 +49,8 @@ const Training_edit: React.FC = () => {
       }
     };
 
-    if (training_id) {
-      fetchData(training_id);
+    if (exercice_id) {
+      fetchData(exercice_id);
     }
   }, [inversify]);
 
@@ -80,14 +80,17 @@ const Training_edit: React.FC = () => {
       tmp = JSON.parse(rawData);
       tmp.id = data.id;
     } catch(e) {
-      flash.open(t('training_edit.json_fail'));
+      flash.open(t('exercice_edit.json_fail'));
     }
 
     try {
-      await inversify.updateTraingUsecase.execute(tmp);
-      flash.open(t('training_edit.update_sucess'));
+      const response = await inversify.update_exercice_usecase.execute(tmp);
+      if (response.error) {
+        throw new Error(response.error);
+      }
+      flash.open(t('exercice_edit.update_sucess'));
     } catch(e) {
-      flash.open(t('training_edit.update_fail'));
+      flash.open(t('exercice_edit.update_fail'));
     }
   }
 
@@ -158,4 +161,4 @@ const Training_edit: React.FC = () => {
   </>);
 }
 
-export default Training_edit;
+export default Exercice_edit;

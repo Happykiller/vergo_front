@@ -1,16 +1,19 @@
 import moment from 'moment';
 import React, { useEffect } from 'react';
+import EditIcon from '@mui/icons-material/Edit';
 import { Trans, useTranslation } from 'react-i18next'; // Import translation hook for i18n
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { createSearchParams, useNavigate } from 'react-router-dom';
-import { Container, Typography, Box, CircularProgress, Alert, Grid, TextField, IconButton } from '@mui/material'; // Import Material-UI components
+import { Container, Typography, Box, CircularProgress, Alert, Grid, TextField, IconButton, Button } from '@mui/material'; // Import Material-UI components
 
 import Header from '@components/Header';
 import commons from '@src/commons/commons';
 import { CODES } from '@src/commons/codes';
 import inversify from '@src/commons/inversify';
 import PaginationComponent from '@src/components/Pagination';
+import { contextStore, ContextStoreModel } from '@src/stores/contextStore';
 import { ExerciceUsecaseModel } from '@usecases/exercice/model/exercice.usecase.model';
+import { Add } from '@mui/icons-material';
 
 const Exercices: React.FC = () => {
   // Use the translation hook to get the translation function
@@ -20,6 +23,7 @@ const Exercices: React.FC = () => {
   const { i18n } = useTranslation();
   const currentLocale = i18n.language;
   const [offset, setOffset] = React.useState(0);
+  const context:ContextStoreModel = contextStore();
   const [tabIndex] = React.useState(0); // State for tabs
   const [totalItem, setTotalItem] = React.useState(0);
   const [searchTerm, setSearchTerm] = React.useState('');  // État pour le champ de recherche
@@ -76,6 +80,22 @@ const Exercices: React.FC = () => {
     });
   }
 
+  const goCreate = async () => {
+    navigate({
+      pathname: '/exercice_create'
+    });
+  }
+
+  const go_exercice_edit = async (exercice: ExerciceUsecaseModel) => {
+    let dto:any = {
+      id: exercice.id
+    };
+    navigate({
+      pathname: '/exercice_edit',
+      search: createSearchParams(dto).toString()
+    });
+  }
+
   const Row = (props: { exercice: ExerciceUsecaseModel }) => {
     const { exercice } = props;
     const strDate = moment(commons.getTimestampFromObjectId(exercice.id)).format('DD/MM/YY HH:mm:ss');
@@ -101,6 +121,16 @@ const Exercices: React.FC = () => {
           title={exercice.slug}
         >
           <Typography noWrap>{exercice.slug}</Typography>
+        </Grid>
+        <Grid 
+          xs={1} sm={1} md={1} lg={1} xl={1}
+          item
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          title={exercice?.creator?.code}
+        >
+          <Typography noWrap>{exercice?.creator?.code}</Typography>
         </Grid>
         <Grid 
           xs={2} sm={2} md={2} lg={2} xl={2}
@@ -143,7 +173,7 @@ const Exercices: React.FC = () => {
           <Typography noWrap>{exercice.image}</Typography>
         </Grid>
         <Grid 
-          xs={2} sm={2} md={2} lg={2} xl={2}
+          xs={1} sm={1} md={1} lg={1} xl={1}
           item
           display="flex"
           justifyContent="center"
@@ -159,6 +189,20 @@ const Exercices: React.FC = () => {
           >
             <VisibilityIcon/>
           </IconButton>
+          {exercice?.contributors?.find(contributor => contributor.id === context.id) && 
+            <IconButton
+              size="small"
+              sx={{
+                display: { xs: 'none', md: 'block' },
+              }}
+              onClick={(e) => {
+                e.preventDefault();
+                go_exercice_edit(exercice);
+              }}
+            >
+              <EditIcon/>
+            </IconButton>
+          }
         </Grid>
       </Grid>
     )
@@ -237,6 +281,15 @@ const Exercices: React.FC = () => {
                 <Trans>exercices.slug</Trans>
               </Grid>
               <Grid 
+                xs={1} sm={1} md={1} lg={1} xl={1}
+                item
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+              >
+                <Trans>exercices.creator</Trans>
+              </Grid>
+              <Grid 
                 xs={2} sm={2} md={2} lg={2} xl={2}
                 item
                 display="flex"
@@ -279,7 +332,7 @@ const Exercices: React.FC = () => {
                 <Trans>exercices.image</Trans>
               </Grid>
               <Grid
-                xs={2} sm={2} md={2} lg={2} xl={2}
+                xs={1} sm={1} md={1} lg={1} xl={1}
                 item>
               </Grid>
             </Grid>
@@ -304,6 +357,20 @@ const Exercices: React.FC = () => {
             </Grid>
           )
         }
+
+        <Grid item xs={12}>
+          {/* Submit button */}
+          <Button 
+            type="submit"
+            variant="contained"
+            size="small"
+            startIcon={<Add />}
+            onClick={(e) => { 
+              e.preventDefault();
+              goCreate();
+            }}
+          ><Trans>common.create</Trans></Button>
+        </Grid>
         
       </Box>
     </Container>

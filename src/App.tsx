@@ -15,7 +15,9 @@ import Exercices from '@pages/Exercices';
 import { Guard } from '@components/Guard';
 import { Footer } from '@components/Footer';
 import Training_edit from '@pages/Training_edit';
+import Exercice_edit from '@pages/Exercices_edit';
 import Training_create from '@pages/Training_create';
+import Exercice_create from '@pages/Exercice_create';
 
 // Main application component
 const App: React.FC = () => {
@@ -57,8 +59,14 @@ const App: React.FC = () => {
         {/* Route for the exercices page */}
         <Route path="/exercices" element={<Guard><Exercices /></Guard>} />
 
-          {/* Route for the exercice page */}
-          <Route path="/exercice" element={<Guard><Exercice /></Guard>} />
+        {/* Route for the exercice page */}
+        <Route path="/exercice" element={<Guard><Exercice /></Guard>} />
+
+        {/* Route for the exercice page */}
+        <Route path="/exercice_edit" element={<Guard><Exercice_edit /></Guard>} />
+
+        {/* Route for the exercice page */}
+        <Route path="/exercice_create" element={<Guard><Exercice_create /></Guard>} />
 
         {/* Route for the cgu page */}
         <Route path="/cgu" element={<CGU />} />
