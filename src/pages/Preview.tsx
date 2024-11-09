@@ -17,7 +17,7 @@ import { TrainingUsecaseModel } from '@usecases/training/model/training.usecase.
 const Preview: React.FC = () => {
   let old_workout_slug = '';
   const navigate = useNavigate();
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const currentLocale = i18n.language;
   const [searchParams] = useSearchParams();
   const training_id = searchParams.get('id');
@@ -169,9 +169,18 @@ const Preview: React.FC = () => {
                             <IconButton><InfoIcon/></IconButton>
                           </Tooltip>)
                           }{item.title}</Typography>
-                        <Typography variant="body2" >
-                          {item.ite?`X${item.ite}`:''}  {item.weight?`${item.weight}kg`:''}
-                        </Typography>
+                          <Typography variant="body2" >
+                            {item.ite?`X${item.ite}`:''} {item.weight?`${item.weight}kg`:''}
+                          </Typography>
+                          <Typography variant="body2" >
+                            {item.duration?t('preview.duration', { duration:item.duration }):''}
+                          </Typography>
+                          <Typography variant="body2" >
+                            {item.rest?t('preview.rest', { rest:item.rest }):''}
+                          </Typography>
+                          <Typography variant="body2" >
+                            {item.pause?`${item.pause}s`:''}
+                          </Typography>
                       </CardContent>
                     </Card>
                   </Badge>
@@ -186,6 +195,15 @@ const Preview: React.FC = () => {
                       }{item.title}</Typography>
                       <Typography variant="body2" >
                         {item.ite?`X${item.ite}`:''} {item.weight?`${item.weight}kg`:''}
+                      </Typography>
+                      <Typography variant="body2" >
+                        {item.duration?t('preview.duration', { duration:item.duration }):''}
+                      </Typography>
+                      <Typography variant="body2" >
+                        {item.rest?t('preview.rest', { rest:item.rest }):''}
+                      </Typography>
+                      <Typography variant="body2" >
+                        {item.pause?`${item.pause}s`:''}
                       </Typography>
                     </CardContent>
                   </Card>

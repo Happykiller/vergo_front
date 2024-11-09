@@ -58,6 +58,10 @@
     "password": "Entrez votre mot de passe",
     "title": "Authentification"
   },
+  "preview": {
+    "duration": "Durée {{duration}}s",
+    "rest": "Repos {{rest}}s"
+  },
   "profile": {
     "addPasskey": "Ajouter une clé",
     "code": "Identifiant : ",
@@ -100,7 +104,8 @@
     "woman": "Femme",
     "private": "Privé",
     "public": "Public",
-    "creator": "Créateur"
+    "creator": "Créateur",
+    "personal": "Personal"
   },
   "training_create": {
     "create_sucess": "Création réussi",

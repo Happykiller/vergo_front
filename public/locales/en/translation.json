@@ -64,6 +64,10 @@
     "password": "Enter your password",
     "title": "Authentication"
   },
+  "preview": {
+    "duration": "Duration {{duration}}s",
+    "rest": "Rest {{rest}}s"
+  },
   "profile": {
     "addPasskey": "Add a key",
     "code": "Identifier: ",
@@ -106,7 +110,8 @@
     "woman": "Woman",
     "private": "Private",
     "public": "Public",
-    "creator": "Creator"
+    "creator": "Creator",
+    "personal": "Personel"
   },
   "training_create": {
     "create_success": "Create successful",

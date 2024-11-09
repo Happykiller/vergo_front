@@ -95,52 +95,80 @@ const Trainings: React.FC = () => {
           }
         }}
       >
-        <Grid 
-          xs={8} sm={4} md={4} lg={4} xl={4}
-          item
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          title={training.label??training.slug}
-        >
-          <Typography noWrap>{training.label??training.slug}</Typography>
-        </Grid>
-        <Grid 
-          sm={2} md={2} lg={2} xl={2}
-          item
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          title={training.gender}
-          sx={{
-            display: { xs: 'none', sm: 'block' }
-          }}
-        >
-          <Typography noWrap>{training?.creator?.code}</Typography>
-        </Grid>
-        <Grid 
-          xs={2} sm={2} md={2} lg={2} xl={2}
-          item
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          title={training.gender}
-        >
-          <Typography noWrap><Trans>trainings.{training.gender??'woman'}</Trans></Typography>
-        </Grid>
-        <Grid 
-          sm={2} md={2} lg={2} xl={2}
-          item
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          title={training.gender}
-          sx={{
-            display: { xs: 'none', sm: 'block' }
-          }}
-        >
-          <Typography noWrap>{strDate}</Typography>
-        </Grid>
+        {/* For personal */}
+        {tabIndex === 0 && (<>
+          <Grid 
+            xs={8} sm={8} md={8} lg={8} xl={8}
+            item
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            title={training.label??training.slug}
+          >
+            <Typography noWrap>{training.label??training.slug}</Typography>
+          </Grid>
+          <Grid 
+            xs={2} sm={2} md={2} lg={2} xl={2}
+            item
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            title={strDate}
+          >
+            <Typography noWrap>{strDate}</Typography>
+          </Grid>
+        </>)}
+
+        {/* For public and private */}
+        {tabIndex !== 0 && (<>
+          <Grid 
+            xs={8} sm={4} md={4} lg={4} xl={4}
+            item
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            title={training.label??training.slug}
+          >
+            <Typography noWrap>{training.label??training.slug}</Typography>
+          </Grid>
+          <Grid 
+            sm={2} md={2} lg={2} xl={2}
+            item
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            title={training.gender}
+            sx={{
+              display: { xs: 'none', sm: 'block' }
+            }}
+          >
+            <Typography noWrap>{training?.creator?.code}</Typography>
+          </Grid>
+          <Grid 
+            xs={2} sm={2} md={2} lg={2} xl={2}
+            item
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            title={training.gender}
+          >
+            <Typography noWrap><Trans>trainings.{training.gender??'woman'}</Trans></Typography>
+          </Grid>
+          <Grid 
+            sm={2} md={2} lg={2} xl={2}
+            item
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            title={training.gender}
+            sx={{
+              display: { xs: 'none', sm: 'block' }
+            }}
+          >
+            <Typography noWrap>{strDate}</Typography>
+          </Grid>
+        </>)}
+
         <Grid 
           xs={2} sm={2} md={2} lg={2} xl={2}
           item
@@ -190,9 +218,11 @@ const Trainings: React.FC = () => {
       try {
         if(trainings) {
           let temps = [];
-          if (tabIndex === 0) {
-            temps = trainings.public;
-          } else {
+          if (tabIndex === 0) { // personal
+            temps = trainings.public.filter(training => training.creator?.id === context.id);
+          } else if (tabIndex === 1) { // public
+            temps = trainings.public.filter(training => training.creator?.id !== context.id);
+          } else { // private
             temps = trainings.private;
           }
           temps = temps.slice().sort(((elt1: TrainingUsecaseModel, elt2: TrainingUsecaseModel) => (elt1.label??elt1.slug) < (elt2.label??elt2.slug) ? -1 : 1 ));
@@ -301,6 +331,7 @@ const Trainings: React.FC = () => {
         }}
       >
         <Tabs value={tabIndex} onChange={handleTabChange} centered>
+          <Tab label={<Trans>trainings.personal</Trans>} />
           <Tab label={<Trans>trainings.public</Trans>} />
           <Tab label={<Trans>trainings.private</Trans>} />
         </Tabs>
@@ -337,48 +368,74 @@ const Trainings: React.FC = () => {
               fontSize: "0.875rem"
             }}
           >
-            <Grid 
-              xs={6} sm={4} md={4} lg={4} xl={4}
-              item
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-            >
-              <Trans>trainings.label</Trans>
-            </Grid>
-            <Grid 
-              sm={2} md={2} lg={2} xl={2}
-              item
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              sx={{
-                display: { xs: 'none', sm: 'block' }
-              }}
-            >
-              <Trans>trainings.creator</Trans>
-            </Grid>
-            <Grid 
-              xs={2} sm={2} md={2} lg={2} xl={2}
-              item
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-            >
-              <Trans>trainings.gender</Trans>
-            </Grid>
-            <Grid 
-              sm={2} md={2} lg={2} xl={2}
-              item
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              sx={{
-                display: { xs: 'none', sm: 'block' }
-              }}
-            >
-              <Trans>trainings.date</Trans>
-            </Grid>
+            
+            {/* For personal */}
+            {tabIndex === 0 && (<>
+              <Grid 
+                xs={8} sm={8} md={8} lg={8} xl={8}
+                item
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+              >
+                <Trans>trainings.label</Trans>
+              </Grid>
+              <Grid 
+                xs={2} sm={2} md={2} lg={2} xl={2}
+                item
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+              >
+                <Trans>trainings.date</Trans>
+              </Grid>
+            </>)}
+
+            {/* For public and private */}
+            {tabIndex !== 0 && (<>
+              <Grid 
+                xs={6} sm={4} md={4} lg={4} xl={4}
+                item
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+              >
+                <Trans>trainings.label</Trans>
+              </Grid>
+              <Grid 
+                sm={2} md={2} lg={2} xl={2}
+                item
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                sx={{
+                  display: { xs: 'none', sm: 'block' }
+                }}
+              >
+                <Trans>trainings.creator</Trans>
+              </Grid>
+              <Grid 
+                xs={2} sm={2} md={2} lg={2} xl={2}
+                item
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+              >
+                <Trans>trainings.gender</Trans>
+              </Grid>
+              <Grid 
+                sm={2} md={2} lg={2} xl={2}
+                item
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                sx={{
+                  display: { xs: 'none', sm: 'block' }
+                }}
+              >
+                <Trans>trainings.date</Trans>
+              </Grid>
+            </>)}
             <Grid
               xs={2} sm={2} md={2} lg={2} xl={2}
               item>
