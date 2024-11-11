@@ -70,9 +70,7 @@ export class Inversify {
     this.getNormalizedTrainingUsecase = new GetNormalizedTrainingUsecase(this);
 
     // Services
-    if (process.env.APP_MODE === 'prod') {
-      this.graphqlService = new GraphqlServiceFetch(this);
-    } else if (process.env.APP_MODE === 'dev') {
+    if (process.env.APP_MODE === 'prod' || process.env.APP_MODE === 'dev') {
       this.graphqlService = new GraphqlServiceFetch(this);
     } else {
       this.graphqlService = new GraphqlServiceFake();
