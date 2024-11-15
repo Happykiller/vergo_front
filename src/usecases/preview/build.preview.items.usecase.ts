@@ -10,7 +10,6 @@ export class BuildPreviewItemsUsecase {
     exercices: ExerciceUsecaseModel[],
     locale: string
   }): GridItem[] {
-    console.log(dto.training_normalized)
     const itemList: GridItem[] = dto.training_normalized.map((elt, index) => {
       const exercice = dto.exercices.find(exe => exe.slug === elt.slugs[1]);
       const next = dto.training_normalized[index + 1];
@@ -66,8 +65,6 @@ export class BuildPreviewItemsUsecase {
         }
       }
     });
-
-    console.log(groupedItems)
 
     return groupedItems;
   }
