@@ -1,31 +1,26 @@
 import moment from 'moment';
 import React, { useEffect } from 'react';
-import { Add } from '@mui/icons-material';
-import EditIcon from '@mui/icons-material/Edit';
 import { Trans, useTranslation } from 'react-i18next';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import { createSearchParams, useNavigate } from 'react-router-dom';
-import { Container, Typography, Box, CircularProgress, Alert, Grid, TextField, IconButton, Button } from '@mui/material'; // Import Material-UI components
+import { Container, Typography, Box, CircularProgress, Alert, Grid, TextField } from '@mui/material'; // Import Material-UI components
 
 import Header from '@components/Header';
 import commons from '@src/commons/commons';
 import { CODES } from '@src/commons/codes';
 import inversify from '@src/commons/inversify';
 import PaginationComponent from '@src/components/Pagination';
-import { contextStore, ContextStoreModel } from '@src/stores/contextStore';
 import { ExerciceUsecaseModel } from '@usecases/exercice/model/exercice.usecase.model';
+import { WorkoutDefUsecaseModel } from '@usecases/workout/model/workout.def.usecase.model';
 
-const Exercices: React.FC = () => {
-  const navigate = useNavigate();
-  const limit = 25;
+const Workouts: React.FC = () => {
+  const limit = 25;  // Par exemple, 10 éléments par page
+  // Use the translation hook to get the translation function
   const { i18n } = useTranslation();
   const currentLocale = i18n.language;
   const [offset, setOffset] = React.useState(0);
-  const context:ContextStoreModel = contextStore();
   const [totalItem, setTotalItem] = React.useState(0);
   const [searchTerm, setSearchTerm] = React.useState('');
-  const [exercices, set_exercices] = React.useState<any[]>([]);
-  const [showed, set_showed] = React.useState<ExerciceUsecaseModel[]|null>(null);
+  const [workouts, set_workouts] = React.useState<WorkoutDefUsecaseModel[]>([]);
+  const [showed, set_showed] = React.useState<WorkoutDefUsecaseModel[]|null>(null);
 
   const [qry, setQry] = React.useState<{
     loading: boolean|null,
@@ -41,12 +36,12 @@ const Exercices: React.FC = () => {
     const fetchData = async () => {
       setQry({ loading: true, data: null, error: null });
       try {
-        const result = await inversify.get_exercices_usecase.execute();
+        const result = await inversify.getWorkoutsUsecase.execute();
         if (result.message !== CODES.SUCCESS) {
           throw new Error(result.message);
         } else if (result.data) {
 
-          set_exercices(result.data);
+          set_workouts(result.data);
           setQry({ loading: false, data: result, error: null });
         }
       } catch (err) {
@@ -56,8 +51,8 @@ const Exercices: React.FC = () => {
 
     if(qry.loading === null) {
       fetchData();
-    } else if(exercices.length > 0) {
-      let temps = [...exercices];
+    } else if(workouts.length > 0) {
+      let temps = [...workouts];
       temps = temps.slice().sort(((elt1: ExerciceUsecaseModel, elt2: ExerciceUsecaseModel) => (elt1.slug) < (elt2.slug) ? -1 : 1 ));
       temps = temps.filter(exercice =>
         commons.normalizeString(exercice.slug).includes(commons.normalizeString(searchTerm))
@@ -65,33 +60,7 @@ const Exercices: React.FC = () => {
       setTotalItem(temps.length);
       set_showed(temps.slice(offset, offset + limit));
     }
-  }, [inversify, exercices, offset, searchTerm]);
-
-  const goView = async (exercice: ExerciceUsecaseModel) => {
-    let dto:any = {
-      id: exercice.id
-    };
-    navigate({
-      pathname: '/exercice',
-      search: createSearchParams(dto).toString()
-    });
-  }
-
-  const goCreate = async () => {
-    navigate({
-      pathname: '/exercice_create'
-    });
-  }
-
-  const go_exercice_edit = async (exercice: ExerciceUsecaseModel) => {
-    let dto:any = {
-      id: exercice.id
-    };
-    navigate({
-      pathname: '/exercice_edit',
-      search: createSearchParams(dto).toString()
-    });
-  }
+  }, [inversify, workouts, offset, searchTerm]);
 
   const Row = (props: { exercice: ExerciceUsecaseModel }) => {
     const { exercice } = props;
@@ -120,16 +89,6 @@ const Exercices: React.FC = () => {
           <Typography noWrap>{exercice.slug}</Typography>
         </Grid>
         <Grid 
-          xs={1} sm={1} md={1} lg={1} xl={1}
-          item
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          title={exercice?.creator?.code}
-        >
-          <Typography noWrap>{exercice?.creator?.code}</Typography>
-        </Grid>
-        <Grid 
           xs={2} sm={2} md={2} lg={2} xl={2}
           item
           display="flex"
@@ -140,7 +99,7 @@ const Exercices: React.FC = () => {
           <Typography noWrap>{strDate}</Typography>
         </Grid>
         <Grid 
-          xs={2} sm={2} md={2} lg={2} xl={2}
+          xs={3} sm={3} md={3} lg={3} xl={3}
           item
           display="flex"
           justifyContent="center"
@@ -150,7 +109,7 @@ const Exercices: React.FC = () => {
           <Typography noWrap>{title}</Typography>
         </Grid>
         <Grid 
-          xs={2} sm={2} md={2} lg={2} xl={2}
+          xs={4} sm={4} md={4} lg={4} xl={4}
           item
           display="flex"
           justifyContent="center"
@@ -160,46 +119,12 @@ const Exercices: React.FC = () => {
           <Typography noWrap>{description}</Typography>
         </Grid>
         <Grid 
-          xs={2} sm={2} md={2} lg={2} xl={2}
-          item
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          title={exercice.image}
-        >
-          <Typography noWrap>{exercice.image}</Typography>
-        </Grid>
-        <Grid 
           xs={1} sm={1} md={1} lg={1} xl={1}
           item
           display="flex"
           justifyContent="center"
           alignItems="center"
         >
-          {/* actions */}
-          <IconButton
-            size="small"
-            onClick={(e) => {
-              e.preventDefault();
-              goView(exercice);
-            }}
-          >
-            <VisibilityIcon/>
-          </IconButton>
-          {exercice?.contributors?.find(contributor => contributor.id === context.id) && 
-            <IconButton
-              size="small"
-              sx={{
-                display: { xs: 'none', md: 'block' },
-              }}
-              onClick={(e) => {
-                e.preventDefault();
-                go_exercice_edit(exercice);
-              }}
-            >
-              <EditIcon/>
-            </IconButton>
-          }
         </Grid>
       </Grid>
     )
@@ -275,16 +200,7 @@ const Exercices: React.FC = () => {
                 justifyContent="center"
                 alignItems="center"
               >
-                <Trans>exercices.slug</Trans>
-              </Grid>
-              <Grid 
-                xs={1} sm={1} md={1} lg={1} xl={1}
-                item
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-              >
-                <Trans>exercices.creator</Trans>
+                <Trans>workouts.slug</Trans>
               </Grid>
               <Grid 
                 xs={2} sm={2} md={2} lg={2} xl={2}
@@ -293,40 +209,25 @@ const Exercices: React.FC = () => {
                 justifyContent="center"
                 alignItems="center"
               >
-                <Trans>exercices.creation_date</Trans>
+                <Trans>workouts.creation_date</Trans>
               </Grid>
               <Grid 
-                xs={2} sm={2} md={2} lg={2} xl={2}
+                xs={3} sm={3} md={3} lg={3} xl={3}
                 item
                 display="flex"
                 justifyContent="center"
                 alignItems="center"
               >
-                <Trans>exercices.title</Trans>
+                <Trans>workouts.title</Trans>
               </Grid>
               <Grid 
-                xs={2} sm={2} md={2} lg={2} xl={2}
+                xs={4} sm={4} md={4} lg={4} xl={4}
                 item
                 display="flex"
                 justifyContent="center"
                 alignItems="center"
-                sx={{
-                  display: { xs: 'none', sm: 'block' }
-                }}
               >
-                <Trans>exercices.description</Trans>
-              </Grid>
-              <Grid 
-                xs={2} sm={2} md={2} lg={2} xl={2}
-                item
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                sx={{
-                  display: { xs: 'none', sm: 'block' }
-                }}
-              >
-                <Trans>exercices.image</Trans>
+                <Trans>workouts.description</Trans>
               </Grid>
               <Grid
                 xs={1} sm={1} md={1} lg={1} xl={1}
@@ -354,24 +255,10 @@ const Exercices: React.FC = () => {
             </Grid>
           )
         }
-
-        <Grid item xs={12}>
-          {/* Submit button */}
-          <Button 
-            type="submit"
-            variant="contained"
-            size="small"
-            startIcon={<Add />}
-            onClick={(e) => { 
-              e.preventDefault();
-              goCreate();
-            }}
-          ><Trans>common.create</Trans></Button>
-        </Grid>
         
       </Box>
     </Container>
   </>);
 }
 
-export default Exercices;
+export default Workouts;

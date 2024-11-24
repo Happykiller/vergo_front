@@ -18,7 +18,7 @@ import '@components/header.scss';
 import { contextStore, ContextStoreModel } from '@src/stores/contextStore';
 import { volatileStore, VolatileStoreModel } from '@src/stores/volatileStore';
 
-const pages = ['trainings', 'exercices', 'info'];
+const pages = ['trainings', 'exercices', 'workouts', 'info'];
 const settings = ['profile', 'logout'];
 
 function Header() {

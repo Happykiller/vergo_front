@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ThemeProvider, CssBaseline } from '@mui/material';
-import initI18n from './i18n'; // Import the initialization function
+
 import App from './App';
-import getTheme from './theme';  // Import the theme creation function
+import initI18n from './i18n';
+import getTheme from './theme';
 
 const Index: React.FC = () => {
   // State to determine whether dark mode is enabled

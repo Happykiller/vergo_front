@@ -53,7 +53,8 @@
     "title": "Vergo",
     "training": "Entraînement",
     "trainings": "Entraînements",
-    "exercices": "Exercices"
+    "exercices": "Exercices",
+    "workouts": "Sessions"
   },
   "home": {
     "helloWorld": "Bonjour le monde"
@@ -130,5 +131,12 @@
   },
   "workout": {
     "title": "Entraînement"
+  },
+  "workouts": {
+    "slug": "Slug",
+    "creation_date": "Date création",
+    "title": "Titre",
+    "description": "Description",
+    "creator": "Créateur"
   }
 }

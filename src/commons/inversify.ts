@@ -22,6 +22,7 @@ import { CreatePasskeyUsecase } from '@usecases/createPasskey/createPasskey.usec
 import { BuildPreviewItemsUsecase } from '@usecases/preview/build.preview.items.usecase';
 import { GetPasskeyForUserUsecase } from '@usecases/getPasskeyForUser/getPasskeyForUser.usecase';
 import { GetNormalizedTrainingUsecase } from '@usecases/training/get.normalized.training.usecase';
+import { GetWorkoutsUsecase } from '@src/usecases/workout/get.workouts.usecase';
 
 export class Inversify {
   authUsecase: AuthUsecase;
@@ -30,6 +31,7 @@ export class Inversify {
   sessionInfo: SessionInfoUsecase;
   getPreviewUsecase: GetPreviewUsecase;
   systemInfoUsecase: SystemInfoUsecase;
+  getWorkoutsUsecase: GetWorkoutsUsecase;
   updPasswordUsecase: UpdPasswordUsecase;
   authPasskeyUsecase: AuthPasskeyUsecase;
   getTrainingUsecase: GetTrainingUsecase;
@@ -56,6 +58,7 @@ export class Inversify {
     this.updPasswordUsecase = new UpdPasswordUsecase(this);
     this.authPasskeyUsecase = new AuthPasskeyUsecase(this);
     this.getTrainingUsecase = new GetTrainingUsecase(this);
+    this.getWorkoutsUsecase = new GetWorkoutsUsecase(this);
     this.getTrainingsUsecase = new GetTrainingsUsecase(this);
     this.get_exercice_usecase = new GetExerciceUsecase(this);
     this.updateTraingUsecase = new UpdateTrainingUsecase(this);
