@@ -3,6 +3,7 @@ import commons from '@src/commons/commons';
 import { Inversify } from '@src/commons/inversify';
 import { GetPreviewUsecaseDto } from '@usecases/preview/dto/get.preview.usecase.dto';
 import { ExerciceUsecaseModel } from '@usecases/exercice/model/exercice.usecase.model';
+import { TrainingUsecaseModel } from '@usecases/training/model/training.usecase.model';
 import { WorkoutDefUsecaseModel } from '@usecases/workout/model/workout.def.usecase.model';
 import { TrainingNormalizedUsecaseModel } from '@usecases/training/model/training.normalized.usecase.model';
 
@@ -16,12 +17,7 @@ export class GetPreviewUsecase {
     message: string,
     error?: string,
     data?: {
-      training: {
-        id: string;
-        slug: string;
-        gender?: string;
-        label?: string;
-      },
+      training: TrainingUsecaseModel,
       training_normalized: TrainingNormalizedUsecaseModel[],
       exercices: ExerciceUsecaseModel[],
       workouts: WorkoutDefUsecaseModel[]
@@ -43,6 +39,14 @@ export class GetPreviewUsecase {
               slug
               label
               gender
+              creator {
+                id
+                code
+              }
+              contributors {
+                id
+                code
+              }
             }
           }`
         }

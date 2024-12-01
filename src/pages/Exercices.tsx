@@ -16,8 +16,8 @@ import { contextStore, ContextStoreModel } from '@src/stores/contextStore';
 import { ExerciceUsecaseModel } from '@usecases/exercice/model/exercice.usecase.model';
 
 const Exercices: React.FC = () => {
-  const navigate = useNavigate();
   const limit = 25;
+  const navigate = useNavigate();
   const { i18n } = useTranslation();
   const currentLocale = i18n.language;
   const [offset, setOffset] = React.useState(0);

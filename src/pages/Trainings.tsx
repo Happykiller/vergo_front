@@ -1,12 +1,12 @@
 import React from 'react';
 import moment from 'moment';
-import { Trans } from 'react-i18next'; // Import translation hook for i18n
+import { Trans } from 'react-i18next';
 import { Add } from '@mui/icons-material';
 import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import { createSearchParams, useNavigate } from 'react-router-dom';
-import { Container, Box, Typography, Grid, IconButton, Tabs, Tab, TextField, Button } from '@mui/material'; // Import Material-UI components
+import { Container, Box, Typography, Grid, IconButton, Tabs, Tab, TextField, Button } from '@mui/material';
 
 import Header from '@components/Header';
 import { CODES } from '@src/commons/codes';
@@ -18,19 +18,18 @@ import { TrainingUsecaseModel } from '@usecases/training/model/training.usecase.
 import { GetTrainingsUsecaseModel } from '@usecases/training/model/get.trainings.usecase.model';
 
 const Trainings: React.FC = () => {
-  // Use the translation hook to get the translation function
   const navigate = useNavigate();
-  const limit = 10;  // Par exemple, 10 éléments par page
+  const limit = 10;
   const [totalItem, setTotalItem] = React.useState(0);
   const [offset, setOffset] = React.useState(0);
-  const [searchTerm, setSearchTerm] = React.useState('');  // État pour le champ de recherche
+  const [searchTerm, setSearchTerm] = React.useState('');
   const context:ContextStoreModel = contextStore();
   const [trainings, setTrainings] = React.useState<{
     public: TrainingUsecaseModel[],
     private:TrainingUsecaseModel[]
   }|null>(null);
   const [trainingsShowed, setTrainingsShowed] = React.useState<TrainingUsecaseModel[]|null>(null);
-  const [tabIndex, setTabIndex] = React.useState(0); // State for tabs
+  const [tabIndex, setTabIndex] = React.useState(0);
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabIndex(newValue);

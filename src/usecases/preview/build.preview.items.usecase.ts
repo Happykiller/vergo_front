@@ -1,7 +1,7 @@
 import { ExerciceUsecaseModel } from '@usecases/exercice/model/exercice.usecase.model';
 import { TrainingNormalizedUsecaseModel } from '@usecases/training/model/training.normalized.usecase.model';
 
-export type GridItem = { serie: number; title: string; type?: string; img: string; duration?: number; rest?: number; pause?: number; ite?: number; weight?: number; description?: string; workout_slug?: string };
+export type GridItem = { serie: number; title: string; type?: string; img: string; duration?: number; rest?: number; pause?: number; ite?: number; weight?: number; description?: string; workout_slug?: string, exercice_id?: string };
 
 export class BuildPreviewItemsUsecase {
 
@@ -26,7 +26,8 @@ export class BuildPreviewItemsUsecase {
             duration: elt.duration,
             rest: (next && next.type === 'rest') ? next.duration : 0,
             ite: elt.ite,
-            weight: elt.weight
+            weight: elt.weight,
+            exercice_id: exercice?.id
           }
           break;
         case 'pause':

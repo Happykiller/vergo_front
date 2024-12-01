@@ -15,6 +15,7 @@ import { Profile } from '@pages/Profile';
 import Exercices from '@pages/Exercices';
 import { Guard } from '@components/Guard';
 import { Footer } from '@components/Footer';
+import Workout_edit from '@pages/Workout_edit';
 import Training_edit from '@pages/Training_edit';
 import Exercice_edit from '@pages/Exercices_edit';
 import Training_create from '@pages/Training_create';
@@ -71,6 +72,9 @@ const App: React.FC = () => {
 
         {/* Route for the workouts page */}
         <Route path="/workouts" element={<Guard><Workouts /></Guard>} />
+
+        {/* Route for the workout_edit page */}
+        <Route path="/workouts" element={<Guard><Workout_edit /></Guard>} />
 
         {/* Route for the cgu page */}
         <Route path="/cgu" element={<CGU />} />

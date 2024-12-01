@@ -1,17 +1,22 @@
 import React, { useEffect } from 'react';
-import { Trans, useTranslation } from 'react-i18next'; // Import translation hook for i18n
-import { Container, Box, CircularProgress, Alert, Typography, Card, CardMedia, CardContent } from '@mui/material'; // Import Material-UI components
+import EditIcon from '@mui/icons-material/Edit';
 import { useSearchParams } from 'react-router-dom';
+import { Trans, useTranslation } from 'react-i18next';
+import { createSearchParams, useNavigate } from 'react-router-dom';
+import { Container, Box, CircularProgress, Alert, Typography, Card, CardContent, IconButton } from '@mui/material';
 
 import Header from '@components/Header';
 import { CODES } from '@src/commons/codes';
+import ImageFetcher from '@components/Image';
 import inversify from '@src/commons/inversify';
+import { contextStore, ContextStoreModel } from '@src/stores/contextStore';
 import { ExerciceUsecaseModel } from '@usecases/exercice/model/exercice.usecase.model';
-import ImageFetcher from '../components/Image';
 
 const Exercice: React.FC = () => {
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const id:any = searchParams.get('id');
+  const context:ContextStoreModel = contextStore();
   const { i18n } = useTranslation();
   const currentLocale = i18n.language;
 
@@ -47,6 +52,18 @@ const Exercice: React.FC = () => {
     }
   }, [inversify]);
 
+  const go_exercice_edit = async (exercice: ExerciceUsecaseModel|null) => {
+    if (exercice) {
+      let dto:any = {
+        id: exercice.id
+      };
+      navigate({
+        pathname: '/exercice_edit',
+        search: createSearchParams(dto).toString()
+      });
+    }
+  }
+
   return (<>
     <Header/>
     <Container>
@@ -75,6 +92,21 @@ const Exercice: React.FC = () => {
         {/* data */}
         {qry.data && (<>
           <Card sx={{ maxWidth: 345, margin: 'auto', mt: 4 }}>
+            {/* Edit icon */}
+            {qry.data?.contributors?.find((contributor:any) => contributor.id === context.id) && 
+              <IconButton
+                size="small"
+                sx={{
+                  display: { xs: 'none', md: 'block' },
+                }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  go_exercice_edit(qry.data);
+                }}
+              >
+                <EditIcon/>
+              </IconButton>
+            }
             {/* Image de l'exercice */}
             <ImageFetcher key={qry.data.image} name={qry.data.image} height={200}/>
             <Typography color="text.secondary">

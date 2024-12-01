@@ -32,6 +32,14 @@ export class GetExerciceUsecase {
       value
     }
     image
+    creator {
+      id
+      code
+    }
+    contributors {
+      id
+      code
+    }
   }
 }`
         }

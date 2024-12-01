@@ -1,6 +1,7 @@
 import moment from 'moment';
 import React, { useEffect } from 'react';
 import InfoIcon from '@mui/icons-material/Info';
+import EditIcon from '@mui/icons-material/Edit';
 import { Trans, useTranslation } from 'react-i18next';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import { createSearchParams, useNavigate, useSearchParams } from 'react-router-dom';
@@ -12,7 +13,9 @@ import ImageFetcher from '@components/Image';
 import inversify from '@src/commons/inversify';
 import LargeIconButton from '@components/LargeIconButton';
 import { GridItem } from '@usecases/preview/build.preview.items.usecase';
+import { contextStore, ContextStoreModel } from '@src/stores/contextStore';
 import { TrainingUsecaseModel } from '@usecases/training/model/training.usecase.model';
+import { ExerciceUsecaseModel } from '@usecases/exercice/model/exercice.usecase.model';
 
 const Preview: React.FC = () => {
   let old_workout_slug = '';
@@ -21,6 +24,7 @@ const Preview: React.FC = () => {
   const currentLocale = i18n.language;
   const [searchParams] = useSearchParams();
   const training_id = searchParams.get('id');
+  const context:ContextStoreModel = contextStore();
   const [items, setItems] = React.useState<GridItem[]>([]);
   const [duration, setDuration] = React.useState("MM:SS");
 
@@ -45,6 +49,28 @@ const Preview: React.FC = () => {
       pathname: '/training',
       search: createSearchParams(dto).toString()
     });
+  }
+
+  const go_training_edit = async (training: TrainingUsecaseModel) => {
+    let dto:any = {
+      id: training.id
+    };
+    navigate({
+      pathname: '/training_edit',
+      search: createSearchParams(dto).toString()
+    });
+  }
+
+  const go_exercice_edit = async (exercice_id?: string) => {
+    if(exercice_id) {
+      let dto:any = {
+        id: exercice_id
+      };
+      navigate({
+        pathname: '/exercice_edit',
+        search: createSearchParams(dto).toString()
+      });
+    }
   }
 
   useEffect(() => {
@@ -133,6 +159,20 @@ const Preview: React.FC = () => {
             >
               <PlayCircleOutlineIcon/>
             </LargeIconButton>
+            {qry.data.data.training?.contributors?.find((contributor:any) => contributor.id === context.id) && 
+              <IconButton
+                size="small"
+                sx={{
+                  display: { xs: 'none', md: 'block' },
+                }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  go_training_edit(qry.data.data.training);
+                }}
+              >
+                <EditIcon/>
+              </IconButton>
+            }
           </Box>
     
           {/* Grille des éléments */}
@@ -166,7 +206,12 @@ const Preview: React.FC = () => {
                       <CardContent>
                         <Typography>{
                           item.description && (<Tooltip title={item.description}>
-                            <IconButton><InfoIcon/></IconButton>
+                            <IconButton
+                              onClick={(e) => {
+                                e.preventDefault();
+                                go_exercice_edit(item.exercice_id);
+                              }}
+                            ><InfoIcon/></IconButton>
                           </Tooltip>)
                           }{item.title}</Typography>
                           <Typography variant="body2" >
@@ -188,10 +233,15 @@ const Preview: React.FC = () => {
                   <Card sx={{ backgroundColor: '#333' }}>
                     <ImageFetcher name={(qry.data.data.training.gender??'woman')+'_'+item.img} height={100} width={100}/>
                     <CardContent>
-                      <Typography>{
-                      item.description && (<Tooltip title={item.description}>
-                        <IconButton><InfoIcon/></IconButton>
-                      </Tooltip>)
+                      <Typography>{item.description && (
+                        <Tooltip title={item.description}>
+                          <IconButton
+                            onClick={(e) => {
+                              e.preventDefault();
+                              go_exercice_edit(item.exercice_id);
+                            }}
+                          ><InfoIcon/></IconButton>
+                        </Tooltip>)
                       }{item.title}</Typography>
                       <Typography variant="body2" >
                         {item.ite?`X${item.ite}`:''} {item.weight?`${item.weight}kg`:''}
