@@ -1,9 +1,10 @@
+// src\pages\Exercice.tsx
 import React, { useEffect } from 'react';
 import EditIcon from '@mui/icons-material/Edit';
 import { useSearchParams } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
 import { createSearchParams, useNavigate } from 'react-router-dom';
-import { Container, Box, CircularProgress, Alert, Typography, Card, CardContent, IconButton } from '@mui/material';
+import { Container, Box, CircularProgress, Alert, Typography, Card, CardContent, IconButton, Grid } from '@mui/material';
 
 import Header from '@components/Header';
 import { CODES } from '@src/commons/codes';
@@ -108,7 +109,25 @@ const Exercice: React.FC = () => {
               </IconButton>
             }
             {/* Image de l'exercice */}
-            <ImageFetcher key={qry.data.image} name={qry.data.image} height={200}/>
+            <Grid container spacing={2} sx={{ mt: 2 }}>
+              <Grid item xs={6}>
+                <ImageFetcher key={qry.data.image + "1"} name={'man ' + qry.data.image} width={100}/>
+                V1 Man
+              </Grid>
+              <Grid item xs={6}>
+                <ImageFetcher key={qry.data.image + "2"} name={'woman ' + qry.data.image} width={100}/>
+                V1 Woman
+              </Grid>
+              <Grid item xs={6}>
+                <ImageFetcher key={qry.data.image + "3"} name={'man ' + qry.data.image} width={100} v2/>
+                V2 Man
+              </Grid>
+              <Grid item xs={6}>
+                <ImageFetcher key={qry.data.image + "4"} name={'woman ' + qry.data.image} width={100} v2/>
+                V2 Woman
+              </Grid>
+            </Grid>
+
             <Typography color="text.secondary">
               Img:{qry.data.image}
             </Typography>

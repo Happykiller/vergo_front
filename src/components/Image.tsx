@@ -1,13 +1,14 @@
 import { CircularProgress } from '@mui/material';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 import { contextStore, ContextStoreModel } from '@stores/contextStore';
 
 const ImageFetcher = (dto: {
-  name: string,
-  width?: number,
-  height?: number,
+  name: string
+  width?: number
+  height?: number
   title?: string
+  v2?: boolean
 }) => {
   const context:ContextStoreModel = contextStore();
   const [imageUrl, setImageUrl] = useState('');
@@ -18,10 +19,11 @@ const ImageFetcher = (dto: {
     const fetchImage = async (dto: {
       name: string,
       width?: number,
-      height?: number
+      height?: number,
+      v2?: boolean
     }) => {
       try {
-        fetch(`${process.env.API_URL}/image/${dto.name}?token=${context.access_token}${(dto.width)?`&width=${dto.width}`:''}${(dto.height)?`&height=${dto.height}`:''}`, {
+        fetch(`${process.env.API_URL}/image/${dto.name}?${(dto.v2)?'v2=true&':''}token=${context.access_token}${(dto.width)?`&width=${dto.width}`:''}${(dto.height)?`&height=${dto.height}`:''}`, {
           method: 'GET',
           mode: 'cors', // no-cors, *cors, same-origin
         }).then(async (response:any) => {
