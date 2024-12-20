@@ -1,3 +1,4 @@
+// src\pages\Training.tsx
 import moment from 'moment';
 import React, { useState } from 'react';
 import InfoIcon from '@mui/icons-material/Info';
@@ -5,7 +6,7 @@ import { useSearchParams } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
-import { Container, Box, Typography, Grid, useTheme, useMediaQuery, TypographyProps, Tooltip, IconButton, CircularProgress } from '@mui/material'; // Import Material-UI components
+import { Container, Box, Typography, Grid, useTheme, useMediaQuery, TypographyProps, Tooltip, IconButton, CircularProgress } from '@mui/material';
 
 import Header from '@components/Header';
 import Chrono from '@components/Chrono';
@@ -56,7 +57,7 @@ const Training: React.FC = () => {
   } else if (isMd) {
     variant = 'h4';
   } else {
-    variant = 'h5'; // Variante par défaut pour d'autres tailles d'écran
+    variant = 'h5';
   }
 
   const handleToggle = () => {
@@ -73,7 +74,7 @@ const Training: React.FC = () => {
       }
     } else {
       // Entrer en mode plein écran
-      const elem = document.documentElement; // Utilisez l'élément racine du document
+      const elem = document.documentElement;
       if (elem.requestFullscreen) {
         elem.requestFullscreen();
       } else if (elem.webkitRequestFullscreen) { // Safari
@@ -236,7 +237,7 @@ const Training: React.FC = () => {
       </Grid>
       {show}
       <Grid item xs={12} p={1} border={1} borderColor="grey.300" borderRadius={2}>
-        <Chrono key={index} duration={thing.duration} onComplete={() => {
+        <Chrono key={index} duration={thing.duration} volume={context.volume} onComplete={() => {
           if (training.training[index+1]) {
             setTimeout(() => {setCurrentIndex(index+1)}, 100);
           } else {

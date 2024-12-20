@@ -7,6 +7,7 @@ export interface ContextStoreModel {
   access_token: string,
   name_first: string,
   name_last: string,
+  volume: number,
   reset: () => void
 }
 
@@ -16,6 +17,7 @@ const initialState:any = {
   access_token: null,
   name_first: null,
   name_last: null,
+  volume: 0.5,
 }
 
 const contextPersist = persist<ContextStoreModel>(

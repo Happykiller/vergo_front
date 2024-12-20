@@ -1,6 +1,6 @@
 {
   "name": "vergo_front",
-  "version": "0.37.0",
+  "version": "0.40.0",
   "description": "Web Client for Service Vergo",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
     "build": "webpack --config webpack.config.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "fabrice rosito <fabrice.rosito@gmail.com>",
   "license": "ISC",
   "dependencies": {
     "@emotion/react": "^11.13.0",

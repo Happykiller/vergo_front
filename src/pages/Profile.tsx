@@ -1,10 +1,11 @@
+// src\pages\Profile.tsx
 import React from 'react';
 import Add from '@mui/icons-material/Add';
-import { Chip, Grid, Link } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import { client } from '@passwordless-id/webauthn';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Trans, useTranslation } from 'react-i18next';
+import { Chip, Grid, Link, Slider } from '@mui/material';
 import SystemUpdateAltIcon from '@mui/icons-material/SystemUpdateAlt';
 import { Button, Divider, IconButton, Paper, Typography } from '@mui/material';
 import { RegistrationEncoded } from '@passwordless-id/webauthn/dist/esm/types';
@@ -17,8 +18,8 @@ import { REGEX } from '@src/commons/REGEX';
 import inversify from '@src/commons/inversify';
 import { passkeyStore } from '@src/stores/passkeyStore';
 import { FlashStore, flashStore} from '@components/Flash';
-import { PasskeyUsecaseModel } from '@usecases/model/passkey.usecase.model';
 import { ContextStoreModel, contextStore } from '@src/stores/contextStore';
+import { PasskeyUsecaseModel } from '@usecases/model/passkey.usecase.model';
 import { UpdPasswordUsecaseModel } from '@usecases/updPassword/updPassword.usecase.model';
 import { GetPasskeyForUserUsecaseModel } from '@usecases/getPasskeyForUser/getPasskeyForUser.usecase.model';
 
@@ -107,6 +108,11 @@ export const Profile = () => {
         }));
       });
   }
+
+  const handleVolumeChange = (event: Event, newValue: number | number[]) => {
+    const volume = Array.isArray(newValue) ? newValue[0] : newValue;
+    contextStore.setState({ volume }); // Met à jour le contexte avec la nouvelle valeur de volume
+  };
 
   const formIsValid = () => {
     if (!formEntities.new.valid || !formEntities.old.valid || !formEntities.conf.valid || (formEntities.new.value !== formEntities.conf.value)) {
@@ -462,6 +468,28 @@ export const Profile = () => {
               <Chip label={<Trans>profile.password</Trans>} size="small" />
             </Divider>
             {content}
+
+            <Divider>
+              <Chip label={<Trans>profile.settings</Trans>} size="small" />
+            </Divider>
+
+            {/* Réglage du volume */}
+            <Grid container>
+              <Grid xs={12} item display="flex" flexDirection="column" alignItems="center">
+                <Typography variant="body1">
+                  <Trans>profile.volumeControl</Trans>: {Math.round(context.volume * 100)}%
+                </Typography>
+                <Slider
+                  value={context.volume}
+                  min={0}
+                  max={1}
+                  step={0.1}
+                  onChange={handleVolumeChange}
+                  valueLabelDisplay="auto"
+                />
+              </Grid>
+            </Grid>
+
             <Divider
               sx={{
                 paddingBottom: 1

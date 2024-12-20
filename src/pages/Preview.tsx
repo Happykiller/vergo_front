@@ -1,3 +1,4 @@
+// src\pages\Preview.tsx
 import moment from 'moment';
 import React, { useEffect } from 'react';
 import InfoIcon from '@mui/icons-material/Info';
@@ -11,11 +12,11 @@ import Header from '@components/Header';
 import { CODES } from '@src/commons/codes';
 import ImageFetcher from '@components/Image';
 import inversify from '@src/commons/inversify';
+import ExerciseCard from '@components/ExerciseCard';
 import LargeIconButton from '@components/LargeIconButton';
 import { GridItem } from '@usecases/preview/build.preview.items.usecase';
 import { contextStore, ContextStoreModel } from '@src/stores/contextStore';
 import { TrainingUsecaseModel } from '@usecases/training/model/training.usecase.model';
-import { ExerciceUsecaseModel } from '@usecases/exercice/model/exercice.usecase.model';
 
 const Preview: React.FC = () => {
   let old_workout_slug = '';
@@ -61,13 +62,13 @@ const Preview: React.FC = () => {
     });
   }
 
-  const go_exercice_edit = async (exercice_id?: string) => {
+  const go_exercice = async (exercice_id?: string) => {
     if(exercice_id) {
       let dto:any = {
         id: exercice_id
       };
       navigate({
-        pathname: '/exercice_edit',
+        pathname: '/exercice',
         search: createSearchParams(dto).toString()
       });
     }
@@ -150,29 +151,37 @@ const Preview: React.FC = () => {
               {duration}
             </Typography>
 
-            {/* Bt Go Training */}
-            <LargeIconButton
-              onClick={(e) => {
-                e.preventDefault();
-                goTraining(qry.data.data.training);
-              }}
+            <Box 
+              display="flex" 
+              alignItems="center" 
+              justifyContent="center" 
+              gap={2} // Adds spacing between buttons
             >
-              <PlayCircleOutlineIcon/>
-            </LargeIconButton>
-            {qry.data.data.training?.contributors?.find((contributor:any) => contributor.id === context.id) && 
-              <IconButton
-                size="small"
-                sx={{
-                  display: { xs: 'none', md: 'block' },
-                }}
+              {/* Bt Go Training */}
+              <LargeIconButton
                 onClick={(e) => {
                   e.preventDefault();
-                  go_training_edit(qry.data.data.training);
+                  goTraining(qry.data.data.training);
                 }}
               >
-                <EditIcon/>
-              </IconButton>
-            }
+                <PlayCircleOutlineIcon/>
+              </LargeIconButton>
+              {/* Bt Go edit training */}
+              {qry.data.data.training?.contributors?.find((contributor:any) => contributor.id === context.id) && 
+                <IconButton
+                  size="small"
+                  sx={{
+                    display: { xs: 'none', md: 'block' },
+                  }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    go_training_edit(qry.data.data.training);
+                  }}
+                >
+                  <EditIcon/>
+                </IconButton>
+              }
+            </Box>
           </Box>
     
           {/* Grille des éléments */}
@@ -183,82 +192,51 @@ const Preview: React.FC = () => {
             {items.map((item, index) => {
               let divider = null;
               if (item.workout_slug && old_workout_slug !== item.workout_slug) {
+                /**
+                 * Block Workout
+                 */
                 const ex = qry.data?.data?.workouts.find((workout:any) => workout.search === item.workout_slug)?.found;
                 const title = ex?.title.find((elt:any) => elt.lang === currentLocale).value??item.workout_slug;
                 const description = ex?.description.find((elt:any) => elt.lang === currentLocale).value;
                 divider = (
                   <Grid item xs={12}>
-                    <Typography>{
-                      description && (<Tooltip title={description}>
-                        <IconButton><InfoIcon/></IconButton>
-                      </Tooltip>)
-                      }{title}</Typography>
+                    <Typography>
+                      {ex && (
+                          <IconButton><EditIcon/></IconButton>
+                        )
+                      }
+                      {description && (
+                          <Tooltip title={description}>
+                            <IconButton><InfoIcon/></IconButton>
+                          </Tooltip>
+                        )
+                      }
+                      {title}
+                    </Typography>
                     <Divider />
                   </Grid>)
                 old_workout_slug = item.workout_slug;
               }
 
-              return <React.Fragment key={index}>{divider}<Grid item xs={4} sm={3} md={2}>
-                {item.serie!==1 ?
-                  <Badge badgeContent={`x${item.serie}`} color="primary">
-                    <Card sx={{ backgroundColor: '#333' }}>
-                      <ImageFetcher name={(qry.data.data.training.gender??'woman')+'_'+item.img} height={100} width={100}/>
-                      <CardContent>
-                        <Typography>{
-                          item.description && (<Tooltip title={item.description}>
-                            <IconButton
-                              onClick={(e) => {
-                                e.preventDefault();
-                                go_exercice_edit(item.exercice_id);
-                              }}
-                            ><InfoIcon/></IconButton>
-                          </Tooltip>)
-                          }{item.title}</Typography>
-                          <Typography variant="body2" >
-                            {item.ite?`X${item.ite}`:''} {item.weight?`${item.weight}kg`:''}
-                          </Typography>
-                          <Typography variant="body2" >
-                            {item.duration?t('preview.duration', { duration:item.duration }):''}
-                          </Typography>
-                          <Typography variant="body2" >
-                            {item.rest?t('preview.rest', { rest:item.rest }):''}
-                          </Typography>
-                          <Typography variant="body2" >
-                            {item.pause?`${item.pause}s`:''}
-                          </Typography>
-                      </CardContent>
-                    </Card>
-                  </Badge>
-                  :
-                  <Card sx={{ backgroundColor: '#333' }}>
-                    <ImageFetcher name={(qry.data.data.training.gender??'woman')+'_'+item.img} height={100} width={100}/>
-                    <CardContent>
-                      <Typography>{item.description && (
-                        <Tooltip title={item.description}>
-                          <IconButton
-                            onClick={(e) => {
-                              e.preventDefault();
-                              go_exercice_edit(item.exercice_id);
-                            }}
-                          ><InfoIcon/></IconButton>
-                        </Tooltip>)
-                      }{item.title}</Typography>
-                      <Typography variant="body2" >
-                        {item.ite?`X${item.ite}`:''} {item.weight?`${item.weight}kg`:''}
-                      </Typography>
-                      <Typography variant="body2" >
-                        {item.duration?t('preview.duration', { duration:item.duration }):''}
-                      </Typography>
-                      <Typography variant="body2" >
-                        {item.rest?t('preview.rest', { rest:item.rest }):''}
-                      </Typography>
-                      <Typography variant="body2" >
-                        {item.pause?`${item.pause}s`:''}
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                }
-                </Grid></React.Fragment>
+              return <React.Fragment key={index}>
+                {divider}
+                <Grid item xs={4} sm={3} md={2}>
+                  <ExerciseCard
+                    exercice_id={item.exercice_id}
+                    title={item.title}
+                    description={item.description}
+                    serie={item.serie}
+                    ite={item.ite}
+                    weight={item.weight}
+                    duration={item.duration}
+                    rest={item.rest}
+                    pause={item.pause}
+                    gender={qry.data.data.training.gender ?? 'woman'}
+                    img={item.img}
+                    onEditClick={go_exercice}
+                  />
+                </Grid>
+                </React.Fragment>
               })
             }
           </Grid>

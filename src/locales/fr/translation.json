@@ -82,6 +82,8 @@
     "name_last": "Nom : ",
     "newPassword": "Nouveau mot de passe",
     "oldPassword": "Mot de passe actuel",
+    "settings": "Réglages",
+    "volumeControl": "Volume control",
     "passkey": {
       "table": {
         "active": "Activer",
