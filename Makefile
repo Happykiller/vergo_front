@@ -1,3 +1,7 @@
+# Makefile
+# Mark targets as not file-dependent; they are always executed
+.PHONY: start startall down reset tar install help
+
 # Start the Docker containers in detached mode
 start: 
 	docker compose up -d

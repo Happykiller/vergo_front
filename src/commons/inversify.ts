@@ -4,6 +4,7 @@ import GraphqlService from '@services/graphql/graphql.service';
 import { SystemInfoUsecase } from '@usecases/system/systemInfo.usecase';
 import { LoggerServiceReal } from '@services/logger/logger.service.real';
 import { GetPreviewUsecase } from '@usecases/preview/get.preview.usecase';
+import { GetWorkoutsUsecase } from '@usecases/workout/get.workouts.usecase';
 import { GraphqlServiceFake } from '@services/graphql/graphql.service.fake';
 import { GetTrainingUsecase } from '@usecases/training/getTraining.usecase';
 import { GetExerciceUsecase } from '@usecases/exercice/get.exercice.usecase';
@@ -22,7 +23,6 @@ import { CreatePasskeyUsecase } from '@usecases/createPasskey/createPasskey.usec
 import { BuildPreviewItemsUsecase } from '@usecases/preview/build.preview.items.usecase';
 import { GetPasskeyForUserUsecase } from '@usecases/getPasskeyForUser/getPasskeyForUser.usecase';
 import { GetNormalizedTrainingUsecase } from '@usecases/training/get.normalized.training.usecase';
-import { GetWorkoutsUsecase } from '@src/usecases/workout/get.workouts.usecase';
 
 export class Inversify {
   authUsecase: AuthUsecase;
