@@ -2,6 +2,7 @@ const path = require('path');
 const dotenv = require('dotenv');
 const webpack = require('webpack');
 const Dotenv = require('dotenv-webpack');
+const { version } = require('./package.json');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
@@ -127,6 +128,7 @@ module.exports = (env, argv) => {
         'process.env.APP_MODE': JSON.stringify(process.env.APP_MODE),
         'process.env.API_URL': JSON.stringify(process.env.API_URL),
         'process.env.DEBUG': JSON.stringify(process.env.DEBUG??false),
+        'process.env.VERSION': JSON.stringify(version),
       }),
 
       isProduction && new MiniCssExtractPlugin({

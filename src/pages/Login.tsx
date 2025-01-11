@@ -5,6 +5,7 @@ import KeyIcon from '@mui/icons-material/Key';
 import { useNavigate } from 'react-router-dom';
 import { client } from '@passwordless-id/webauthn';
 import { Trans, useTranslation } from 'react-i18next';
+import { AuthenticationJSON } from '@passwordless-id/webauthn/dist/esm/types';
 
 import '@pages/login.scss';
 import { REGEX } from '@src/commons/REGEX';
@@ -82,15 +83,16 @@ export const Login = () => {
   const signPasskey = async () => {
     try {
       inversify.loggerService.debug('perform sign passkey with', passkey);
-      const authentication = await client.authenticate([passkey.credential_id], passkey.challenge, {
-        "authenticatorType": "auto",
-        "userVerification": "required",
-        "timeout": 60000
+      const authentication:AuthenticationJSON = await client.authenticate({
+        challenge: passkey.challenge,
+        allowCredentials: [{ id: passkey.credential_id, transports: ['internal'] }],
+        userVerification: 'required',
+        timeout: 60000
       });
       
       if (authentication) {
         const session = await inversify.authPasskeyUsecase.execute({
-          ...authentication,
+          authentication,
           user_code: passkey.user_code
         });
 

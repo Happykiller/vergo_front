@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 
 import '@components/footer.scss';
 import { CODES } from '@src/commons/codes';
-import { version } from '../../package.json';
 import inversify from '@src/commons/inversify';
 import { SystemInfoUsecaseModel } from '@usecases/system/model/systemInfo.usecase.model';
 
@@ -29,7 +28,7 @@ export const Footer = () => {
     <div className='footer'>
       Vergo 
       &nbsp;- <a href="mailto:fabrice.rosito@gmail.com">Email</a> 
-      &nbsp;- <Trans>footer.version.front</Trans>{version} 
+      &nbsp;- <Trans>footer.version.front</Trans>{process.env.VERSION} 
       &nbsp;- <Trans>footer.version.back</Trans><Trans>{backVersion}</Trans> 
       &nbsp;- <a href="https://github.com/Happykiller/vergo_front/issues" target="_blank"><Trans>footer.issues</Trans></a> 
       &nbsp;- <a href="https://github.com/users/Happykiller/projects/4/views/1" target="_blank"><Trans>footer.roadmap</Trans></a>
