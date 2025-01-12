@@ -9,7 +9,7 @@ export class AuthPasskeyUsecase {
     private inversify:Inversify
   ){}
 
-  async execute(dto: any): Promise<any>  {
+  async execute(dto: AuthPasskeyUsecaseDto): Promise<AuthPasskeyUsecaseModel>  {
     try {
       const response:any = await this.inversify.graphqlService.send(
         {

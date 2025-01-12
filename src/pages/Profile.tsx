@@ -7,8 +7,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { Trans, useTranslation } from 'react-i18next';
 import { Chip, Grid, Link, Slider } from '@mui/material';
 import SystemUpdateAltIcon from '@mui/icons-material/SystemUpdateAlt';
-import { RegistrationJSON } from '@passwordless-id/webauthn/dist/esm/types';
 import { Button, Divider, IconButton, Paper, Typography } from '@mui/material';
+import { RegistrationEncoded } from '@passwordless-id/webauthn/dist/esm/types';
 
 import '@pages/common.scss';
 import Header from '@components/Header';
@@ -124,17 +124,14 @@ export const Profile = () => {
   const addPasskey = async () => {
     try {
       const challenge = crypto.randomUUID();
-      const registration = await client.register({
-        user: {
-          id: context.code, // Identifiant utilisateur unique (Base64URL recommandé pour l'ID)
-          name: `${context.name_first} ${context.name_last}`, // Nom complet de l'utilisateur
-          displayName: context.name_first, // Nom affiché
-        },
-        challenge: challenge, // Défi généré côté client
-        timeout: 60000, // Temps maximum d'attente (en millisecondes)
+      const registration:RegistrationEncoded = await client.register(context.code, challenge, {
+        "authenticatorType": "auto",
+        "userVerification": "required",
+        "discoverable": "preferred",
+        "timeout": 60000,
+        "attestation": true,
+        "debug": false
       });
-
-      console.log(registration)
 
       const data = {
         label: passkey_label.value,
@@ -144,11 +141,14 @@ export const Profile = () => {
       };
       inversify.loggerService.debug("Datas to record", data);
       const response = await inversify.createPasskeyUsecase.execute(data);
+      if(! response.data) {
+        throw new Error("Data empty");
+      }
       passkeyStore.setState({ 
         passkey_id: response.data.id,
         user_code: context.code,
         challenge: challenge,
-        credential_id: registration.id
+        credential_id: registration.credential.id
       });
       setPasskeys(null);
     } catch (error) {

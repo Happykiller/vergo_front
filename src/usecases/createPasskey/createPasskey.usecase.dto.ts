@@ -1,5 +1,8 @@
+import { RegistrationEncoded } from "@passwordless-id/webauthn/dist/esm/types";
+
 export default interface CreatePasskeyUsecaseDto {
-  display_name: string;
-  challenge_buffer: string;
+  label: string;
   challenge: string;
+  hostname: string;
+  registration: RegistrationEncoded
 }
