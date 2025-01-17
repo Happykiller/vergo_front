@@ -1,0 +1,7 @@
+{
+  "credentialId": "ccCSN2iKLzNDsDCpU1dUxnwJbGhp_MgvQkb3GhchKjw",
+  "authenticatorData": "SZYN5YgOjGh0NBcPZHZgW4_krrmihjLHmVzzuoMdl2MFAAAAAQ==",
+  "clientData": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiZmY2OTM1MTUtYjVkNi00MmE4LWE1MzUtMmY0ODgzNjI5MGM4Iiwib3JpZ2luIjoiaHR0cDovL2xvY2FsaG9zdDo5MDAwIiwiY3Jvc3NPcmlnaW4iOmZhbHNlfQ==",
+  "signature": "MEUCICmu5l6Vl4FdabxddL6gd2UkxM0640rwqzsuCm2RBMfTAiEA9RQzhmKJT5sFhLNzyGLu1oHo9Xf-fWAxpr2Khu31_xA=",
+  "userHandle": "fvOZu20uzcgejAkBvHb8yHydeJFPZAsAMbd_N4dGosk="
+}

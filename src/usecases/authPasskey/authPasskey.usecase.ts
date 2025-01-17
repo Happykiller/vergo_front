@@ -11,6 +11,8 @@ export class AuthPasskeyUsecase {
 
   async execute(dto: AuthPasskeyUsecaseDto): Promise<AuthPasskeyUsecaseModel>  {
     try {
+      let dtobis:any = dto;
+      delete dtobis.authentication.clientExtensionResults;
       const response:any = await this.inversify.graphqlService.send(
         {
           operationName: 'auth_passkey',

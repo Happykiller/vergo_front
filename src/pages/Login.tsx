@@ -5,7 +5,7 @@ import KeyIcon from '@mui/icons-material/Key';
 import { useNavigate } from 'react-router-dom';
 import { client } from '@passwordless-id/webauthn';
 import { Trans, useTranslation } from 'react-i18next';
-import { AuthenticationEncoded } from '@passwordless-id/webauthn/dist/esm/types';
+import { AuthenticationJSON, AuthenticateOptions } from '@passwordless-id/webauthn/dist/esm/types';
 
 import '@pages/login.scss';
 import { REGEX } from '@src/commons/REGEX';
@@ -83,11 +83,12 @@ export const Login = () => {
   const signPasskey = async () => {
     try {
       inversify.loggerService.debug('perform sign passkey with', passkey);
-      const authentication:AuthenticationEncoded = await client.authenticate([passkey.credential_id], passkey.challenge, {
-        "authenticatorType": "auto",
-        "userVerification": "required",
-        "timeout": 60000
-      });
+      let options: AuthenticateOptions = {
+        challenge: passkey.challenge,
+        allowCredentials: passkey.credentials_id,
+        timeout: 60000
+      }
+      const authentication:AuthenticationJSON = await client.authenticate(options);
       
       if (authentication) {
         const session = await inversify.authPasskeyUsecase.execute({
@@ -112,6 +113,7 @@ export const Login = () => {
         inversify.loggerService.error("signIn, failed to perform Login.");
       }
     } catch(e:any) {
+      console.log(e)
       flash.open(t(`login.${e.message}`));
       inversify.loggerService.error(e.error);
     }
