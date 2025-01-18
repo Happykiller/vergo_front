@@ -1,0 +1,13 @@
+{
+  "clientExtensionResults": {},
+  "id": "47lw7m5bAXeJcA2H0-PR5woUxH60V_shvp5s3ulNOEk",
+  "rawId": "47lw7m5bAXeJcA2H0-PR5woUxH60V_shvp5s3ulNOEk=",
+  "type": "public-key",
+  "authenticatorAttachment": "platform",
+  "response": {
+    "authenticatorData": "SZYN5YgOjGh0NBcPZHZgW4_krrmihjLHmVzzuoMdl2MFAAAAAQ==",
+    "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiOTAyYjY0NTItZDVlZi00ZDRkLWE3Y2EtZDAxMWQ0ODQ3NTIwIiwib3JpZ2luIjoiaHR0cDovL2xvY2FsaG9zdDo5MDAwIiwiY3Jvc3NPcmlnaW4iOmZhbHNlfQ==",
+    "signature": "MEYCIQCFWoH_5nfNxVDTe_4EUo9Nxo_F60viCJs7kqFcwHPDIgIhALEYRzXXdjwc0nN_jG6lurPA6ueyReI9vybTuyF35JTW",
+    "userHandle": "OTAyNjA3MjMtM2YzOC00YjQ0LThkNTMtODU3OTNiZDExZTcy"
+  }
+}

@@ -79,7 +79,8 @@
     "newPassword": "New password",
     "oldPassword": "Current password",
     "settings": "Réglages",
-    "volumeControl": "Contrôle du volume",
+    "volumeControl": "Volume control",
+    "add_passkey": "Add pass key",
     "passkey": {
       "table": {
         "active": "Activate",

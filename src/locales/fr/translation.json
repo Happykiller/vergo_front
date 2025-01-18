@@ -84,6 +84,7 @@
     "oldPassword": "Mot de passe actuel",
     "settings": "Réglages",
     "volumeControl": "Volume control",
+    "add_passkey": "Ajouter une clé d'accès",
     "passkey": {
       "table": {
         "active": "Activer",
