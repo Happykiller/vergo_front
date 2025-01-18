@@ -89,6 +89,7 @@
       }
     },
     "passkey_label": "Device name",
+    "passkey_delete": "You can delete passkey: {{display}}",
     "passkeys": "Access keys",
     "password": "Change password",
     "passwordUpdated": "Password update successful",

@@ -130,7 +130,7 @@ function Header() {
                   sx={{
                     backgroundColor: "#EA80FC"
                   }}
-                  alt={context.code}>{context.code.substring(0,3)}
+                  alt={context.code??''}>{context.code?.substring(0,3)}
                 </Avatar>
               </IconButton>
             </Tooltip>

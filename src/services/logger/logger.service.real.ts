@@ -6,13 +6,13 @@ export class LoggerServiceReal implements LoggerService {
   }
 
   debug(...args: any[]): void {
-    if (process.env.DEBUG) {
+    if (process.env.DEBUG === 'true') {
       console.debug(args);
     }
   }
 
   error(...args: any[]): void {
-    if (process.env.DEBUG) {
+    if (process.env.DEBUG === 'true') {
       console.error(args);
     }
   }

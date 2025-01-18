@@ -1,5 +1,6 @@
 // src\pages\Profile.tsx
 import React from 'react';
+import moment from 'moment';
 import Add from '@mui/icons-material/Add';
 import CheckIcon from '@mui/icons-material/Check';
 import { client } from '@passwordless-id/webauthn';
@@ -7,8 +8,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { Trans, useTranslation } from 'react-i18next';
 import { Chip, Grid, Link, Slider } from '@mui/material';
 import SystemUpdateAltIcon from '@mui/icons-material/SystemUpdateAlt';
-import { RegistrationJSON } from '@passwordless-id/webauthn/dist/esm/types';
 import { Button, Divider, IconButton, Paper, Typography } from '@mui/material';
+import { RegisterOptions, RegistrationJSON } from '@passwordless-id/webauthn/dist/esm/types';
 
 import '@pages/common.scss';
 import Header from '@components/Header';
@@ -20,14 +21,16 @@ import { passkeyStore } from '@src/stores/passkeyStore';
 import { FlashStore, flashStore} from '@components/Flash';
 import { ContextStoreModel, contextStore } from '@src/stores/contextStore';
 import { PasskeyUsecaseModel } from '@usecases/model/passkey.usecase.model';
+import CreatePasskeyUsecaseDto from '@usecases/createPasskey/createPasskey.usecase.dto';
 import { UpdPasswordUsecaseModel } from '@usecases/updPassword/updPassword.usecase.model';
 import { GetPasskeyForUserUsecaseModel } from '@usecases/getPasskeyForUser/getPasskeyForUser.usecase.model';
 
 export const Profile = () => {
   const { t } = useTranslation();
+  const passkeyStored = passkeyStore();
   const flash:FlashStore = flashStore();
   const context:ContextStoreModel = contextStore();
-  const passkeyStored = passkeyStore();
+  const resetPasskeyStore = passkeyStore((state:any) => state.reset);
   const [passkey_label, setPasskey_label] = React.useState({
     value: '',
     valid: false
@@ -124,16 +127,26 @@ export const Profile = () => {
   const addPasskey = async () => {
     try {
       const challenge = crypto.randomUUID();
-      const registration:RegistrationJSON = await client.register({
-        user: context.code,
+      const formattedDate = moment().format('YYMMDDHHmmss');
+      const passkey_display = `${context.code} (${passkey_label.value} - ${formattedDate})`;
+
+      /**
+       * Ask device passkey auth
+       */
+      const registerOptions:RegisterOptions = {
+        user: passkey_display,
         challenge: challenge,
         userVerification: "required",
         discoverable: "preferred",
         timeout: 60000,
         attestation: true,
-      });
+      }
+      const registration:RegistrationJSON = await client.register(registerOptions);
 
-      const data:any = {
+      /**
+       * Record to back passkey
+       */
+      const data:CreatePasskeyUsecaseDto = {
         label: passkey_label.value,
         challenge: challenge,
         hostname: location.hostname,
@@ -144,12 +157,18 @@ export const Profile = () => {
       if(! response.data) {
         throw new Error("Data empty");
       }
+
+      /**
+       * Record local storage passkey
+       */
       passkeyStore.setState({ 
+        display: passkey_display,
         passkey_id: response.data.id,
         user_code: context.code,
         challenge: challenge,
         credential_id: registration.id
       });
+
       setPasskeys(null);
     } catch (error) {
       inversify.loggerService.error("Error creating credential", error);
@@ -157,8 +176,14 @@ export const Profile = () => {
   }
   
 
-  const deletePasskey = async (dto: any) => {
-    await inversify.deletePasskeyUsecase.execute(dto);
+  const deletePasskey = async (dto: PasskeyUsecaseModel) => {
+    await inversify.deletePasskeyUsecase.execute({
+      passkey_id: dto.id
+    });
+    if((dto.id === passkeyStored.passkey_id)) {
+      flash.open(t('profile.passkey_delete', {display: passkeyStored.display}));
+      resetPasskeyStore();
+    }
     setPasskeys(null);
   }
 
@@ -237,9 +262,7 @@ export const Profile = () => {
             title={t('profile.passkey.table.delete')}
             onClick={(e) => {
               e.preventDefault();
-              deletePasskey({
-                passkey_id: passkey.id
-              });
+              deletePasskey(passkey);
             }}>
             <DeleteIcon />
           </IconButton>

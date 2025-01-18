@@ -84,16 +84,18 @@ export const Login = () => {
     try {
       inversify.loggerService.debug('perform sign passkey with', passkey);
       let options: AuthenticateOptions = {
-        challenge: passkey.challenge,
-        allowCredentials: passkey.credentials_id,
+        challenge: passkey.challenge??'',
         timeout: 60000
+      }
+      if(passkey.credential_id){
+        options.allowCredentials = [{id:passkey.credential_id, transports:['internal']}];
       }
       const authentication:AuthenticationJSON = await client.authenticate(options);
       
       if (authentication) {
         const session = await inversify.authPasskeyUsecase.execute({
           authentication,
-          user_code: passkey.user_code
+          user_code: passkey.user_code??''
         });
 
         if(session.message !== CODES.SUCCESS || !session.data) {
@@ -189,6 +191,7 @@ export const Login = () => {
         size="small"
         startIcon={<KeyIcon />}
         disabled={!passkey.user_code}
+        title={passkey.display??''}
         onClick={(e) => { 
           e.preventDefault();
           signPasskey();

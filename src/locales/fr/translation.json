@@ -93,6 +93,7 @@
       }
     },
     "passkey_label": "Nom de l'appareil",
+    "passkey_delete": "Vous pouvez supprimer la clé d'accès: {{display}}",
     "passkeys": "Clés d'accès",
     "password": "Changer le mot de passe",
     "passwordUpdated": "Mise à jour du mot de passe réussie",

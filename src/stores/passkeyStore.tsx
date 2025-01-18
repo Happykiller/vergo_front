@@ -1,9 +1,24 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 
-const initialState:any = null;
+export interface PasskeyStoreModel {
+  display: string|null
+  passkey_id: string|null
+  user_code: string|null
+  challenge: string|null
+  credential_id: string|null
+  reset?: () => void
+}
 
-const passkeyPersist = persist<any>(
+const initialState:PasskeyStoreModel = {
+  display: null,
+  passkey_id: null,
+  user_code: null,
+  challenge: null,
+  credential_id: null
+};
+
+const passkeyPersist = persist<PasskeyStoreModel>(
   (set:any) => ({
     ...initialState,
     reset: () => set(initialState)
@@ -14,4 +29,4 @@ const passkeyPersist = persist<any>(
   }
 );
 
-export const passkeyStore = create<any>()(passkeyPersist);
+export const passkeyStore = create<PasskeyStoreModel>()(passkeyPersist);
