@@ -6,7 +6,7 @@ import { useSearchParams } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
-import { Container, Box, Typography, Grid, useTheme, useMediaQuery, TypographyProps, Tooltip, IconButton, CircularProgress } from '@mui/material';
+import { Container, Box, Typography, useTheme, useMediaQuery, TypographyProps, Tooltip, IconButton, CircularProgress, Grid2 } from '@mui/material';
 
 import Header from '@components/Header';
 import Chrono from '@components/Chrono';
@@ -181,88 +181,187 @@ const Training: React.FC = () => {
         }
       }
       if (thing_next.type === 'effort') {
-        next = <Grid item xs={12} p={1} border={1} borderColor="grey.300" borderRadius={2}>
+        next = <Grid2
+          size={12}
+          sx={{
+            p: 1,
+            border: 1,
+            borderColor: 'grey.300',
+            borderRadius: 2,
+          }}
+        >
           {next_exercice}
-        </Grid>
+        </Grid2>
       } else {
-        next = <Grid item xs={12} p={1} border={1} borderColor="grey.300" borderRadius={2}>
-          <Typography variant={variant} align="center" color={'#664FA1'} noWrap><Trans>training.{thing_next.type}</Trans></Typography>
-        </Grid>
+        next = <Grid2
+          size={12}
+          sx={{
+            p: 1,
+            border: 1,
+            borderColor: 'grey.300',
+            borderRadius: 2,
+          }}
+        >
+          <Typography
+            variant={variant}
+            align="center"
+            color="#664FA1"
+            noWrap
+          >
+            <Trans>training.{thing_next.type}</Trans>
+          </Typography>
+        </Grid2>
       }
     }
 
     /**
      * Image Block
      */
-    let show = <Grid item xs={12} p={1} border={1} borderColor="grey.300" borderRadius={2}>
-      <Typography variant={variant} align="center" noWrap>{thing.type.toUpperCase()}</Typography>
-    </Grid>;
+    let show = <Grid2
+      size={12}
+      sx={{
+        p: 1,
+        border: 1,
+        borderColor: 'grey.300',
+        borderRadius: 2,
+      }}
+    >
+      <Typography
+        variant={variant}
+        align="center"
+        noWrap
+      >
+        {thing.type.toUpperCase()}
+      </Typography>
+    </Grid2>;
     if (thing.type === 'pause' || thing.type === 'rest') {
-      show = <Grid item xs={12} p={1} border={1} borderColor="grey.300" borderRadius={2}>
-        <ImageFetcher key={training_gender+"_bhastrika_pranayama"} name={training_gender+"_bhastrika_pranayama"} height={200} title={thing.type}/>
-      </Grid>;
+      show = <Grid2
+        size={12}
+        sx={{
+          p: 1,
+          border: 1,
+          borderColor: 'grey.300',
+          borderRadius: 2,
+        }}
+      >
+        <ImageFetcher
+          key={`${training_gender}_bhastrika_pranayama`}
+          name={`${training_gender}_bhastrika_pranayama`}
+          height={200}
+          title={thing.type}
+        />
+      </Grid2>;
     } else {
       const src = training_gender+'_'+((ex_details?.image)?ex_details?.image:ex_details?.slug);
-      show = <Grid 
-        item 
-        xs={12} 
-        p={1} 
-        border={1} 
-        borderColor="grey.300" 
-        borderRadius={2}
-        display="flex" 
-        justifyContent="center" 
-        alignItems="center"
+      show = <Grid2
+        size={12}
+        sx={{
+          p: 1,
+          border: 1,
+          borderColor: 'grey.300',
+          borderRadius: 2,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
       >
         <Box display="flex" alignItems="center" gap={2}>
-          {thing.ite?<Typography variant={variant} align="center" noWrap>X{thing.ite}</Typography>:<></>}
-          <ImageFetcher key={src} name={src} height={200} title={thing.type}/>
-          {thing.weight?<Typography variant={variant} align="center" noWrap>{thing.weight}Kg</Typography>:<></>}
+          {thing.ite ? (
+            <Typography variant={variant} align="center" noWrap>
+              X{thing.ite}
+            </Typography>
+          ) : null}
+          <ImageFetcher key={src} name={src} height={200} title={thing.type} />
+          {thing.weight ? (
+            <Typography variant={variant} align="center" noWrap>
+              {thing.weight}Kg
+            </Typography>
+          ) : null}
         </Box>
-      </Grid>;
+      </Grid2>;
     }
 
     return (<>
-      <Grid item xs={12} p={1} border={1} borderColor="grey.300" borderRadius={2}>
-        <Typography variant={variant} align="center" color={'#B59DF7'} noWrap>{
-          description && (<Tooltip title={description}>
-            <IconButton><InfoIcon/></IconButton>
-          </Tooltip>)
-          }{title}</Typography>
-        {(thing.type !== 'pause' && thing.type !== 'rest')?(
-          exercice
-        ):
-          <Typography variant={variant} align="center" color={'#B59DF7'} noWrap><Trans>training.{thing.type}</Trans></Typography>
-        }
-      </Grid>
-      {show}
-      <Grid item xs={12} p={1} border={1} borderColor="grey.300" borderRadius={2}>
-        <Chrono key={index} duration={thing.duration} volume={context.volume} onComplete={() => {
-          if (training.training[index+1]) {
-            setTimeout(() => {setCurrentIndex(index+1)}, 100);
-          } else {
-            setTimeout(() => {setCurrentIndex(null)}, 100);
-          }
-        }} />
-      </Grid>
-      {next}
-      <Grid 
-        item 
-        xs={12} 
-        p={1} 
-        border={1} 
-        borderColor="grey.300" 
-        borderRadius={2}
-        display="flex" 
-        justifyContent="center" 
-        alignItems="center"
+      <Grid2
+        size={12}
+        sx={{
+          p: 1,
+          border: 1,
+          borderColor: 'grey.300',
+          borderRadius: 2,
+        }}
       >
-        <WakeLockComponent/>
-        <Typography variant={variant} align="center" color={'#664FA1'} noWrap>{`${durationFormatted} | ${endDateTime}`}</Typography>
+        <Typography variant={variant} align="center" color="#B59DF7" noWrap>
+          {description && (
+            <Tooltip title={description}>
+              <IconButton>
+                <InfoIcon />
+              </IconButton>
+            </Tooltip>
+          )}
+          {title}
+        </Typography>
+        {(thing.type !== 'pause' && thing.type !== 'rest') ? (
+          exercice
+        ) : (
+          <Typography variant={variant} align="center" color="#B59DF7" noWrap>
+            <Trans>training.{thing.type}</Trans>
+          </Typography>
+        )}
+      </Grid2>
+      {show}
+      <Grid2
+        size={12}
+        sx={{
+          p: 1,
+          border: 1,
+          borderColor: 'grey.300',
+          borderRadius: 2,
+        }}
+      >
+        <Chrono
+          key={index}
+          duration={thing.duration}
+          volume={context.volume}
+          onComplete={() => {
+            if (training.training[index + 1]) {
+              setTimeout(() => {
+                setCurrentIndex(index + 1);
+              }, 100);
+            } else {
+              setTimeout(() => {
+                setCurrentIndex(null);
+              }, 100);
+            }
+          }}
+        />
+      </Grid2>
+      {next}
+      <Grid2
+        size={12}
+        sx={{
+          p: 1,
+          border: 1,
+          borderColor: 'grey.300',
+          borderRadius: 2,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <WakeLockComponent />
+        <Typography
+          variant={variant}
+          align="center"
+          color="#664FA1"
+          noWrap
+        >
+          {`${durationFormatted} | ${endDateTime}`}
+        </Typography>
         <IconButton onClick={handleToggle}>
           {volatileContext.fullscreen ? <FullscreenExitIcon /> : <FullscreenIcon />}
         </IconButton>
-      </Grid>
+      </Grid2>
     </>);
   }
 
@@ -317,9 +416,24 @@ const Training: React.FC = () => {
   } else if (training && currentIndex !== null) {
     content = doThing(currentIndex);
   } else if (currentIndex === null) {
-    content = <Grid item xs={12} p={1} border={1} borderColor="grey.300" borderRadius={2}>
-      <Typography variant="h2" align="center" color={'#664FA1'} noWrap>FINIIISHHH !!!</Typography>
-    </Grid>;
+    content = <Grid2
+      size={12}
+      sx={{
+        p: 1,
+        border: 1,
+        borderColor: 'grey.300',
+        borderRadius: 2,
+      }}
+    >
+      <Typography
+        variant="h2"
+        align="center"
+        color="#664FA1"
+        noWrap
+      >
+        FINIIISHHH !!!
+      </Typography>
+    </Grid2>;
   }
 
   return (<>
@@ -333,9 +447,13 @@ const Training: React.FC = () => {
         minHeight="80vh" // Minimum height of 80% of the viewport height
         textAlign="center" // Center text alignment
       >
-        <Grid container justifyContent="center" gap={1}>
+        <Grid2
+          container
+          justifyContent="center"
+          gap={1}
+        >
           {content}
-        </Grid>
+        </Grid2>
       </Box>
     </Container>
   </>);
