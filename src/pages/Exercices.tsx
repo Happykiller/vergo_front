@@ -5,7 +5,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { Trans, useTranslation } from 'react-i18next';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { createSearchParams, useNavigate } from 'react-router-dom';
-import { Container, Typography, Box, CircularProgress, Alert, Grid, TextField, IconButton, Button } from '@mui/material'; // Import Material-UI components
+import { Container, Typography, Box, CircularProgress, Alert, Grid2, TextField, IconButton, Button } from '@mui/material';
 
 import Header from '@components/Header';
 import commons from '@src/commons/commons';
@@ -100,81 +100,130 @@ const Exercices: React.FC = () => {
     const description = exercice.description.find((elt:any) => elt.lang === currentLocale)?.value;
 
     return (
-      <Grid
+      <Grid2
         container
         sx={{
-          marginBottom:'1px',
+          marginBottom: '1px',
           "&:hover": {
-            backgroundColor: "#606368"
-          }
+            backgroundColor: "#606368",
+          },
         }}
       >
-        <Grid 
-          xs={2} sm={2} md={2} lg={2} xl={2}
-          item
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
+        <Grid2
+          size={{
+            xs: 2,
+            sm: 2,
+            md: 2,
+            lg: 2,
+            xl: 2,
+          }}
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
           title={exercice.slug}
         >
           <Typography noWrap>{exercice.slug}</Typography>
-        </Grid>
-        <Grid 
-          xs={1} sm={1} md={1} lg={1} xl={1}
-          item
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
+        </Grid2>
+        <Grid2
+          size={{
+            xs: 1,
+            sm: 1,
+            md: 1,
+            lg: 1,
+            xl: 1,
+          }}
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
           title={exercice?.creator?.code}
         >
           <Typography noWrap>{exercice?.creator?.code}</Typography>
-        </Grid>
-        <Grid 
-          xs={2} sm={2} md={2} lg={2} xl={2}
-          item
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
+        </Grid2>
+        <Grid2
+          size={{
+            xs: 2,
+            sm: 2,
+            md: 2,
+            lg: 2,
+            xl: 2,
+          }}
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
           title={strDate}
         >
           <Typography noWrap>{strDate}</Typography>
-        </Grid>
-        <Grid 
-          xs={2} sm={2} md={2} lg={2} xl={2}
-          item
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
+        </Grid2>
+        <Grid2
+          size={{
+            xs: 2,
+            sm: 2,
+            md: 2,
+            lg: 2,
+            xl: 2,
+          }}
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
           title={title}
         >
           <Typography noWrap>{title}</Typography>
-        </Grid>
-        <Grid 
-          xs={2} sm={2} md={2} lg={2} xl={2}
-          item
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
+        </Grid2>
+        <Grid2
+          size={{
+            xs: 2,
+            sm: 2,
+            md: 2,
+            lg: 2,
+            xl: 2,
+          }}
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
           title={description}
         >
           <Typography noWrap>{description}</Typography>
-        </Grid>
-        <Grid 
-          xs={2} sm={2} md={2} lg={2} xl={2}
-          item
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
+        </Grid2>
+        <Grid2
+          size={{
+            xs: 2,
+            sm: 2,
+            md: 2,
+            lg: 2,
+            xl: 2,
+          }}
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
           title={exercice.image}
         >
           <Typography noWrap>{exercice.image}</Typography>
-        </Grid>
-        <Grid 
-          xs={1} sm={1} md={1} lg={1} xl={1}
-          item
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
+        </Grid2>
+        <Grid2
+          size={{
+            xs: 1,
+            sm: 1,
+            md: 1,
+            lg: 1,
+            xl: 1,
+          }}
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
         >
           {/* actions */}
           <IconButton
@@ -200,8 +249,8 @@ const Exercices: React.FC = () => {
               <EditIcon/>
             </IconButton>
           }
-        </Grid>
-      </Grid>
+        </Grid2>
+      </Grid2>
     )
   }
 
@@ -255,107 +304,141 @@ const Exercices: React.FC = () => {
             }}
         >
           {/* Table */}
-          <Grid
+          <Grid2
             container
+            sx={{
+              color: "#000000",
+              fontWeight: "bold",
+              backgroundColor: "#EA80FC",
+              borderRadius: "5px 5px 0px 0px",
+              fontSize: "0.875rem"
+            }}
           >
-            <Grid
-              container
+            <Grid2
+              size={{
+                xs: 2,
+                sm: 2,
+                md: 2,
+                lg: 2,
+                xl: 2,
+              }}
               sx={{
-                color: "#000000",
-                fontWeight: "bold",
-                backgroundColor: "#EA80FC",
-                borderRadius: "5px 5px 0px 0px",
-                fontSize: "0.875rem"
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
               }}
             >
-              <Grid 
-                xs={2} sm={2} md={2} lg={2} xl={2}
-                item
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-              >
-                <Trans>exercices.slug</Trans>
-              </Grid>
-              <Grid 
-                xs={1} sm={1} md={1} lg={1} xl={1}
-                item
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-              >
-                <Trans>exercices.creator</Trans>
-              </Grid>
-              <Grid 
-                xs={2} sm={2} md={2} lg={2} xl={2}
-                item
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-              >
-                <Trans>exercices.creation_date</Trans>
-              </Grid>
-              <Grid 
-                xs={2} sm={2} md={2} lg={2} xl={2}
-                item
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-              >
-                <Trans>exercices.title</Trans>
-              </Grid>
-              <Grid 
-                xs={2} sm={2} md={2} lg={2} xl={2}
-                item
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                sx={{
-                  display: { xs: 'none', sm: 'block' }
-                }}
-              >
-                <Trans>exercices.description</Trans>
-              </Grid>
-              <Grid 
-                xs={2} sm={2} md={2} lg={2} xl={2}
-                item
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                sx={{
-                  display: { xs: 'none', sm: 'block' }
-                }}
-              >
-                <Trans>exercices.image</Trans>
-              </Grid>
-              <Grid
-                xs={1} sm={1} md={1} lg={1} xl={1}
-                item>
-              </Grid>
-            </Grid>
+              <Trans>exercices.slug</Trans>
+            </Grid2>
+            <Grid2
+              size={{
+                xs: 1,
+                sm: 1,
+                md: 1,
+                lg: 1,
+                xl: 1,
+              }}
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <Trans>exercices.creator</Trans>
+            </Grid2>
+            <Grid2
+              size={{
+                xs: 2,
+                sm: 2,
+                md: 2,
+                lg: 2,
+                xl: 2,
+              }}
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <Trans>exercices.creation_date</Trans>
+            </Grid2>
+            <Grid2
+              size={{
+                xs: 2,
+                sm: 2,
+                md: 2,
+                lg: 2,
+                xl: 2,
+              }}
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <Trans>exercices.title</Trans>
+            </Grid2>
+            <Grid2
+              size={{
+                sm: 2,
+                md: 2,
+                lg: 2,
+                xl: 2,
+              }}
+              sx={{
+                display: { xs: 'none', sm: 'flex' },
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <Trans>exercices.description</Trans>
+            </Grid2>
+            <Grid2
+              size={{
+                sm: 2,
+                md: 2,
+                lg: 2,
+                xl: 2,
+              }}
+              sx={{
+                display: { xs: 'none', sm: 'flex' },
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <Trans>exercices.image</Trans>
+            </Grid2>
+            <Grid2
+              size={{
+                sm: 1,
+                md: 1,
+                lg: 1,
+                xl: 1,
+              }}
+            >
+            </Grid2>
+          </Grid2>
 
-            {showed?.map((exercice) => (
-              <Row key={exercice.id} exercice={exercice} />
-            ))}
-
-          </Grid>
+          {showed?.map((exercice) => (
+            <Row key={exercice.id} exercice={exercice} />
+          ))}
         </Box>
         </>)}
 
         {/* Pagination */}
         {
           (totalItem/limit>1) && (
-            <Grid item xs={12} sx={{ marginBottom: 2 }}>
+            <Grid2 size={12} sx={{ marginBottom: 2 }}>
               <PaginationComponent
                 totalItems={totalItem}
                 limit={limit}
                 onPageChange={handlePageChange}
               />
-            </Grid>
+            </Grid2>
           )
         }
 
-        <Grid item xs={12}>
+        <Grid2 size={12}>
           {/* Submit button */}
           <Button 
             type="submit"
@@ -367,7 +450,7 @@ const Exercices: React.FC = () => {
               goCreate();
             }}
           ><Trans>common.create</Trans></Button>
-        </Grid>
+        </Grid2>
         
       </Box>
     </Container>

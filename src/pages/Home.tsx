@@ -1,11 +1,10 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next'; // Import the `useTranslation` hook for i18n
-import { Container, Typography, Box } from '@mui/material'; // Import Material-UI components for layout and typography
+import { useTranslation } from 'react-i18next';
+import { Container, Typography, Box } from '@mui/material';
 
 import Header from '@components/Header';
 
 const Home: React.FC = () => {
-  // Get the `t` function from the `useTranslation` hook to handle translations
   const { t } = useTranslation();
 
   return (<>
@@ -16,8 +15,8 @@ const Home: React.FC = () => {
         display="flex" 
         justifyContent="center" 
         alignItems="center" 
-        minHeight="80vh" // Minimum height of 80% of the viewport height
-        textAlign="center" // Center text alignment
+        minHeight="80vh"
+        textAlign="center"
       >
         {/* Typography component for displaying the heading */}
         <Typography variant="h2">

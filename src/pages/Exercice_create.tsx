@@ -1,8 +1,8 @@
 import React from 'react';
 import { Add } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
-import { Trans, useTranslation } from 'react-i18next'; // Import translation hook for i18n
-import { Container, Box, Grid, TextField, Button } from '@mui/material'; // Import Material-UI components
+import { Trans, useTranslation } from 'react-i18next';
+import { Container, Box, Grid2, TextField, Button } from '@mui/material';
 
 import Header from '@components/Header';
 import inversify from '@src/commons/inversify';
@@ -46,26 +46,40 @@ const Exercice_create: React.FC = () => {
         display="flex" 
         justifyContent="center" 
         flexDirection="column"
-        minHeight="80vh" // Minimum height of 80% of the viewport height
-        textAlign="center" // Center text alignment
+        minHeight="80vh"
+        textAlign="center"
         marginBottom={"5vh"}
         marginTop={"2vh"}
       >
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
+        <Grid2 
+          container 
+          spacing={2}
+        >
+          <Grid2
+            size={12}
+          >
+            <h1><Trans>exercice_create.title</Trans></h1>
+          </Grid2>
+          <Grid2
+            size={12}
+          >
             <TextField
               label="JSON Input"
               multiline
               fullWidth
-              onChange={(e) => setRawData(e.target.value)}  // Ajout du onChange pour gérer les modifications
+              onChange={(e) => setRawData(e.target.value)}
               variant="outlined"
               minRows={10}
-              InputProps={{
-                style: { fontFamily: 'monospace', whiteSpace: 'pre' }, // Style monospace et retour à la ligne respecté
+              slotProps={{
+                input: {
+                  style: { fontFamily: 'monospace', whiteSpace: 'pre' },
+                },
               }}
             />
-          </Grid>
-          <Grid item xs={12}>
+          </Grid2>
+          <Grid2
+            size={12}
+          >
             {/* Submit button */}
             <Button 
               type="submit"
@@ -77,8 +91,8 @@ const Exercice_create: React.FC = () => {
                 submit();
               }}
             ><Trans>common.create</Trans></Button>
-          </Grid>
-        </Grid>
+          </Grid2>
+        </Grid2>
       </Box>
     </Container>
   </>);

@@ -115,7 +115,6 @@ export const Login = () => {
         inversify.loggerService.error("signIn, failed to perform Login.");
       }
     } catch(e:any) {
-      console.log(e)
       flash.open(t(`login.${e.message}`));
       inversify.loggerService.error(e.error);
     }

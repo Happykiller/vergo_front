@@ -1,18 +1,17 @@
 import React, { useEffect } from 'react';
-import { Trans, useTranslation } from 'react-i18next'; // Import translation hook for i18n
 import DoneIcon from '@mui/icons-material/Done';
 import { useSearchParams } from 'react-router-dom';
-import { Container, Typography, Box, Grid, TextField, Button, CircularProgress, Alert } from '@mui/material'; // Import Material-UI components
+import { Trans, useTranslation } from 'react-i18next';
+import { Container, Typography, Box, Grid2, TextField, Button, CircularProgress, Alert } from '@mui/material';
 
 import Header from '@components/Header';
 import { CODES } from '@src/commons/codes';
 import inversify from '@src/commons/inversify';
-import { FlashStore, flashStore} from '@components/Flash';
+import { FlashStore, flashStore } from '@components/Flash';
 
 const Training_edit: React.FC = () => {
-  // Use the translation hook to get the translation function
   const { t } = useTranslation();
-  const flash:FlashStore = flashStore();
+  const flash: FlashStore = flashStore();
   const [searchParams] = useSearchParams();
   const training_id = searchParams.get('id');
   const [data, setData] = React.useState<any>(null);
@@ -21,7 +20,7 @@ const Training_edit: React.FC = () => {
   const [qry, setQry] = React.useState<{
     loading: boolean,
     data: any,
-    error: Error|null
+    error: Error | null
   }>({
     loading: false,
     data: null,
@@ -32,13 +31,13 @@ const Training_edit: React.FC = () => {
     const fetchData = async (training_id: string) => {
       setQry({ loading: true, data: null, error: null });
       try {
-        const result = await inversify.getTrainingUsecase.execute({id: training_id});
+        const result = await inversify.getTrainingUsecase.execute({ id: training_id });
         if (result.message !== CODES.SUCCESS) {
           throw new Error(result.message);
         } else if (result.data) {
           setData(result.data);
-          let tmp:any = {
-            ... result.data
+          let tmp: any = {
+            ...result.data
           };
           delete tmp.id;
           setRawData(JSON.stringify(removeNullValues(tmp)));
@@ -54,19 +53,19 @@ const Training_edit: React.FC = () => {
     }
   }, [inversify]);
 
-  function removeNullValues(obj:any) {
+  function removeNullValues(obj: any) {
     try {
       Object.keys(obj).forEach(key => {
         // Si la valeur est un objet, on le parcourt récursivement
         if (typeof obj[key] === 'object' && obj[key] !== null && key !== 'slugs') {
           obj[key] = removeNullValues(obj[key]);
-        } 
+        }
         // Si la valeur est null, on supprime la clé
         else if (obj[key] === null) {
           delete obj[key];
         }
       });
-  
+
       return obj;
     } catch (e) {
       return null;
@@ -79,28 +78,28 @@ const Training_edit: React.FC = () => {
     try {
       tmp = JSON.parse(rawData);
       tmp.id = data.id;
-    } catch(e) {
+    } catch (e) {
       flash.open(t('training_edit.json_fail'));
     }
 
     try {
       await inversify.updateTraingUsecase.execute(tmp);
       flash.open(t('training_edit.update_sucess'));
-    } catch(e) {
+    } catch (e) {
       flash.open(t('training_edit.update_fail'));
     }
   }
 
   return (<>
-    <Header/>
+    <Header />
     <Container>
       {/* Box component to center the content vertically and horizontally */}
-      <Box 
-        display="flex" 
-        justifyContent="center" 
+      <Box
+        display="flex"
+        justifyContent="center"
         flexDirection="column"
-        minHeight="80vh" // Minimum height of 80% of the viewport height
-        textAlign="center" // Center text alignment
+        minHeight="80vh"
+        textAlign="center"
         marginBottom={"5vh"}
         marginTop={"2vh"}
       >
@@ -120,38 +119,40 @@ const Training_edit: React.FC = () => {
         {qry.data && (<>
           {/* Typography component to display the page title */}
           <Typography variant="h2">
-            {data?.label??data?.slug}
+            {data?.label ?? data?.slug}
           </Typography>
-          
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
+
+          <Grid2 container spacing={2}>
+            <Grid2 size={12}>
               <TextField
                 label="JSON Input"
                 multiline
                 fullWidth
                 value={rawData}
-                onChange={(e) => setRawData(e.target.value)}  // Ajout du onChange pour gérer les modifications
+                onChange={(e) => setRawData(e.target.value)}
                 variant="outlined"
                 minRows={10}
-                InputProps={{
-                  style: { fontFamily: 'monospace', whiteSpace: 'pre' }, // Style monospace et retour à la ligne respecté
+                slotProps={{
+                  input: {
+                    style: { fontFamily: 'monospace', whiteSpace: 'pre' },
+                  },
                 }}
               />
-            </Grid>
-            <Grid item xs={12}>
+            </Grid2>
+            <Grid2 size={12}>
               {/* Submit button */}
-              <Button 
+              <Button
                 type="submit"
                 variant="contained"
                 size="small"
                 startIcon={<DoneIcon />}
-                onClick={(e) => { 
+                onClick={(e) => {
                   e.preventDefault();
                   update();
                 }}
               ><Trans>common.update</Trans></Button>
-            </Grid>
-          </Grid>
+            </Grid2>
+          </Grid2>
         </>)}
       </Box>
     </Container>

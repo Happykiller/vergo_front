@@ -6,11 +6,10 @@ import EditIcon from '@mui/icons-material/Edit';
 import { Trans, useTranslation } from 'react-i18next';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import { createSearchParams, useNavigate, useSearchParams } from 'react-router-dom';
-import { Container, Typography, Box, CircularProgress, Alert, Grid, Badge, Card, CardContent, IconButton, Tooltip, Divider } from '@mui/material'; // Import Material-UI components
+import { Container, Typography, Box, CircularProgress, Alert, Grid2, IconButton, Tooltip, Divider } from '@mui/material';
 
 import Header from '@components/Header';
 import { CODES } from '@src/commons/codes';
-import ImageFetcher from '@components/Image';
 import inversify from '@src/commons/inversify';
 import ExerciseCard from '@components/ExerciseCard';
 import LargeIconButton from '@components/LargeIconButton';
@@ -185,7 +184,7 @@ const Preview: React.FC = () => {
           </Box>
     
           {/* Grille des éléments */}
-          <Grid 
+          <Grid2 
             container 
             spacing={2}
           >
@@ -199,7 +198,7 @@ const Preview: React.FC = () => {
                 const title = ex?.title.find((elt:any) => elt.lang === currentLocale).value??item.workout_slug;
                 const description = ex?.description.find((elt:any) => elt.lang === currentLocale).value;
                 divider = (
-                  <Grid item xs={12}>
+                  <Grid2 size={12}>
                     <Typography>
                       {ex && (
                           <IconButton><EditIcon/></IconButton>
@@ -214,13 +213,19 @@ const Preview: React.FC = () => {
                       {title}
                     </Typography>
                     <Divider />
-                  </Grid>)
+                  </Grid2>)
                 old_workout_slug = item.workout_slug;
               }
 
               return <React.Fragment key={index}>
                 {divider}
-                <Grid item xs={4} sm={3} md={2}>
+                <Grid2
+                  size={{
+                    xs: 4,
+                    sm: 3,
+                    md: 2,
+                  }}
+                >
                   <ExerciseCard
                     exercice_id={item.exercice_id}
                     title={item.title}
@@ -235,11 +240,11 @@ const Preview: React.FC = () => {
                     img={item.img}
                     onEditClick={go_exercice}
                   />
-                </Grid>
+                </Grid2>
                 </React.Fragment>
               })
             }
-          </Grid>
+          </Grid2>
         </Box>
         )}
       </Box>

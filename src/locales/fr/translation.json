@@ -29,7 +29,8 @@
   "exercice_create": {
     "create_success": "Création réussi",
     "create_fail": "Erreur lors de la création",
-    "json_fail": "JSON format error"
+    "json_fail": "JSON format error",
+    "title": "Création d'un nouvel exercice"
   },
   "exercice_edit": {
     "update_sucess": "Mise à jour réussi",

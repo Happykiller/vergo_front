@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import { Trans, useTranslation } from 'react-i18next'; // Import translation hook for i18n
 import DoneIcon from '@mui/icons-material/Done';
 import { useSearchParams } from 'react-router-dom';
-import { Container, Typography, Box, Grid, TextField, Button, CircularProgress, Alert } from '@mui/material'; // Import Material-UI components
+import { Trans, useTranslation } from 'react-i18next';
+import { Container, Typography, Box, Grid2, TextField, Button, CircularProgress, Alert } from '@mui/material';
 
 import Header from '@components/Header';
 import { CODES } from '@src/commons/codes';
@@ -10,7 +10,6 @@ import inversify from '@src/commons/inversify';
 import { FlashStore, flashStore} from '@components/Flash';
 
 const Exercice_edit: React.FC = () => {
-  // Use the translation hook to get the translation function
   const { t } = useTranslation();
   const flash:FlashStore = flashStore();
   const [searchParams] = useSearchParams();
@@ -102,8 +101,8 @@ const Exercice_edit: React.FC = () => {
         display="flex" 
         justifyContent="center" 
         flexDirection="column"
-        minHeight="80vh" // Minimum height of 80% of the viewport height
-        textAlign="center" // Center text alignment
+        minHeight="80vh"
+        textAlign="center"
         marginBottom={"5vh"}
         marginTop={"2vh"}
       >
@@ -126,22 +125,27 @@ const Exercice_edit: React.FC = () => {
             {data?.label??data?.slug}
           </Typography>
           
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
+          <Grid2 
+            container 
+            spacing={2}
+          >
+            <Grid2 size={12}>
               <TextField
                 label="JSON Input"
                 multiline
                 fullWidth
                 value={rawData}
-                onChange={(e) => setRawData(e.target.value)}  // Ajout du onChange pour gérer les modifications
+                onChange={(e) => setRawData(e.target.value)}
                 variant="outlined"
                 minRows={10}
-                InputProps={{
-                  style: { fontFamily: 'monospace', whiteSpace: 'pre' }, // Style monospace et retour à la ligne respecté
+                slotProps={{
+                  input: {
+                    style: { fontFamily: 'monospace', whiteSpace: 'pre' },
+                  },
                 }}
               />
-            </Grid>
-            <Grid item xs={12}>
+            </Grid2>
+            <Grid2 size={12}>
               {/* Submit button */}
               <Button 
                 type="submit"
@@ -153,8 +157,8 @@ const Exercice_edit: React.FC = () => {
                   update();
                 }}
               ><Trans>common.update</Trans></Button>
-            </Grid>
-          </Grid>
+            </Grid2>
+          </Grid2>
         </>)}
       </Box>
     </Container>

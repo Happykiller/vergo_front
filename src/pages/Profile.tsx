@@ -6,7 +6,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import { client } from '@passwordless-id/webauthn';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Trans, useTranslation } from 'react-i18next';
-import { Chip, Grid, Link, Slider } from '@mui/material';
+import { Chip, Grid2, Link, Slider } from '@mui/material';
 import SystemUpdateAltIcon from '@mui/icons-material/SystemUpdateAlt';
 import { Button, Divider, IconButton, Paper, Typography } from '@mui/material';
 import { RegisterOptions, RegistrationJSON } from '@passwordless-id/webauthn/dist/esm/types';
@@ -18,7 +18,7 @@ import { CODES } from '@src/commons/codes';
 import { REGEX } from '@src/commons/REGEX';
 import inversify from '@src/commons/inversify';
 import { passkeyStore } from '@src/stores/passkeyStore';
-import { FlashStore, flashStore} from '@components/Flash';
+import { FlashStore, flashStore } from '@components/Flash';
 import { ContextStoreModel, contextStore } from '@src/stores/contextStore';
 import { PasskeyUsecaseModel } from '@usecases/model/passkey.usecase.model';
 import CreatePasskeyUsecaseDto from '@usecases/createPasskey/createPasskey.usecase.dto';
@@ -28,9 +28,9 @@ import { GetPasskeyForUserUsecaseModel } from '@usecases/getPasskeyForUser/getPa
 export const Profile = () => {
   const { t } = useTranslation();
   const passkeyStored = passkeyStore();
-  const flash:FlashStore = flashStore();
-  const context:ContextStoreModel = contextStore();
-  const resetPasskeyStore = passkeyStore((state:any) => state.reset);
+  const flash: FlashStore = flashStore();
+  const context: ContextStoreModel = contextStore();
+  const resetPasskeyStore = passkeyStore((state: any) => state.reset);
   const [passkey_label, setPasskey_label] = React.useState({
     value: '',
     valid: false
@@ -73,8 +73,8 @@ export const Profile = () => {
       new_value: formEntities.new.value,
       conf_value: formEntities.conf.value
     })
-      .then((response:UpdPasswordUsecaseModel) => {
-        if(response.message === CODES.SUCCESS) {
+      .then((response: UpdPasswordUsecaseModel) => {
+        if (response.message === CODES.SUCCESS) {
           flash.open(t('profile.passwordUpdated'));
           setFormEntities({
             old: {
@@ -92,13 +92,13 @@ export const Profile = () => {
           });
         } else {
           inversify.loggerService.debug(response.error);
-          setQry((qry:any) => ({
+          setQry((qry: any) => ({
             ...qry,
             error: response.message
           }));
         }
       })
-      .catch((error:any) => {
+      .catch((error: any) => {
         setQry(qry => ({
           ...qry,
           error: error.message
@@ -133,7 +133,7 @@ export const Profile = () => {
       /**
        * Ask device passkey auth
        */
-      const registerOptions:RegisterOptions = {
+      const registerOptions: RegisterOptions = {
         user: passkey_display,
         challenge: challenge,
         userVerification: "required",
@@ -141,12 +141,12 @@ export const Profile = () => {
         timeout: 60000,
         attestation: true,
       }
-      const registration:RegistrationJSON = await client.register(registerOptions);
+      const registration: RegistrationJSON = await client.register(registerOptions);
 
       /**
        * Record to back passkey
        */
-      const data:CreatePasskeyUsecaseDto = {
+      const data: CreatePasskeyUsecaseDto = {
         label: passkey_label.value,
         challenge: challenge,
         hostname: location.hostname,
@@ -154,14 +154,14 @@ export const Profile = () => {
       };
       inversify.loggerService.debug("Datas to record", data);
       const response = await inversify.createPasskeyUsecase.execute(data);
-      if(! response.data) {
+      if (!response.data) {
         throw new Error("Data empty");
       }
 
       /**
        * Record local storage passkey
        */
-      passkeyStore.setState({ 
+      passkeyStore.setState({
         display: passkey_display,
         passkey_id: response.data.id,
         user_code: context.code,
@@ -174,21 +174,21 @@ export const Profile = () => {
       inversify.loggerService.error("Error creating credential", error);
     }
   }
-  
+
 
   const deletePasskey = async (dto: PasskeyUsecaseModel) => {
     await inversify.deletePasskeyUsecase.execute({
       passkey_id: dto.id
     });
-    if((dto.id === passkeyStored.passkey_id)) {
-      flash.open(t('profile.passkey_delete', {display: passkeyStored.display}));
+    if ((dto.id === passkeyStored.passkey_id)) {
+      flash.open(t('profile.passkey_delete', { display: passkeyStored.display }));
       resetPasskeyStore();
     }
     setPasskeys(null);
   }
 
   const activePasskey = async (dto: any) => {
-    passkeyStore.setState({ 
+    passkeyStore.setState({
       passkey_id: dto.passkey_id,
       user_code: dto.user_code,
       challenge: dto.challenge,
@@ -197,11 +197,8 @@ export const Profile = () => {
     setPasskeys(null);
   }
 
-  const defaultContentPasskeys = <Grid
-    container
-    display={passkeys?.length > 0?'flex':'none'}
-  >
-    <Grid
+  const defaultContentPasskeys = <>
+    <Grid2
       container
       sx={{
         color: "#000000",
@@ -211,111 +208,114 @@ export const Profile = () => {
         fontSize: "0.875rem"
       }}
     >
-      <Grid 
-        xs={6}
-        item
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-      >
-        <Trans>profile.passkey.table.label</Trans>
-      </Grid>
-      <Grid
-        item
-        xs={6}
-      >
-      </Grid>
-    </Grid>
-    
-    {passkeys?.map((passkey:PasskeyUsecaseModel) => {
-      return (
-      <Grid
-        key={passkey.id}
-        container
+      <Grid2
+        size={6}
         sx={{
-          backgroundColor: '#3C4042',
-          marginBottom:'1px',
-          "&:hover": {
-            backgroundColor: "#606368"
-          }
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
         }}
       >
-        <Grid 
-          xs={6}
-          item
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          title={passkey.label}
-        >
-          <Typography noWrap>{passkey.label}</Typography>
-        </Grid>
-        <Grid
-          xs={6}
-          item
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-        >
-          {/* Delete  */}
-          <IconButton 
-            title={t('profile.passkey.table.delete')}
-            onClick={(e) => {
-              e.preventDefault();
-              deletePasskey(passkey);
-            }}>
-            <DeleteIcon />
-          </IconButton>
+        <Trans>profile.passkey.table.label</Trans>
+      </Grid2>
+      <Grid2
+        size={6}
+      >
+      </Grid2>
+    </Grid2>
 
-          {/* Active  */}
-          <IconButton 
-            title={t('profile.passkey.table.active')}
-            disabled={(passkey?.id === passkeyStored.passkey_id)}
-            onClick={(e) => {
-              e.preventDefault();
-              activePasskey({
-                passkey_id: passkey.id,
-                user_code: passkey.user_code,
-                challenge: passkey.challenge,
-                credential_id: passkey.credential_id
-              });
-            }}>
-            <CheckIcon 
-              sx={{
-                color: passkey?.id === passkeyStored.passkey_id?'green':'grey'
-              }}
-            />
-          </IconButton>
-        </Grid>
-      </Grid>
-    )})}
+    {passkeys?.map((passkey: PasskeyUsecaseModel) => {
+      return (
+        <Grid2
+          key={passkey.id}
+          container
+          sx={{
+            backgroundColor: '#3C4042',
+            marginBottom: '1px',
+            "&:hover": {
+              backgroundColor: "#606368"
+            }
+          }}
+        >
+          <Grid2
+            size={6}
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+            title={passkey.label}
+          >
+            <Typography noWrap>{passkey.label}</Typography>
+          </Grid2>
+          <Grid2
+            size={6}
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            {/* Delete  */}
+            <IconButton
+              title={t('profile.passkey.table.delete')}
+              onClick={(e) => {
+                e.preventDefault();
+                deletePasskey(passkey);
+              }}>
+              <DeleteIcon />
+            </IconButton>
 
-  </Grid>;
+            {/* Active  */}
+            <IconButton
+              title={t('profile.passkey.table.active')}
+              disabled={(passkey?.id === passkeyStored.passkey_id)}
+              onClick={(e) => {
+                e.preventDefault();
+                activePasskey({
+                  passkey_id: passkey.id,
+                  user_code: passkey.user_code,
+                  challenge: passkey.challenge,
+                  credential_id: passkey.credential_id
+                });
+              }}>
+              <CheckIcon
+                sx={{
+                  color: passkey?.id === passkeyStored.passkey_id ? 'green' : 'grey'
+                }}
+              />
+            </IconButton>
+          </Grid2>
+        </Grid2>
+      )
+    })}
+
+  </>;
 
   let contentPasskeys = <div></div>;
-  if(qryPasskeys.loading) {
+  if (qryPasskeys.loading) {
     contentPasskeys = <div><Trans>common.loading</Trans></div>;
-  } else if(qryPasskeys.error) {
+  } else if (qryPasskeys.error) {
     contentPasskeys = <div><Trans>profiles.{qryPasskeys.error}</Trans></div>;
-  } else if(passkeys === null) {
+  } else if (passkeys === null) {
     setPasskeys([]);
     setQryPasskeys(qry => ({
       ...qry,
       loading: true
     }));
     inversify.getPasskeyForUserUsecase.execute()
-      .then((response:GetPasskeyForUserUsecaseModel) => {
-        if(response.message === CODES.SUCCESS) {
+      .then((response: GetPasskeyForUserUsecaseModel) => {
+        if (response.message === CODES.SUCCESS) {
           setPasskeys(response.data);
         } else {
           inversify.loggerService.debug(response.error);
-          setQryPasskeys((qry:any) => ({
+          setQryPasskeys((qry: any) => ({
             ...qry,
             error: response.message
           }));
         }
       })
-      .catch((error:any) => {
+      .catch((error: any) => {
         setQryPasskeys(qry => ({
           ...qry,
           error: error.message
@@ -342,15 +342,16 @@ export const Profile = () => {
     content = <Trans>common.loading</Trans>;
   } else {
     content = <form>
-      <Grid
+      <Grid2
         container
       >
-        <Grid
-          item
-          xs={6}
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
+        <Grid2
+          size={6}
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
         >
           {/* Field old password */}
           <Input
@@ -359,9 +360,9 @@ export const Profile = () => {
             regex={REGEX.PASSWORD}
             type='password'
             entity={formEntities.old}
-            onChange={(entity:any) => { 
+            onChange={(entity: any) => {
               setFormEntities({
-                ... formEntities,
+                ...formEntities,
                 old: {
                   value: entity.value,
                   valid: entity.valid
@@ -371,13 +372,14 @@ export const Profile = () => {
             require
             virgin
           />
-        </Grid>
-        <Grid
-          item
-          xs={6}
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
+        </Grid2>
+        <Grid2
+          size={6}
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
         >
           {/* Field new password */}
           <Input
@@ -386,9 +388,9 @@ export const Profile = () => {
             regex={REGEX.PASSWORD}
             type='password'
             entity={formEntities.new}
-            onChange={(entity:any) => { 
+            onChange={(entity: any) => {
               setFormEntities({
-                ... formEntities,
+                ...formEntities,
                 new: {
                   value: entity.value,
                   valid: entity.valid
@@ -398,13 +400,14 @@ export const Profile = () => {
             require
             virgin
           />
-        </Grid>
-        <Grid
-          item
-          xs={6}
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
+        </Grid2>
+        <Grid2
+          size={6}
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
         >
           {/* Field confirm password */}
           <Input
@@ -413,9 +416,9 @@ export const Profile = () => {
             regex={REGEX.PASSWORD}
             type='password'
             entity={formEntities.conf}
-            onChange={(entity:any) => { 
+            onChange={(entity: any) => {
               setFormEntities({
-                ... formEntities,
+                ...formEntities,
                 conf: {
                   value: entity.value,
                   valid: entity.valid
@@ -425,72 +428,76 @@ export const Profile = () => {
             require
             virgin
           />
-        </Grid>
+        </Grid2>
 
-        <Grid
-          item
-          xs={6}
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
+        <Grid2
+          size={6}
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
         >
           {/* Submit button */}
-          <Button 
+          <Button
             type="submit"
             variant="contained"
             size="small"
             startIcon={<SystemUpdateAltIcon />}
             disabled={!formIsValid()}
-            onClick={(e) => { 
+            onClick={(e) => {
               e.preventDefault();
               update();
             }}
           ><Trans>common.done</Trans></Button>
-        </Grid>
-      </Grid>
+        </Grid2>
+      </Grid2>
     </form>
   }
 
   return (
     <div className="app">
-      <Header/>
+      <Header />
       <div className="parent_container">
         <div className="container">
           <div className='title'>
             <Trans>profile.title</Trans>
           </div>
           <div>
-            <Grid
+            <Grid2
               container
             >
-              <Grid 
-                xs={12}
-                item
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
+              <Grid2
+                size={12}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
               >
                 <Trans>profile.code</Trans>{context.code}
-              </Grid>
-              <Grid 
-                xs={6}
-                item
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
+              </Grid2>
+              <Grid2
+                size={6}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
               >
                 <Trans>profile.name_first</Trans>{context.name_first}
-              </Grid>
-              <Grid 
-                xs={6}
-                item
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
+              </Grid2>
+              <Grid2
+                size={6}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
               >
                 <Trans>profile.name_last</Trans>{context.name_last}
-              </Grid>
-            </Grid>
+              </Grid2>
+            </Grid2>
             <Divider>
               <Chip label={<Trans>profile.password</Trans>} size="small" />
             </Divider>
@@ -501,8 +508,15 @@ export const Profile = () => {
             </Divider>
 
             {/* Réglage du volume */}
-            <Grid container>
-              <Grid xs={12} item display="flex" flexDirection="column" alignItems="center">
+            <Grid2 container>
+              <Grid2 
+                size={12}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
                 <Typography variant="body1">
                   <Trans>profile.volumeControl</Trans>: {Math.round(context.volume * 100)}%
                 </Typography>
@@ -514,8 +528,8 @@ export const Profile = () => {
                   onChange={handleVolumeChange}
                   valueLabelDisplay="auto"
                 />
-              </Grid>
-            </Grid>
+              </Grid2>
+            </Grid2>
 
             <Divider
               sx={{
@@ -524,19 +538,20 @@ export const Profile = () => {
             >
               <Chip label={<Trans>profile.passkeys</Trans>} size="small" />
             </Divider>
-            <Grid
-              item
-              xs={12}
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
+            <Grid2
+              size={12}
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
             >
               {/* Add passkey */}
               <Paper
                 component="form"
-                sx={{ 
-                  p: '2px 4px', 
-                  display: 'flex', 
+                sx={{
+                  p: '2px 4px',
+                  display: 'flex',
                   alignItems: 'center'
                 }}
               >
@@ -545,7 +560,7 @@ export const Profile = () => {
                   tooltip={<Trans>REGEX.PASSKEY_LABEL</Trans>}
                   regex={REGEX.PASSKEY_LABEL}
                   entity={passkey_label}
-                  onChange={(entity:any) => { 
+                  onChange={(entity: any) => {
                     setPasskey_label({
                       value: entity.value,
                       valid: entity.valid
@@ -555,9 +570,9 @@ export const Profile = () => {
                   virgin
                 />
                 <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-                <IconButton 
-                  color="primary" 
-                  sx={{ p: '10px' }} 
+                <IconButton
+                  color="primary"
+                  sx={{ p: '10px' }}
                   title={t('profile.add_passkey')}
                   disabled={!passkey_label.valid}
                   onClick={(e) => {
@@ -568,25 +583,27 @@ export const Profile = () => {
                   <Add />
                 </IconButton>
               </Paper>
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
+            </Grid2>
+            <Grid2
+              size={12}
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
             >
               <Link href="ms-settings:savedpasskeys"><Trans>profile.keys</Trans></Link>
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
+            </Grid2>
+            <Grid2
+              size={12}
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
             >
               {errorMessage}
-            </Grid>
+            </Grid2>
           </div>
           <div>
             {contentPasskeys}

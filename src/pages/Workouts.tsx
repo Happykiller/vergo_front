@@ -1,7 +1,7 @@
 import moment from 'moment';
 import React, { useEffect } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { Container, Typography, Box, CircularProgress, Alert, Grid, TextField } from '@mui/material'; // Import Material-UI components
+import { Container, Typography, Box, CircularProgress, Alert, Grid2, TextField } from '@mui/material';
 
 import Header from '@components/Header';
 import commons from '@src/commons/commons';
@@ -12,20 +12,19 @@ import { ExerciceUsecaseModel } from '@usecases/exercice/model/exercice.usecase.
 import { WorkoutDefUsecaseModel } from '@usecases/workout/model/workout.def.usecase.model';
 
 const Workouts: React.FC = () => {
-  const limit = 25;  // Par exemple, 10 éléments par page
-  // Use the translation hook to get the translation function
+  const limit = 25;
   const { i18n } = useTranslation();
   const currentLocale = i18n.language;
   const [offset, setOffset] = React.useState(0);
   const [totalItem, setTotalItem] = React.useState(0);
   const [searchTerm, setSearchTerm] = React.useState('');
   const [workouts, set_workouts] = React.useState<WorkoutDefUsecaseModel[]>([]);
-  const [showed, set_showed] = React.useState<WorkoutDefUsecaseModel[]|null>(null);
+  const [showed, set_showed] = React.useState<WorkoutDefUsecaseModel[] | null>(null);
 
   const [qry, setQry] = React.useState<{
-    loading: boolean|null,
+    loading: boolean | null,
     data: any,
-    error: Error|null
+    error: Error | null
   }>({
     loading: null,
     data: null,
@@ -49,11 +48,11 @@ const Workouts: React.FC = () => {
       }
     };
 
-    if(qry.loading === null) {
+    if (qry.loading === null) {
       fetchData();
-    } else if(workouts.length > 0) {
+    } else if (workouts.length > 0) {
       let temps = [...workouts];
-      temps = temps.slice().sort(((elt1: ExerciceUsecaseModel, elt2: ExerciceUsecaseModel) => (elt1.slug) < (elt2.slug) ? -1 : 1 ));
+      temps = temps.slice().sort(((elt1: ExerciceUsecaseModel, elt2: ExerciceUsecaseModel) => (elt1.slug) < (elt2.slug) ? -1 : 1));
       temps = temps.filter(exercice =>
         commons.normalizeString(exercice.slug).includes(commons.normalizeString(searchTerm))
       );
@@ -65,68 +64,103 @@ const Workouts: React.FC = () => {
   const Row = (props: { exercice: ExerciceUsecaseModel }) => {
     const { exercice } = props;
     const strDate = moment(commons.getTimestampFromObjectId(exercice.id)).format('DD/MM/YY HH:mm:ss');
-    const title = exercice.title.find((elt:any) => elt.lang === currentLocale)?.value;
-    const description = exercice.description.find((elt:any) => elt.lang === currentLocale)?.value;
+    const title = exercice.title.find((elt: any) => elt.lang === currentLocale)?.value;
+    const description = exercice.description.find((elt: any) => elt.lang === currentLocale)?.value;
 
     return (
-      <Grid
+      <Grid2
         container
         sx={{
-          marginBottom:'1px',
+          marginBottom: '1px',
           "&:hover": {
             backgroundColor: "#606368"
           }
         }}
       >
-        <Grid 
-          xs={2} sm={2} md={2} lg={2} xl={2}
-          item
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
+        <Grid2
+          size={{
+            xs: 2,
+            sm: 2,
+            md: 2,
+            lg: 2,
+            xl: 2,
+          }}
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
           title={exercice.slug}
         >
           <Typography noWrap>{exercice.slug}</Typography>
-        </Grid>
-        <Grid 
-          xs={2} sm={2} md={2} lg={2} xl={2}
-          item
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
+        </Grid2>
+        <Grid2
+          size={{
+            xs: 2,
+            sm: 2,
+            md: 2,
+            lg: 2,
+            xl: 2,
+          }}
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
           title={strDate}
         >
           <Typography noWrap>{strDate}</Typography>
-        </Grid>
-        <Grid 
-          xs={3} sm={3} md={3} lg={3} xl={3}
-          item
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
+        </Grid2>
+        <Grid2
+          size={{
+            xs: 3,
+            sm: 3,
+            md: 3,
+            lg: 3,
+            xl: 3,
+          }}
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
           title={title}
         >
           <Typography noWrap>{title}</Typography>
-        </Grid>
-        <Grid 
-          xs={4} sm={4} md={4} lg={4} xl={4}
-          item
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
+        </Grid2>
+        <Grid2
+          size={{
+            xs: 4,
+            sm: 4,
+            md: 4,
+            lg: 4,
+            xl: 4,
+          }}
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
           title={description}
         >
           <Typography noWrap>{description}</Typography>
-        </Grid>
-        <Grid 
-          xs={1} sm={1} md={1} lg={1} xl={1}
-          item
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
+        </Grid2>
+        <Grid2
+          size={{
+            xs: 1,
+            sm: 1,
+            md: 1,
+            lg: 1,
+            xl: 1,
+          }}
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
         >
-        </Grid>
-      </Grid>
+        </Grid2>
+      </Grid2>
     )
   }
 
@@ -136,12 +170,12 @@ const Workouts: React.FC = () => {
   };
 
   return (<>
-    <Header/>
+    <Header />
     <Container>
       {/* Box component to center the content vertically and horizontally */}
-      <Box 
-        display="flex" 
-        justifyContent="center" 
+      <Box
+        display="flex"
+        justifyContent="center"
         flexDirection="column"
         textAlign="center" // Center text alignment
         marginBottom={"5vh"}
@@ -168,7 +202,7 @@ const Workouts: React.FC = () => {
             label="Recherche"
             variant="outlined"
             value={searchTerm}
-            onChange={(e:any) => setSearchTerm(e.target.value)}
+            onChange={(e: any) => setSearchTerm(e.target.value)}
             fullWidth
             sx={{ marginBottom: 2 }}
           />
@@ -178,12 +212,9 @@ const Workouts: React.FC = () => {
               color: '#fff',
               padding: 2,
             }}
-        >
-          {/* Table */}
-          <Grid
-            container
           >
-            <Grid
+            {/* Table */}
+            <Grid2
               container
               sx={{
                 color: "#000000",
@@ -193,69 +224,100 @@ const Workouts: React.FC = () => {
                 fontSize: "0.875rem"
               }}
             >
-              <Grid 
-                xs={2} sm={2} md={2} lg={2} xl={2}
-                item
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
+              <Grid2
+                size={{
+                  xs: 2,
+                  sm: 2,
+                  md: 2,
+                  lg: 2,
+                  xl: 2,
+                }}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
               >
                 <Trans>workouts.slug</Trans>
-              </Grid>
-              <Grid 
-                xs={2} sm={2} md={2} lg={2} xl={2}
-                item
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
+              </Grid2>
+              <Grid2
+                size={{
+                  xs: 2,
+                  sm: 2,
+                  md: 2,
+                  lg: 2,
+                  xl: 2,
+                }}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
               >
                 <Trans>workouts.creation_date</Trans>
-              </Grid>
-              <Grid 
-                xs={3} sm={3} md={3} lg={3} xl={3}
-                item
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
+              </Grid2>
+              <Grid2
+                size={{
+                  xs: 3,
+                  sm: 3,
+                  md: 3,
+                  lg: 3,
+                  xl: 3,
+                }}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
               >
                 <Trans>workouts.title</Trans>
-              </Grid>
-              <Grid 
-                xs={4} sm={4} md={4} lg={4} xl={4}
-                item
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
+              </Grid2>
+              <Grid2
+                size={{
+                  xs: 4,
+                  sm: 4,
+                  md: 4,
+                  lg: 4,
+                  xl: 4,
+                }}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
               >
                 <Trans>workouts.description</Trans>
-              </Grid>
-              <Grid
-                xs={1} sm={1} md={1} lg={1} xl={1}
-                item>
-              </Grid>
-            </Grid>
+              </Grid2>
+              <Grid2
+                size={{
+                  xs: 1,
+                  sm: 1,
+                  md: 1,
+                  lg: 1,
+                  xl: 1,
+                }}>
+              </Grid2>
+            </Grid2>
 
             {showed?.map((exercice) => (
               <Row key={exercice.id} exercice={exercice} />
             ))}
-
-          </Grid>
-        </Box>
+          </Box>
         </>)}
 
         {/* Pagination */}
         {
-          (totalItem/limit>1) && (
-            <Grid item xs={12} sx={{ marginBottom: 2 }}>
+          (totalItem / limit > 1) && (
+            <Grid2 size={12} sx={{ marginBottom: 2 }}>
               <PaginationComponent
                 totalItems={totalItem}
                 limit={limit}
                 onPageChange={handlePageChange}
               />
-            </Grid>
+            </Grid2>
           )
         }
-        
+
       </Box>
     </Container>
   </>);

@@ -33,4 +33,3 @@ initI18n().then(() => {
   // Render the Index component into the root element
   root.render(<Index />);
 });
-
