@@ -1,3 +1,4 @@
+// src\pages\Exercices.tsx
 import moment from 'moment';
 import React, { useEffect } from 'react';
 import { Add } from '@mui/icons-material';
@@ -57,13 +58,17 @@ const Exercices: React.FC = () => {
     if(qry.loading === null) {
       fetchData();
     } else if(exercices.length > 0) {
-      let temps = [...exercices];
-      temps = temps.slice().sort(((elt1: ExerciceUsecaseModel, elt2: ExerciceUsecaseModel) => (elt1.slug) < (elt2.slug) ? -1 : 1 ));
-      temps = temps.filter(exercice =>
-        commons.normalizeString(exercice.slug).includes(commons.normalizeString(searchTerm))
+      let filteredExercices = exercices.filter(exercice =>
+        commons.normalizeString(exercice.slug).includes(commons.normalizeString(searchTerm)) ||
+        commons.normalizeString(exercice.title.find((elt:any) => elt.lang === currentLocale)?.value || "").includes(commons.normalizeString(searchTerm)) ||
+        commons.normalizeString(exercice.description.find((elt:any) => elt.lang === currentLocale)?.value || "").includes(commons.normalizeString(searchTerm))
       );
-      setTotalItem(temps.length);
-      set_showed(temps.slice(offset, offset + limit));
+    
+      // Trier les résultats filtrés
+      filteredExercices = filteredExercices.sort((elt1, elt2) => elt1.slug.localeCompare(elt2.slug));
+    
+      setTotalItem(filteredExercices.length);
+      set_showed(filteredExercices.slice(offset, offset + limit));
     }
   }, [inversify, exercices, offset, searchTerm]);
 

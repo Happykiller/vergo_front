@@ -200,6 +200,7 @@ export const Profile = () => {
   const defaultContentPasskeys = <>
     <Grid2
       container
+      display={passkeys?.length > 0?'flex':'none'}
       sx={{
         color: "#000000",
         fontWeight: "bold",

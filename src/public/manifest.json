@@ -1,6 +1,6 @@
 {
-  "name": "Vergo Front",
-  "short_name": "VergoFront",
+  "name": "Vergo",
+  "short_name": "Vergo",
   "description": "Fitness Coach",
   "start_url": "/",
   "display": "standalone",

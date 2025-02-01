@@ -1,6 +1,6 @@
 {
   "name": "vergo_front",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Web Client for Service Vergo",
   "main": "index.js",
   "scripts": {
