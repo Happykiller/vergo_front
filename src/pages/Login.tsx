@@ -10,8 +10,8 @@ import { AuthenticationJSON, AuthenticateOptions } from '@passwordless-id/webaut
 import '@pages/login.scss';
 import { REGEX } from '@src/commons/REGEX';
 import { CODES } from '@src/commons/codes';
-import { Input } from '@components/Input';
 import { Footer } from '@components/Footer';
+import { Input } from '@happykiller/sunny-ui';
 import inversify from '@src/commons/inversify';
 import { passkeyStore } from '@src/stores/passkeyStore';
 import { contextStore } from '@src/stores/contextStore';

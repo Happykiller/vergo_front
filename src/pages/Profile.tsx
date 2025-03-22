@@ -13,9 +13,9 @@ import { RegisterOptions, RegistrationJSON } from '@passwordless-id/webauthn/dis
 
 import '@pages/common.scss';
 import Header from '@components/Header';
-import { Input } from '@components/Input';
 import { CODES } from '@src/commons/codes';
 import { REGEX } from '@src/commons/REGEX';
+import { Input } from '@happykiller/sunny-ui';
 import inversify from '@src/commons/inversify';
 import { passkeyStore } from '@src/stores/passkeyStore';
 import { FlashStore, flashStore } from '@components/Flash';

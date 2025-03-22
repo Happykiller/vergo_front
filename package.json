@@ -1,6 +1,6 @@
 {
   "name": "vergo_front",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Web Client for Service Vergo",
   "main": "index.js",
   "scripts": {
@@ -29,6 +29,7 @@
     "zustand": "^5.0.3"
   },
   "devDependencies": {
+    "@happykiller/sunny-ui": "^1.0.1",
     "@types/jest": "^29.5.12",
     "@types/node": "^22.10.5",
     "@types/react": "^19.0.4",
