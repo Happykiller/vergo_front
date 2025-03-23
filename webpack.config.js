@@ -73,6 +73,11 @@ module.exports = (env, argv) => {
             filename: 'favicon.ico', // Place favicon in the root of the output directory
           },
         },
+        {
+          test: /\.css$/i,
+          use: ['style-loader', 'css-loader'],
+          include: /node_modules|src/
+        }
       ],
     },
 

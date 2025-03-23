@@ -14,12 +14,15 @@ import Trainings from '@pages/Trainings';
 import { Profile } from '@pages/Profile';
 import Exercices from '@pages/Exercices';
 import { Guard } from '@components/Guard';
-import { Footer } from '@components/Footer';
+import { Footer } from '@happykiller/sunny-ui';
+import inversify from '@src/commons/inversify';
 import Workout_edit from '@pages/Workout_edit';
 import Training_edit from '@pages/Training_edit';
 import Exercice_edit from '@pages/Exercices_edit';
 import Training_create from '@pages/Training_create';
 import Exercice_create from '@pages/Exercice_create';
+
+import '@happykiller/sunny-ui/dist/index.css';
 
 // Main application component
 const App: React.FC = () => {
@@ -81,7 +84,14 @@ const App: React.FC = () => {
       </Routes>
       
       {/* Render the Footer component */}
-      <Footer />
+      <Footer
+        systemInfoUsecase={inversify.systemInfoUsecase}
+        frontVersion={process.env.VERSION ?? '1.0.0'}
+        issuesUrl="https://github.com/Happykiller/vergo_front/issues"
+        projectUrl="https://github.com/users/Happykiller/projects/4/views/1"
+        mailto="fabrice.rosito@gmail.com"
+        brandName="Vergo"
+      />
       <Flash/>
     </div>
   );
