@@ -1,7 +1,7 @@
 import { AuthUsecase } from '@usecases/auth/auth.usecase';
+import { SystemInfoUsecase } from '@happykiller/sunny-ui';
 import LoggerService from '@services/logger/logger.service';
 import GraphqlService from '@services/graphql/graphql.service';
-import { SystemInfoUsecase } from '@usecases/system/systemInfo.usecase';
 import { LoggerServiceReal } from '@services/logger/logger.service.real';
 import { GetPreviewUsecase } from '@usecases/preview/get.preview.usecase';
 import { GetWorkoutsUsecase } from '@usecases/workout/get.workouts.usecase';
