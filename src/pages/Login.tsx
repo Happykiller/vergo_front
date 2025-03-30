@@ -1,10 +1,11 @@
 import React from 'react';
-import { Done } from '@mui/icons-material';
 import { Box, Button } from '@mui/material';
 import KeyIcon from '@mui/icons-material/Key';
 import { useNavigate } from 'react-router-dom';
+import InfoIcon from '@mui/icons-material/Info';
 import { client } from '@passwordless-id/webauthn';
 import { Trans, useTranslation } from 'react-i18next';
+import { Done, Visibility, VisibilityOff } from '@mui/icons-material';
 import { AuthenticationJSON, AuthenticateOptions } from '@passwordless-id/webauthn/dist/esm/types';
 
 import '@pages/login.scss';
@@ -150,6 +151,11 @@ export const Login = () => {
             }
           });
         }}
+        icons={{
+          visibility: <Visibility />,
+          visibilityOff: <VisibilityOff />,
+          help: <InfoIcon />
+        }}
         require
         virgin
       />
@@ -169,6 +175,11 @@ export const Login = () => {
               valid: entity.valid
             }
           });
+        }}
+        icons={{
+          visibility: <Visibility />,
+          visibilityOff: <VisibilityOff />,
+          help: <InfoIcon />
         }}
         require
         virgin

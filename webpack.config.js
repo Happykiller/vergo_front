@@ -46,7 +46,16 @@ module.exports = (env, argv) => {
         '@usecases': path.resolve(__dirname, 'src/usecases'),
         '@services': path.resolve(__dirname, 'src/services'),
         '@stores': path.resolve(__dirname, 'src/stores'),
-        // Add other aliases as needed
+        // ⛑️ Force React/MUI/Emotion to resolve from the main project's node_modules
+        // This avoids duplicate instances when using `npm link` during development
+        react: path.resolve(__dirname, 'node_modules/react'),
+        'react-dom': path.resolve(__dirname, 'node_modules/react-dom'),
+        '@emotion/react': path.resolve(__dirname, 'node_modules/@emotion/react'),
+        '@emotion/styled': path.resolve(__dirname, 'node_modules/@emotion/styled'),
+        '@mui/material': path.resolve(__dirname, 'node_modules/@mui/material'),
+        '@mui/icons-material': path.resolve(__dirname, 'node_modules/@mui/icons-material'),
+        'react-router-dom': path.resolve(__dirname, 'node_modules/react-router-dom'),
+        'react-i18next': path.resolve(__dirname, 'node_modules/react-i18next'),
       },
     },
 
@@ -59,12 +68,12 @@ module.exports = (env, argv) => {
           exclude: /node_modules/, // Exclude node_modules from processing.
         },
         {
-          test: /\.s[ac]ss$/i,
+          test: /\.(s[ac]ss|css)$/i,
           use: [
-            isProduction ? MiniCssExtractPlugin.loader : 'style-loader', // Extract CSS in production
+            isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
             'css-loader',
             'sass-loader'
-          ],
+          ]
         },
         {
           test: /\.(ico)$/,
@@ -72,11 +81,6 @@ module.exports = (env, argv) => {
           generator: {
             filename: 'favicon.ico', // Place favicon in the root of the output directory
           },
-        },
-        {
-          test: /\.css$/i,
-          use: ['style-loader', 'css-loader'],
-          include: /node_modules|src/
         }
       ],
     },
@@ -132,7 +136,7 @@ module.exports = (env, argv) => {
       new webpack.DefinePlugin({
         'process.env.APP_MODE': JSON.stringify(process.env.APP_MODE),
         'process.env.API_URL': JSON.stringify(process.env.API_URL),
-        'process.env.DEBUG': JSON.stringify(process.env.DEBUG??false),
+        'process.env.DEBUG': JSON.stringify(process.env.DEBUG ?? false),
         'process.env.VERSION': JSON.stringify(version),
       }),
 
@@ -168,7 +172,7 @@ module.exports = (env, argv) => {
       port: 9000,
 
       // Redirect 404s to index.html to handle client-side routing
-      historyApiFallback: true, 
+      historyApiFallback: true,
     },
   };
 };

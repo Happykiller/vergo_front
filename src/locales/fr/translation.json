@@ -70,6 +70,11 @@
     "password": "Entrez votre mot de passe",
     "title": "Authentification"
   },
+  "not_found": {
+    "oups": "Oups ! Cette page n'existe pas.",
+    "help": "La page que vous cherchez a peut-être été déplacée ou supprimée.",
+    "back_home": "Retour à l’accueil"
+  },
   "preview": {
     "duration": "Durée {{duration}}s",
     "rest": "Repos {{rest}}s"

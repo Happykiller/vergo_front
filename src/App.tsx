@@ -14,13 +14,13 @@ import Trainings from '@pages/Trainings';
 import { Profile } from '@pages/Profile';
 import Exercices from '@pages/Exercices';
 import { Guard } from '@components/Guard';
-import { Footer } from '@happykiller/sunny-ui';
 import inversify from '@src/commons/inversify';
 import Workout_edit from '@pages/Workout_edit';
 import Training_edit from '@pages/Training_edit';
 import Exercice_edit from '@pages/Exercices_edit';
 import Training_create from '@pages/Training_create';
 import Exercice_create from '@pages/Exercice_create';
+import { Footer, NotFound } from '@happykiller/sunny-ui';
 
 import '@happykiller/sunny-ui/dist/index.css';
 
@@ -77,10 +77,12 @@ const App: React.FC = () => {
         <Route path="/workouts" element={<Guard><Workouts /></Guard>} />
 
         {/* Route for the workout_edit page */}
-        <Route path="/workouts" element={<Guard><Workout_edit /></Guard>} />
+        <Route path="/workouts_edit" element={<Guard><Workout_edit /></Guard>} />
 
         {/* Route for the cgu page */}
         <Route path="/cgu" element={<CGU />} />
+
+        <Route path="*" element={<NotFound/>} />
       </Routes>
       
       {/* Render the Footer component */}
