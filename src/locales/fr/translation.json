@@ -129,7 +129,7 @@
     "personal": "Personel"
   },
   "training_create": {
-    "create_sucess": "Création réussi",
+    "create_success": "Création réussi",
     "create_fail": "Echec de la création",
     "json_fail": "Erreur du formatage du JSON"
   },

@@ -37,7 +37,7 @@ export class BuildPreviewItemsUsecase {
             type: elt.type,
             title: 'Pause',
             description: 'Pause',
-            img: 'bhastrika_pranayama',
+            img: 'rest',
             pause: elt.duration
           }
           break;  

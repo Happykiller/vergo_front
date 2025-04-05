@@ -245,9 +245,10 @@ const Training: React.FC = () => {
         }}
       >
         <ImageFetcher
-          key={`${training_gender}_bhastrika_pranayama`}
-          name={`${training_gender}_bhastrika_pranayama`}
+          key={`${training_gender}_rest`}
+          name={`${training_gender}_rest`}
           height={200}
+          width={200}
           title={thing.type}
         />
       </Grid2>;
@@ -271,7 +272,7 @@ const Training: React.FC = () => {
               X{thing.ite}
             </Typography>
           ) : null}
-          <ImageFetcher key={src} name={src} height={200} title={thing.type} />
+          <ImageFetcher key={src} name={src} height={200} width={200} title={thing.type} />
           {thing.weight ? (
             <Typography variant={variant} align="center" noWrap>
               {thing.weight}Kg
