@@ -6,14 +6,14 @@ import { Container, Box, Grid2, TextField, Button } from '@mui/material';
 
 import Header from '@components/Header';
 import inversify from '@src/commons/inversify';
-import { FlashStore, flashStore} from '@components/Flash';
+import { useFlashStore } from '@happykiller/sunny-ui';
 
 const Exercice_create: React.FC = () => {
+  const flash = useFlashStore();
   // Use the translation hook to get the translation function
   const navigate = useNavigate();
   // Use the translation hook to get the translation function
   const { t } = useTranslation();
-  const flash:FlashStore = flashStore();
   const [rawData, setRawData] = React.useState<any>('');
 
   const submit = async () => {

@@ -17,8 +17,8 @@ import { CODES } from '@src/commons/codes';
 import { REGEX } from '@src/commons/REGEX';
 import { Input } from '@happykiller/sunny-ui';
 import inversify from '@src/commons/inversify';
+import { useFlashStore } from '@happykiller/sunny-ui';
 import { passkeyStore } from '@src/stores/passkeyStore';
-import { FlashStore, flashStore } from '@components/Flash';
 import { ContextStoreModel, contextStore } from '@src/stores/contextStore';
 import { PasskeyUsecaseModel } from '@usecases/model/passkey.usecase.model';
 import CreatePasskeyUsecaseDto from '@usecases/createPasskey/createPasskey.usecase.dto';
@@ -26,9 +26,9 @@ import { UpdPasswordUsecaseModel } from '@usecases/updPassword/updPassword.useca
 import { GetPasskeyForUserUsecaseModel } from '@usecases/getPasskeyForUser/getPasskeyForUser.usecase.model';
 
 export const Profile = () => {
+  const flash = useFlashStore();
   const { t } = useTranslation();
   const passkeyStored = passkeyStore();
-  const flash: FlashStore = flashStore();
   const context: ContextStoreModel = contextStore();
   const resetPasskeyStore = passkeyStore((state: any) => state.reset);
   const [passkey_label, setPasskey_label] = React.useState({

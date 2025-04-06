@@ -1,15 +1,16 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
+import CloseIcon from '@mui/icons-material/Close';
 
 import Home from '@pages/Home';
 import Info from '@pages/Info';
 import { CGU } from '@pages/CGU';
 import Preview from '@pages/Preview';
 import { Login } from '@pages/Login';
-import Flash from '@components/Flash';
 import Workouts from '@pages/Workouts';
 import Training from '@pages/Training';
 import Exercice from '@pages/Exercice';
+import { Sandbox } from '@pages/Sandbox';
 import Trainings from '@pages/Trainings';
 import { Profile } from '@pages/Profile';
 import Exercices from '@pages/Exercices';
@@ -20,7 +21,7 @@ import Training_edit from '@pages/Training_edit';
 import Exercice_edit from '@pages/Exercices_edit';
 import Training_create from '@pages/Training_create';
 import Exercice_create from '@pages/Exercice_create';
-import { Footer, NotFound } from '@happykiller/sunny-ui';
+import { FlashMessage, Footer, NotFound } from '@happykiller/sunny-ui';
 
 import '@happykiller/sunny-ui/dist/index.css';
 
@@ -79,6 +80,9 @@ const App: React.FC = () => {
         {/* Route for the workout_edit page */}
         <Route path="/workouts_edit" element={<Guard><Workout_edit /></Guard>} />
 
+        {/* Page for play with components */}
+        <Route path="/sandbox" element={<Guard><Sandbox /></Guard>} />
+
         {/* Route for the cgu page */}
         <Route path="/cgu" element={<CGU />} />
 
@@ -94,7 +98,7 @@ const App: React.FC = () => {
         mailto="fabrice.rosito@gmail.com"
         brandName="Vergo"
       />
-      <Flash/>
+      <FlashMessage icons={{ close: <CloseIcon fontSize="small" /> }} />
     </div>
   );
 }

@@ -7,11 +7,11 @@ import { Container, Typography, Box, Grid2, TextField, Button, CircularProgress,
 import Header from '@components/Header';
 import { CODES } from '@src/commons/codes';
 import inversify from '@src/commons/inversify';
-import { FlashStore, flashStore} from '@components/Flash';
+import { useFlashStore } from '@happykiller/sunny-ui';
 
 const Workout_edit: React.FC = () => {
+  const flash = useFlashStore();
   const { t } = useTranslation();
-  const flash:FlashStore = flashStore();
   const [searchParams] = useSearchParams();
   const exercice_id = searchParams.get('id');
   const [data, setData] = React.useState<any>(null);

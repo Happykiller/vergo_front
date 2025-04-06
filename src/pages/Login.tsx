@@ -13,15 +13,15 @@ import { REGEX } from '@src/commons/REGEX';
 import { CODES } from '@src/commons/codes';
 import { Input } from '@happykiller/sunny-ui';
 import inversify from '@src/commons/inversify';
+import { useFlashStore } from '@happykiller/sunny-ui';
 import { passkeyStore } from '@src/stores/passkeyStore';
 import { contextStore } from '@src/stores/contextStore';
-import { flashStore, FlashStore } from '@components/Flash';
 import { AuthUsecaseModel } from '@usecases/auth/model/auth.usecase.model';
 
 export const Login = () => {
+  const flash = useFlashStore();
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const flash:FlashStore = flashStore();
   const passkey = passkeyStore();
   const [qry, setQry] = React.useState({
     loading: null,
