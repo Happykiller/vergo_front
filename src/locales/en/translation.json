@@ -14,6 +14,9 @@
     "loading": "Loading...",
     "update": "Update"
   },
+  "errors": {
+    "session_invalid": "Your session is invalid. Please log in again."
+  },
   "exercices": {
     "slug": "Slug",
     "creation_date": "Creation Date",

@@ -18,6 +18,9 @@
     "loading": "Chargement...",
     "update": "Mettre à jour"
   },
+  "errors": {
+    "session_invalid": "Votre session est invalide. Veuillez vous reconnecter."
+  },
   "exercices": {
     "slug": "Slug",
     "creation_date": "Date création",

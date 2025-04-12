@@ -155,6 +155,7 @@ function Header() {
                     e.preventDefault();
                     if(setting === 'logout') {
                       reset();
+                      navigate(`/login`);
                     } else {
                       navigate(`/${setting}`);
                     }
