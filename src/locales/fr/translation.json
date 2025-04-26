@@ -58,7 +58,8 @@
     "training": "Entraînement",
     "trainings": "Entraînements",
     "exercices": "Exercices",
-    "workouts": "Sessions"
+    "workouts": "Sessions",
+    "open_user_menu": "Ouvrir"
   },
   "home": {
     "helloWorld": "Bonjour le monde"

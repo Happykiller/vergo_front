@@ -6,9 +6,7 @@ import CloseIcon from '@mui/icons-material/Close';
 
 import Home from '@pages/Home';
 import Info from '@pages/Info';
-import { CGU } from '@pages/CGU';
 import Preview from '@pages/Preview';
-import { Login } from '@pages/Login';
 import Workouts from '@pages/Workouts';
 import Training from '@pages/Training';
 import Exercice from '@pages/Exercice';
@@ -23,9 +21,10 @@ import Exercice_edit from '@pages/Exercices_edit';
 import { contextStore } from '@stores/contextStore';
 import Training_create from '@pages/Training_create';
 import Exercice_create from '@pages/Exercice_create';
-import { CODES, FlashMessage, Footer, Guard, NotFound } from '@happykiller/sunny-ui';
+import { Done, Key, Visibility, VisibilityOff, Info as InfoIcon } from '@mui/icons-material';
 
 import '@happykiller/sunny-ui/dist/index.css';
+import { CGU, CODES, FlashMessage, Footer, Guard, NotFound, Login } from '@happykiller/sunny-ui';
 
 // Main application component
 const App: React.FC = () => {
@@ -37,7 +36,7 @@ const App: React.FC = () => {
       success: response.message === CODES.SUCCESS,
       error: response.error,
     }));
-  
+
   const onInvalidSession = () => {
     reset();
     inversify.loggerService.debug(t('errors.session_invalid'));
@@ -54,7 +53,26 @@ const App: React.FC = () => {
         <Route path="/home" element={<Guard checkSession={checkSession} onInvalidSession={onInvalidSession}><Home /></Guard>} />
 
         {/* Route for the login page */}
-        <Route path="/login" element={<Login />} />
+        <Route
+          path="/login"
+          element={
+            <Login
+              icons={{
+                visibility: <Visibility />,
+                visibilityOff: <VisibilityOff />,
+                help: <InfoIcon />,
+                done: <Done />,
+                key: <Key />,
+              }}
+              services={{
+                authUsecase: inversify.authUsecase,
+                authPasskeyUsecase: inversify.authPasskeyUsecase,
+                loggerService: inversify.loggerService,
+              }}
+              contextStore={contextStore}
+            />
+          }
+        />
 
         {/* Route for the profil page */}
         <Route path="/profile" element={<Guard checkSession={checkSession} onInvalidSession={onInvalidSession}><Profile /></Guard>} />
