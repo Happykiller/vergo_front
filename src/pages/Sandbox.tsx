@@ -1,6 +1,5 @@
 // src\pages\Sandbox.tsx
 import React from 'react';
-import { t } from 'i18next';
 import CloseIcon from '@mui/icons-material/Close';
 import { Box, Grid2, Typography, Paper, Button } from '@mui/material';
 

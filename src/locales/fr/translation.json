@@ -95,6 +95,13 @@
     "settings": "Réglages",
     "volumeControl": "Volume control",
     "add_passkey": "Ajouter une clé d'accès",
+    "passkey_created": "Clé d'accès créée avec succès",
+    "passkey_deleted": "Clé d'accès supprimée avec succès",
+    "passkey_activated": "Clé d'accès activée",
+    "passkey_add_error": "Erreur lors de la création de la clé d'accès",
+    "passkey_delete_error": "Erreur lors de la suppression de la clé d'accès",
+    "no_passkeys": "Aucune clé d'accès enregistrée",
+    "passkey_list_error": "Error while get list",
     "passkey": {
       "table": {
         "active": "Activer",

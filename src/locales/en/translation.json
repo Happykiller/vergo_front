@@ -86,6 +86,12 @@
     "settings": "Réglages",
     "volumeControl": "Volume control",
     "add_passkey": "Add pass key",
+    "passkey_created": "Access key created successfully",
+    "passkey_deleted": "Access key deleted successfully",
+    "passkey_activated": "Access key activated",
+    "passkey_add_error": "Error while creating the access key",
+    "passkey_delete_error": "Error while deleting the access key",
+    "no_passkeys": "No access keys registered",
     "passkey": {
       "table": {
         "active": "Activate",

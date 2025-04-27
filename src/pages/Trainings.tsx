@@ -8,7 +8,6 @@ import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import { createSearchParams, useNavigate } from 'react-router-dom';
 import { Container, Box, Typography, Grid2, IconButton, Tabs, Tab, TextField, Button } from '@mui/material';
 
-import Header from '@components/Header';
 import { CODES } from '@src/commons/codes';
 import commons from '@src/commons/commons';
 import inversify from '@src/commons/inversify';
@@ -365,7 +364,6 @@ const Trainings: React.FC = () => {
   };
 
   return (<>
-    <Header />
     <Container>
       {/* Box for centering the Tabs */}
       <Box

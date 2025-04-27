@@ -4,7 +4,6 @@ import { useSearchParams } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
 import { Container, Typography, Box, Grid2, TextField, Button, CircularProgress, Alert } from '@mui/material';
 
-import Header from '@components/Header';
 import { CODES } from '@src/commons/codes';
 import inversify from '@src/commons/inversify';
 import { useFlashStore } from '@happykiller/sunny-ui';
@@ -94,7 +93,6 @@ const Exercice_edit: React.FC = () => {
   }
 
   return (<>
-    <Header/>
     <Container>
       {/* Box component to center the content vertically and horizontally */}
       <Box 

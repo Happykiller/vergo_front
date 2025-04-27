@@ -8,7 +8,6 @@ import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import { createSearchParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { Container, Typography, Box, CircularProgress, Alert, Grid2, IconButton, Tooltip, Divider } from '@mui/material';
 
-import Header from '@components/Header';
 import { CODES } from '@src/commons/codes';
 import inversify from '@src/commons/inversify';
 import ExerciseCard from '@components/ExerciseCard';
@@ -102,7 +101,6 @@ const Preview: React.FC = () => {
   }, [inversify]);
 
   return (<>
-    <Header/>
     <Container>
       {/* Box component to center the content vertically and horizontally */}
       <Box 

@@ -6,7 +6,6 @@ import { Trans, useTranslation } from 'react-i18next';
 import { createSearchParams, useNavigate } from 'react-router-dom';
 import { Container, Box, CircularProgress, Alert, Typography, Card, CardContent, IconButton, Grid2 } from '@mui/material';
 
-import Header from '@components/Header';
 import { CODES } from '@src/commons/codes';
 import ImageFetcher from '@components/Image';
 import inversify from '@src/commons/inversify';
@@ -66,7 +65,6 @@ const Exercice: React.FC = () => {
   }
 
   return (<>
-    <Header/>
     <Container>
       {/* Box component to center the content vertically and horizontally */}
       <Box 

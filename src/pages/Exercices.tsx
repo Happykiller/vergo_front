@@ -8,7 +8,6 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import { createSearchParams, useNavigate } from 'react-router-dom';
 import { Container, Typography, Box, CircularProgress, Alert, Grid2, TextField, IconButton, Button } from '@mui/material';
 
-import Header from '@components/Header';
 import commons from '@src/commons/commons';
 import { CODES } from '@src/commons/codes';
 import inversify from '@src/commons/inversify';
@@ -265,7 +264,6 @@ const Exercices: React.FC = () => {
   };
 
   return (<>
-    <Header/>
     <Container>
       {/* Box component to center the content vertically and horizontally */}
       <Box 

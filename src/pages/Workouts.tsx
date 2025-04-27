@@ -3,7 +3,6 @@ import React, { useEffect } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { Container, Typography, Box, CircularProgress, Alert, Grid2, TextField } from '@mui/material';
 
-import Header from '@components/Header';
 import commons from '@src/commons/commons';
 import { CODES } from '@src/commons/codes';
 import inversify from '@src/commons/inversify';
@@ -170,7 +169,6 @@ const Workouts: React.FC = () => {
   };
 
   return (<>
-    <Header />
     <Container>
       {/* Box component to center the content vertically and horizontally */}
       <Box

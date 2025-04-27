@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
 import { Container, Box, Grid2, TextField, Button } from '@mui/material';
 
-import Header from '@components/Header';
 import inversify from '@src/commons/inversify';
 import { useFlashStore } from '@happykiller/sunny-ui';
 
@@ -39,7 +38,6 @@ const Exercice_create: React.FC = () => {
   }
 
   return (<>
-    <Header/>
     <Container>
       {/* Box component to center the content vertically and horizontally */}
       <Box 

@@ -8,7 +8,6 @@ import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 import { Container, Box, Typography, useTheme, useMediaQuery, TypographyProps, Tooltip, IconButton, CircularProgress, Grid2 } from '@mui/material';
 
-import Header from '@components/Header';
 import Chrono from '@components/Chrono';
 import { CODES } from '@src/commons/codes';
 import ImageFetcher from '@components/Image';
@@ -438,7 +437,6 @@ const Training: React.FC = () => {
   }
 
   return (<>
-    <Header/>
     <Container>
       {/* Box component to center the content vertically and horizontally */}
       <Box 
