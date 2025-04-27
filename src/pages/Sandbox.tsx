@@ -29,7 +29,7 @@ export const Sandbox: React.FC = () => {
               onClick={(e) => { 
                 e.preventDefault();
                 setIte(ite+1);
-                flash.open(`#${ite} Flash success :)`, 'success');
+                flash.success(`#${ite} Flash success :)`);
               }}
             >Trigger Flash</Button>
             <FlashMessage icons={{ close: <CloseIcon fontSize="small" /> }} />
