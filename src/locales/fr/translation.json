@@ -6,21 +6,6 @@
     "reset": "Réinitialiser",
     "resume": "Reprendre"
   },
-  "CODES": {
-    "FAIL": "Erreur lors du chargement des données",
-    "SUCCESS": "Données chargées avec succès"
-  },
-  "common": {
-    "cancel": "Annuler",
-    "create": "Créer",
-    "done": "Valider",
-    "field_incorrect": "Champ incorrect",
-    "loading": "Chargement...",
-    "update": "Mettre à jour"
-  },
-  "errors": {
-    "session_invalid": "Votre session est invalide. Veuillez vous reconnecter."
-  },
   "exercices": {
     "slug": "Slug",
     "creation_date": "Date création",
@@ -40,87 +25,20 @@
     "update_fail": "Echec de la mise à jour",
     "json_fail": "JSON format error"
   },
-  "footer": {
-    "issues": "Problèmes",
-    "roadmap": "Feuille de route",
-    "version": {
-      "back": "Apis: ",
-      "front": "Web: "
-    }
-  },
   "header": {
-    "home": "Accueil",
     "info": "Info",
-    "logout": "Déconnexion",
-    "profile": "Profil",
-    "settings": "Paramètres",
     "title": "Vergo",
     "training": "Entraînement",
     "trainings": "Entraînements",
     "exercices": "Exercices",
-    "workouts": "Sessions",
-    "open_user_menu": "Ouvrir"
-  },
-  "home": {
-    "helloWorld": "Bonjour le monde"
+    "workouts": "Sessions"
   },
   "info": {
     "infoPage": "Page d'information"
   },
-  "login": {
-    "AUTH_FAIL_WRONG_CREDENTIAL": "Identifiants incorrects",
-    "login": "Entrez votre nom",
-    "passkey": "Clés d'accès",
-    "password": "Entrez votre mot de passe",
-    "title": "Authentification"
-  },
-  "not_found": {
-    "oups": "Oups ! Cette page n'existe pas.",
-    "help": "La page que vous cherchez a peut-être été déplacée ou supprimée.",
-    "back_home": "Retour à l’accueil"
-  },
   "preview": {
     "duration": "Durée {{duration}}s",
     "rest": "Repos {{rest}}s"
-  },
-  "profile": {
-    "addPasskey": "Ajouter une clé",
-    "code": "Identifiant : ",
-    "confPassword": "Confirmer le mot de passe",
-    "keys": "Voir les clés du système",
-    "name_first": "Prénom : ",
-    "name_last": "Nom : ",
-    "newPassword": "Nouveau mot de passe",
-    "oldPassword": "Mot de passe actuel",
-    "settings": "Réglages",
-    "volumeControl": "Volume control",
-    "add_passkey": "Ajouter une clé d'accès",
-    "passkey_created": "Clé d'accès créée avec succès",
-    "passkey_deleted": "Clé d'accès supprimée avec succès",
-    "passkey_activated": "Clé d'accès activée",
-    "passkey_add_error": "Erreur lors de la création de la clé d'accès",
-    "passkey_delete_error": "Erreur lors de la suppression de la clé d'accès",
-    "no_passkeys": "Aucune clé d'accès enregistrée",
-    "passkey_list_error": "Error while get list",
-    "passkey": {
-      "table": {
-        "active": "Activer",
-        "delete": "Supprimer",
-        "label": "Nom"
-      }
-    },
-    "passkey_label": "Nom de l'appareil",
-    "passkey_delete": "Vous pouvez supprimer la clé d'accès: {{display}}",
-    "passkeys": "Clés d'accès",
-    "password": "Changer le mot de passe",
-    "passwordUpdated": "Mise à jour du mot de passe réussie",
-    "title": "Profil",
-    "UPDATE_PASSWORD_FAIL": "Échec du changement de mot de passe"
-  },
-  "REGEX": {
-    "LOGIN": "De 3 à 50 caractères, lettres uniquement",
-    "PASSKEY_LABEL": "De 3 à 50 caractères, lettres uniquement",
-    "PASSWORD": "De 3 à 50 caractères, lettres et chiffres avec @$€!%*?&.-_:;, possibles"
   },
   "training": {
     "pause": "Pause",

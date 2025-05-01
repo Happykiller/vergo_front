@@ -1,27 +1,21 @@
-import { AuthUsecase } from '@usecases/auth/auth.usecase';
-import { SystemInfoUsecase } from '@happykiller/sunny-ui';
-import LoggerService from '@services/logger/logger.service';
-import GraphqlService from '@services/graphql/graphql.service';
-import { LoggerServiceReal } from '@services/logger/logger.service.real';
+// src\commons\inversify.ts
+import { 
+  AuthPasskeyUsecase, AuthUsecase, CreatePasskeyUsecase, DeletePasskeyUsecase, 
+  GetPasskeyForUserUsecase, GraphqlService, GraphqlServiceFake, GraphqlServiceFetch, 
+  LoggerService, LoggerServiceReal, SessionInfoUsecase, SystemInfoUsecase, UpdPasswordUsecase 
+} from '@happykiller/sunny-ui';
+
 import { GetPreviewUsecase } from '@usecases/preview/get.preview.usecase';
 import { GetWorkoutsUsecase } from '@usecases/workout/get.workouts.usecase';
-import { GraphqlServiceFake } from '@services/graphql/graphql.service.fake';
 import { GetTrainingUsecase } from '@usecases/training/getTraining.usecase';
 import { GetExerciceUsecase } from '@usecases/exercice/get.exercice.usecase';
 import { GetTrainingsUsecase } from '@usecases/training/getTrainings.usecase';
-import { GraphqlServiceFetch } from '@services/graphql/graphql.service.fetch';
-import { SessionInfoUsecase } from '@usecases/sessionInfo/systemInfo.usecase';
-import { UpdPasswordUsecase } from '@usecases/updPassword/updPassword.usecase';
 import { GetExercicesUsecase } from '@usecases/exercice/get.exercices.usecase';
-import { AuthPasskeyUsecase } from '@usecases/authPasskey/authPasskey.usecase';
 import { CreateExerciceUsecase } from '@usecases/exercice/create.exercice.usecase';
 import { UpdateExerciceUsecase } from '@usecases/exercice/update.exercice.usecase';
 import { UpdateTrainingUsecase } from '@usecases/training/update.training.usecase';
 import { CreateTrainingUsecase } from '@usecases/training/create.training.usecase';
-import { DeletePasskeyUsecase } from '@usecases/deletePasskey/deletePasskey.usecase';
-import { CreatePasskeyUsecase } from '@usecases/createPasskey/createPasskey.usecase';
 import { BuildPreviewItemsUsecase } from '@usecases/preview/build.preview.items.usecase';
-import { GetPasskeyForUserUsecase } from '@usecases/getPasskeyForUser/getPasskeyForUser.usecase';
 import { GetNormalizedTrainingUsecase } from '@usecases/training/get.normalized.training.usecase';
 
 export class Inversify {
@@ -43,7 +37,7 @@ export class Inversify {
   createPasskeyUsecase: CreatePasskeyUsecase;
   createTrainingUsecase: CreateTrainingUsecase;
   createExerciceUsecase: CreateExerciceUsecase;
-  update_exercice_usecase : UpdateExerciceUsecase;
+  update_exercice_usecase: UpdateExerciceUsecase;
   buildPreviewItemsUsecase: BuildPreviewItemsUsecase;
   getPasskeyForUserUsecase: GetPasskeyForUserUsecase;
   getNormalizedTrainingUsecase: GetNormalizedTrainingUsecase;

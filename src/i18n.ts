@@ -3,18 +3,25 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import detector from 'i18next-browser-languagedetector';
 
-import translationEN from '@src/locales/en/translation.json'
-import translationFR from '@src/locales/fr/translation.json';
+import { translation } from '@happykiller/sunny-ui';
+import appEN from '@src/locales/en/translation.json'
+import appFR from '@src/locales/fr/translation.json';
 
 // the translations
 // (tip move them in a JSON file and import them,
 // or even better, manage them separated from your code: https://react.i18next.com/guides/multiple-translation-files)
 const resources = {
   en: {
-    translation: translationEN
+    translation: {
+      ...translation.en,
+      ...appEN,
+    }
   },
   fr: {
-    translation: translationFR
+    translation: {
+      ...translation.fr,
+      ...appFR,
+    }
   }
 };
 
