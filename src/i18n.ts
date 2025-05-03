@@ -1,5 +1,6 @@
 // src/i18n.ts
 import i18n from 'i18next';
+import merge from 'lodash.merge';
 import { initReactI18next } from 'react-i18next';
 import detector from 'i18next-browser-languagedetector';
 
@@ -12,16 +13,10 @@ import appFR from '@src/locales/fr/translation.json';
 // or even better, manage them separated from your code: https://react.i18next.com/guides/multiple-translation-files)
 const resources = {
   en: {
-    translation: {
-      ...translation.en,
-      ...appEN,
-    }
+    translation: merge({}, translation.en, appEN),
   },
   fr: {
-    translation: {
-      ...translation.fr,
-      ...appFR,
-    }
+    translation: merge({}, translation.fr, appFR),
   }
 };
 
