@@ -2,7 +2,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
-import { Done, Key, Visibility, VisibilityOff, Info as InfoIcon, HelpOutline, VpnKey, Add, Delete } from '@mui/icons-material';
+import { Done, Key, Visibility, VisibilityOff, Info as InfoIcon, HelpOutline, VpnKey, Add, Delete, Email, BugReport, Map, LightMode, DarkMode, Person, Lock } from '@mui/icons-material';
 
 import Info from '@pages/Info';
 import Preview from '@pages/Preview';
@@ -26,6 +26,9 @@ import { CGU, FlashMessage, Footer, NotFound, Login, Profile } from '@happykille
 
 // Main application component
 const App: React.FC = () => {
+  const mode = contextStore((s) => s.themeMode);
+  const toggleTheme = contextStore((s) => s.toggleTheme);
+
   return (
     <div>
       {/* Define the application's routing structure */}
@@ -39,11 +42,13 @@ const App: React.FC = () => {
           element={
             <Login
               icons={{
-                visibility: <Visibility />,
-                visibilityOff: <VisibilityOff />,
-                help: <InfoIcon />,
+                visibility: <Visibility fontSize="small" />,
+                visibilityOff: <VisibilityOff fontSize="small" />,
+                help: <InfoIcon fontSize="small" />,
                 done: <Done />,
                 key: <Key />,
+                person: <Person fontSize="small" />,
+                lock: <Lock  fontSize="small"/>
               }}
               services={{
                 authUsecase: inversify.authUsecase,
@@ -60,9 +65,9 @@ const App: React.FC = () => {
           <LayoutProtectedExt>
             <Profile
               icons={{
-                visibility: <Visibility />,
-                visibilityOff: <VisibilityOff />,
-                help: <HelpOutline />,
+                visibility: <Visibility fontSize="small" />,
+                visibilityOff: <VisibilityOff fontSize="small" />,
+                help: <HelpOutline fontSize="small" />,
                 done: <Done />,
                 key: <VpnKey />,
                 add: <Add />,
@@ -133,6 +138,14 @@ const App: React.FC = () => {
         projectUrl="https://github.com/users/Happykiller/projects/4/views/1"
         mailto="fabrice.rosito@gmail.com"
         brandName="Vergo"
+        icons={{
+          email: <Email fontSize="small" />,
+          issues: <BugReport fontSize="small" />,
+          roadmap: <Map fontSize="small" />,
+        }}
+        onToggleTheme={toggleTheme}
+        themeMode={mode}
+        iconThemeToggle={mode === 'dark' ? <LightMode fontSize="small" /> : <DarkMode fontSize="small" />}
       />
       <FlashMessage icons={{ close: <CloseIcon fontSize="small" /> }} />
     </div>

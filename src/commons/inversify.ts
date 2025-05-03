@@ -1,12 +1,13 @@
 // src\commons\inversify.ts
 import { 
   AuthPasskeyUsecase, AuthUsecase, CreatePasskeyUsecase, DeletePasskeyUsecase, 
-  GetPasskeyForUserUsecase, GraphqlService, GraphqlServiceFake, GraphqlServiceFetch, 
+  GetPasskeyForUserUsecase, GraphqlService, GraphqlServiceFetch, 
   LoggerService, LoggerServiceReal, SessionInfoUsecase, SystemInfoUsecase, UpdPasswordUsecase 
 } from '@happykiller/sunny-ui';
 
 import { GetPreviewUsecase } from '@usecases/preview/get.preview.usecase';
 import { GetWorkoutsUsecase } from '@usecases/workout/get.workouts.usecase';
+import { GraphqlServiceFake } from '@services/graphql/graphql.service.fake';
 import { GetTrainingUsecase } from '@usecases/training/getTraining.usecase';
 import { GetExerciceUsecase } from '@usecases/exercice/get.exercice.usecase';
 import { GetTrainingsUsecase } from '@usecases/training/getTrainings.usecase';
@@ -68,7 +69,10 @@ export class Inversify {
 
     // Services
     if (process.env.APP_MODE === 'prod' || process.env.APP_MODE === 'dev') {
-      this.graphqlService = new GraphqlServiceFetch(this);
+      this.graphqlService = new GraphqlServiceFetch(this, {
+        apiUrl: process.env.API_URL??'',
+        storageName: 'vergo-storage'
+      });
     } else {
       this.graphqlService = new GraphqlServiceFake();
     }

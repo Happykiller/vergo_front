@@ -1,64 +1,30 @@
-import React, { createContext, useMemo, useState } from 'react';
+// src\index.tsx
+import '@fontsource/roboto';
+import '@fontsource/montserrat';
+import '@fontsource/roboto/400.css';
+import React, { useMemo } from 'react';
+import '@fontsource/montserrat/600.css';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { ThemeProvider, CssBaseline, Box } from '@mui/material';
+import { ThemeProvider, CssBaseline } from '@mui/material';
+
 import App from './App';
 import initI18n from './i18n';
-
-import '@fontsource/montserrat/600.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/montserrat';
-import '@fontsource/roboto';
-import { getVergoTheme, ThemeMode } from './theme';
-
-import { IconButton } from '@mui/material';
-import { DarkMode, LightMode } from '@mui/icons-material';
-
-export const ThemeModeContext = createContext<{
-  mode: ThemeMode;
-  toggleTheme: () => void;
-}>({ mode: 'dark', toggleTheme: () => { } });
+import { getTheme } from './theme';
+import { contextStore } from './stores/contextStore';
 
 const Index: React.FC = () => {
-  const [mode, setMode] = useState<ThemeMode>('dark');
-  const theme = useMemo(() => getVergoTheme(mode), [mode]);
-
-  const toggleTheme = () => {
-    setMode((prev) => (prev === 'dark' ? 'light' : 'dark'));
-  };
+  const themeMode = contextStore((s) => s.themeMode);
+  const theme = useMemo(() => getTheme(themeMode), [themeMode]);
 
   return (
     <Router>
       {/* Provide the theme to the entire application */}
-      <ThemeModeContext.Provider value={{ mode, toggleTheme }}>
         <ThemeProvider theme={theme}>
-          <Box
-            sx={{
-              position: 'fixed',
-              bottom: 16,
-              left: 16,
-              zIndex: 1300,
-              p: 1,
-            }}
-          >
-            <IconButton
-              onClick={toggleTheme}
-              size="small"
-              sx={{
-                color: theme => theme.palette.secondary.main,
-                '&:hover': {
-                  color: theme => theme.palette.secondary.light,
-                },
-              }}
-            >
-              {theme.palette.mode === 'dark' ? <LightMode /> : <DarkMode />}
-            </IconButton>
-          </Box>
           {/* Apply CSS baseline to ensure consistent styling across browsers */}
           <CssBaseline />
           <App />
         </ThemeProvider>
-      </ThemeModeContext.Provider>
     </Router>
   );
 };

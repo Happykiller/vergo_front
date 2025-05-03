@@ -1,28 +1,38 @@
+// src\stores\contextStore.tsx
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 
+import { ThemeMode } from '@src/theme';
+
 export interface ContextStoreModel {
-  id: string|null
-  code: string|null
-  access_token: string|null
-  name_first: string|null
-  name_last: string|null
-  volume: number
-  reset?: () => void
+  id: string | null;
+  code: string | null;
+  access_token: string | null;
+  name_first: string | null;
+  name_last: string | null;
+  volume: number;
+  themeMode: ThemeMode;
+  setThemeMode?: (mode: ThemeMode) => void;
+  toggleTheme?: () => void;
+  reset?: () => void;
 }
 
-const initialState:ContextStoreModel = {
+const initialState: ContextStoreModel = {
   id: null,
   code: null,
   access_token: null,
   name_first: null,
   name_last: null,
   volume: 0.1,
+  themeMode: 'dark'
 }
 
 const contextPersist = persist<ContextStoreModel>(
-  (set) => ({
+  (set, get) => ({
     ...initialState,
+    themeMode: 'dark',
+    setThemeMode: (mode) => set({ themeMode: mode }),
+    toggleTheme: () =>  set({ themeMode: get().themeMode === 'dark' ? 'light' : 'dark' }),
     reset: () => set(initialState)
   }),
   {
