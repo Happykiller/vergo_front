@@ -2,7 +2,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
-import { Done, Key, Visibility, VisibilityOff, Info as InfoIcon, HelpOutline, VpnKey, Add, Delete, Email, BugReport, Map, LightMode, DarkMode, Person, Lock } from '@mui/icons-material';
+import { Done, Key, Visibility, VisibilityOff, Info as InfoIcon, HelpOutline, VpnKey, Add, Delete, Email, BugReport, Map, LightMode, DarkMode, Person, Lock, Language, Cloud } from '@mui/icons-material';
 
 import Info from '@pages/Info';
 import Preview from '@pages/Preview';
@@ -48,7 +48,7 @@ const App: React.FC = () => {
                 done: <Done />,
                 key: <Key />,
                 person: <Person fontSize="small" />,
-                lock: <Lock  fontSize="small"/>
+                lock: <Lock fontSize="small" />
               }}
               services={{
                 authUsecase: inversify.authUsecase,
@@ -142,9 +142,10 @@ const App: React.FC = () => {
           email: <Email fontSize="small" />,
           issues: <BugReport fontSize="small" />,
           roadmap: <Map fontSize="small" />,
+          language: <Language fontSize="small" />,
+          cloud: <Cloud fontSize="small" />
         }}
         onToggleTheme={toggleTheme}
-        themeMode={mode}
         iconThemeToggle={mode === 'dark' ? <LightMode fontSize="small" /> : <DarkMode fontSize="small" />}
       />
       <FlashMessage icons={{ close: <CloseIcon fontSize="small" /> }} />
