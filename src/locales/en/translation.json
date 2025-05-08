@@ -60,7 +60,9 @@
     "private": "Private",
     "public": "Public",
     "creator": "Creator",
-    "personal": "Personel"
+    "personal": "Personel",
+    "search": "Search",
+    "empty": "No training found"
   },
   "training_create": {
     "create_success": "Create successful",

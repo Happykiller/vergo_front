@@ -1,5 +1,5 @@
 // src/theme/shared/index.ts
-import { createTheme, Components, Theme } from '@mui/material/styles';
+import { createTheme, Components } from '@mui/material/styles';
 
 const baseTheme = createTheme();
 const { breakpoints, typography } = baseTheme;

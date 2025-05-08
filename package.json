@@ -1,6 +1,6 @@
 {
   "name": "vergo_front",
-  "version": "1.8.1",
+  "version": "1.9.0",
   "description": "Web Client for Service Vergo",
   "main": "index.js",
   "scripts": {
@@ -34,7 +34,7 @@
     "zustand": "^5.0.4"
   },
   "devDependencies": {
-    "@happykiller/sunny-ui": "^1.7.2",
+    "@happykiller/sunny-ui": "^1.8.1",
     "@types/jest": "^29.5.14",
     "@types/lodash.merge": "^4.6.9",
     "@types/node": "^22.15.3",

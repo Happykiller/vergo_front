@@ -1,4 +1,6 @@
+// src\components\ExerciseCard.tsx
 import React from 'react';
+import { Paper, useTheme } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
 import EditIcon from '@mui/icons-material/Edit';
 import { Badge, Card, CardContent, IconButton, Tooltip, Typography } from '@mui/material';
@@ -34,8 +36,24 @@ const ExerciseCard: React.FC<ExerciseCardProps> = ({
   img,
   onEditClick,
 }) => {
+  const theme = useTheme();
   const cardContent = (
-    <Card sx={{ backgroundColor: '#333' }}>
+    <Paper
+      elevation={0}
+      sx={{
+        backgroundColor: theme.palette.background.paper,
+        borderRadius: `${theme.shape.borderRadius}px`,
+        p: 2,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        textAlign: 'center',
+        boxShadow: `
+        0 0 12px ${theme.palette.primary.main}22,
+        inset 0 0 4px rgba(255,255,255,0.05)
+      `,
+      }}
+    >
       {/* Image */}
       <ImageFetcher name={`${gender}_${img}`} height={100} width={100} />
 
@@ -69,7 +87,7 @@ const ExerciseCard: React.FC<ExerciseCardProps> = ({
         <Typography variant="body2">{rest ? `Rest: ${rest}s` : ''}</Typography>
         <Typography variant="body2">{pause ? `Pause: ${pause}s` : ''}</Typography>
       </CardContent>
-    </Card>
+    </Paper>
   );
 
   return serie !== 1 ? (

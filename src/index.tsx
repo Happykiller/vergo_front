@@ -1,4 +1,5 @@
 // src\index.tsx
+/// <reference path="./theme/mui.d.ts" />
 import '@fontsource/roboto';
 import '@fontsource/montserrat';
 import '@fontsource/roboto/400.css';

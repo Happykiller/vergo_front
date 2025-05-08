@@ -6,7 +6,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { Trans, useTranslation } from 'react-i18next';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { createSearchParams, useNavigate } from 'react-router-dom';
-import { Container, Typography, Box, CircularProgress, Alert, Grid2, TextField, IconButton, Button } from '@mui/material';
+import { Typography, Box, CircularProgress, Alert, Grid2, TextField, IconButton, Button, useTheme } from '@mui/material';
 
 import commons from '@src/commons/commons';
 import { CODES } from '@src/commons/codes';
@@ -17,20 +17,21 @@ import { ExerciceUsecaseModel } from '@usecases/exercice/model/exercice.usecase.
 
 const Exercices: React.FC = () => {
   const limit = 25;
+  const theme = useTheme();
   const navigate = useNavigate();
   const { i18n } = useTranslation();
   const currentLocale = i18n.language;
   const [offset, setOffset] = React.useState(0);
-  const context:ContextStoreModel = contextStore();
+  const context: ContextStoreModel = contextStore();
   const [totalItem, setTotalItem] = React.useState(0);
   const [searchTerm, setSearchTerm] = React.useState('');
   const [exercices, set_exercices] = React.useState<any[]>([]);
-  const [showed, set_showed] = React.useState<ExerciceUsecaseModel[]|null>(null);
+  const [showed, set_showed] = React.useState<ExerciceUsecaseModel[] | null>(null);
 
   const [qry, setQry] = React.useState<{
-    loading: boolean|null,
+    loading: boolean | null,
     data: any,
-    error: Error|null
+    error: Error | null
   }>({
     loading: null,
     data: null,
@@ -54,25 +55,25 @@ const Exercices: React.FC = () => {
       }
     };
 
-    if(qry.loading === null) {
+    if (qry.loading === null) {
       fetchData();
-    } else if(exercices.length > 0) {
+    } else if (exercices.length > 0) {
       let filteredExercices = exercices.filter(exercice =>
         commons.normalizeString(exercice.slug).includes(commons.normalizeString(searchTerm)) ||
-        commons.normalizeString(exercice.title.find((elt:any) => elt.lang === currentLocale)?.value || "").includes(commons.normalizeString(searchTerm)) ||
-        commons.normalizeString(exercice.description.find((elt:any) => elt.lang === currentLocale)?.value || "").includes(commons.normalizeString(searchTerm))
+        commons.normalizeString(exercice.title.find((elt: any) => elt.lang === currentLocale)?.value || "").includes(commons.normalizeString(searchTerm)) ||
+        commons.normalizeString(exercice.description.find((elt: any) => elt.lang === currentLocale)?.value || "").includes(commons.normalizeString(searchTerm))
       );
-    
+
       // Trier les résultats filtrés
       filteredExercices = filteredExercices.sort((elt1, elt2) => elt1.slug.localeCompare(elt2.slug));
-    
+
       setTotalItem(filteredExercices.length);
       set_showed(filteredExercices.slice(offset, offset + limit));
     }
   }, [inversify, exercices, offset, searchTerm]);
 
   const goView = async (exercice: ExerciceUsecaseModel) => {
-    let dto:any = {
+    let dto: any = {
       id: exercice.id
     };
     navigate({
@@ -88,7 +89,7 @@ const Exercices: React.FC = () => {
   }
 
   const go_exercice_edit = async (exercice: ExerciceUsecaseModel) => {
-    let dto:any = {
+    let dto: any = {
       id: exercice.id
     };
     navigate({
@@ -100,16 +101,20 @@ const Exercices: React.FC = () => {
   const Row = (props: { exercice: ExerciceUsecaseModel }) => {
     const { exercice } = props;
     const strDate = moment(commons.getTimestampFromObjectId(exercice.id)).format('DD/MM/YY HH:mm:ss');
-    const title = exercice.title.find((elt:any) => elt.lang === currentLocale)?.value;
-    const description = exercice.description.find((elt:any) => elt.lang === currentLocale)?.value;
+    const title = exercice.title.find((elt: any) => elt.lang === currentLocale)?.value;
+    const description = exercice.description.find((elt: any) => elt.lang === currentLocale)?.value;
 
     return (
       <Grid2
         container
         sx={{
-          marginBottom: '1px',
-          "&:hover": {
-            backgroundColor: "#606368",
+          mb: '1px',
+          px: 2,
+          py: 1,
+          borderRadius: 0,
+          backgroundColor: theme.palette.background.paper,
+          '&:hover': {
+            backgroundColor: `${theme.palette.primary.main}22`,
           },
         }}
       >
@@ -237,9 +242,9 @@ const Exercices: React.FC = () => {
               goView(exercice);
             }}
           >
-            <VisibilityIcon/>
+            <VisibilityIcon />
           </IconButton>
-          {exercice?.contributors?.find(contributor => contributor.id === context.id) && 
+          {exercice?.contributors?.find(contributor => contributor.id === context.id) &&
             <IconButton
               size="small"
               sx={{
@@ -250,7 +255,7 @@ const Exercices: React.FC = () => {
                 go_exercice_edit(exercice);
               }}
             >
-              <EditIcon/>
+              <EditIcon />
             </IconButton>
           }
         </Grid2>
@@ -264,15 +269,25 @@ const Exercices: React.FC = () => {
   };
 
   return (<>
-    <Container>
+    <Box
+      sx={{
+        minHeight: '100vh',
+        py: 4,
+        px: { xs: 1, sm: 2 },
+        background: theme.palette.background.default,
+        backgroundImage: theme.palette.gradient,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+      }}
+    >
       {/* Box component to center the content vertically and horizontally */}
-      <Box 
-        display="flex" 
-        justifyContent="center" 
-        flexDirection="column"
-        textAlign="center" // Center text alignment
-        marginBottom={"5vh"}
-        marginTop={"2vh"}
+      <Box
+        sx={{
+          width: '100%',
+          maxWidth: { xs: '100%', md: '1400px' },
+          mx: 'auto',
+          px: { xs: 1, sm: 2 },
+        }}
       >
         {/* loading */}
         {qry.loading && (
@@ -292,12 +307,16 @@ const Exercices: React.FC = () => {
         {qry.data && (<>
           {/* Champ de recherche */}
           <TextField
-            label="Recherche"
+            label={<Trans>trainings.search</Trans>}
             variant="outlined"
             value={searchTerm}
-            onChange={(e:any) => setSearchTerm(e.target.value)}
+            onChange={(e: any) => setSearchTerm(e.target.value)}
             fullWidth
-            sx={{ marginBottom: 2 }}
+            sx={{
+              mb: 3,
+              backgroundColor: theme.palette.background.paper,
+              borderRadius: 1,
+            }}
           />
 
           <Box
@@ -305,132 +324,133 @@ const Exercices: React.FC = () => {
               color: '#fff',
               padding: 2,
             }}
-        >
-          {/* Table */}
-          <Grid2
-            container
-            sx={{
-              color: "#000000",
-              fontWeight: "bold",
-              backgroundColor: "#EA80FC",
-              borderRadius: "5px 5px 0px 0px",
-              fontSize: "0.875rem"
-            }}
           >
+            {/* Table */}
             <Grid2
-              size={{
-                xs: 2,
-                sm: 2,
-                md: 2,
-                lg: 2,
-                xl: 2,
-              }}
+              container
               sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
+                fontWeight: 600,
+                backgroundColor: theme.palette.primary.main,
+                color: theme.palette.primary.contrastText,
+                borderRadius: '10px 10px 0 0',
+                px: 2,
+                py: 1,
               }}
             >
-              <Trans>exercices.slug</Trans>
+              <Grid2
+                size={{
+                  xs: 2,
+                  sm: 2,
+                  md: 2,
+                  lg: 2,
+                  xl: 2,
+                }}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <Trans>exercices.slug</Trans>
+              </Grid2>
+              <Grid2
+                size={{
+                  xs: 1,
+                  sm: 1,
+                  md: 1,
+                  lg: 1,
+                  xl: 1,
+                }}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <Trans>exercices.creator</Trans>
+              </Grid2>
+              <Grid2
+                size={{
+                  xs: 2,
+                  sm: 2,
+                  md: 2,
+                  lg: 2,
+                  xl: 2,
+                }}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <Trans>exercices.creation_date</Trans>
+              </Grid2>
+              <Grid2
+                size={{
+                  xs: 2,
+                  sm: 2,
+                  md: 2,
+                  lg: 2,
+                  xl: 2,
+                }}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <Trans>exercices.title</Trans>
+              </Grid2>
+              <Grid2
+                size={{
+                  sm: 2,
+                  md: 2,
+                  lg: 2,
+                  xl: 2,
+                }}
+                sx={{
+                  display: { xs: 'none', sm: 'flex' },
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <Trans>exercices.description</Trans>
+              </Grid2>
+              <Grid2
+                size={{
+                  sm: 2,
+                  md: 2,
+                  lg: 2,
+                  xl: 2,
+                }}
+                sx={{
+                  display: { xs: 'none', sm: 'flex' },
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <Trans>exercices.image</Trans>
+              </Grid2>
+              <Grid2
+                size={{
+                  sm: 1,
+                  md: 1,
+                  lg: 1,
+                  xl: 1,
+                }}
+              >
+              </Grid2>
             </Grid2>
-            <Grid2
-              size={{
-                xs: 1,
-                sm: 1,
-                md: 1,
-                lg: 1,
-                xl: 1,
-              }}
-              sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
-              <Trans>exercices.creator</Trans>
-            </Grid2>
-            <Grid2
-              size={{
-                xs: 2,
-                sm: 2,
-                md: 2,
-                lg: 2,
-                xl: 2,
-              }}
-              sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
-              <Trans>exercices.creation_date</Trans>
-            </Grid2>
-            <Grid2
-              size={{
-                xs: 2,
-                sm: 2,
-                md: 2,
-                lg: 2,
-                xl: 2,
-              }}
-              sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
-              <Trans>exercices.title</Trans>
-            </Grid2>
-            <Grid2
-              size={{
-                sm: 2,
-                md: 2,
-                lg: 2,
-                xl: 2,
-              }}
-              sx={{
-                display: { xs: 'none', sm: 'flex' },
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
-              <Trans>exercices.description</Trans>
-            </Grid2>
-            <Grid2
-              size={{
-                sm: 2,
-                md: 2,
-                lg: 2,
-                xl: 2,
-              }}
-              sx={{
-                display: { xs: 'none', sm: 'flex' },
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
-              <Trans>exercices.image</Trans>
-            </Grid2>
-            <Grid2
-              size={{
-                sm: 1,
-                md: 1,
-                lg: 1,
-                xl: 1,
-              }}
-            >
-            </Grid2>
-          </Grid2>
 
-          {showed?.map((exercice) => (
-            <Row key={exercice.id} exercice={exercice} />
-          ))}
-        </Box>
+            {showed?.map((exercice) => (
+              <Row key={exercice.id} exercice={exercice} />
+            ))}
+          </Box>
         </>)}
 
         {/* Pagination */}
         {
-          (totalItem/limit>1) && (
+          (totalItem / limit > 1) && (
             <Grid2 size={12} sx={{ marginBottom: 2 }}>
               <PaginationComponent
                 totalItems={totalItem}
@@ -443,20 +463,23 @@ const Exercices: React.FC = () => {
 
         <Grid2 size={12}>
           {/* Submit button */}
-          <Button 
+          <Button
             type="submit"
             variant="contained"
-            size="small"
+            fullWidth
             startIcon={<Add />}
-            onClick={(e) => { 
+            onClick={(e) => {
               e.preventDefault();
               goCreate();
             }}
+            sx={{
+              mt: 2
+            }}
           ><Trans>common.create</Trans></Button>
         </Grid2>
-        
+
       </Box>
-    </Container>
+    </Box>
   </>);
 }
 

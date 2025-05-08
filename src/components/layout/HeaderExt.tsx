@@ -12,9 +12,9 @@ export function HeaderExt() {
     volatileStore={volatileStore()}
     routes={['trainings', 'exercices', 'workouts', 'info']}
     settings={['profile', 'logout']}
-    brandName="Vergo"
+    brandName='Vergo'
     icons={{ menu: <MenuIcon /> }}
     onLogout={() => inversify.loggerService.log('logout')}
   />
 }
-export default Header;
+export default HeaderExt;

@@ -19,18 +19,18 @@ import { TrainingUsecaseModel } from '@usecases/training/model/training.usecase.
 const Preview: React.FC = () => {
   let old_workout_slug = '';
   const navigate = useNavigate();
-  const { i18n, t } = useTranslation();
+  const { i18n } = useTranslation();
   const currentLocale = i18n.language;
   const [searchParams] = useSearchParams();
   const training_id = searchParams.get('id');
-  const context:ContextStoreModel = contextStore();
+  const context: ContextStoreModel = contextStore();
   const [items, setItems] = React.useState<GridItem[]>([]);
   const [duration, setDuration] = React.useState("MM:SS");
 
   const [qry, setQry] = React.useState<{
     loading: boolean,
     data: any,
-    error: Error|null
+    error: Error | null
   }>({
     loading: false,
     data: null,
@@ -38,10 +38,10 @@ const Preview: React.FC = () => {
   });
 
   const goTraining = async (training: TrainingUsecaseModel) => {
-    let dto:any = {
+    let dto: any = {
       id: training.id
     };
-    if(training.gender) {
+    if (training.gender) {
       dto.gender = training.gender;
     }
     navigate({
@@ -51,7 +51,7 @@ const Preview: React.FC = () => {
   }
 
   const go_training_edit = async (training: TrainingUsecaseModel) => {
-    let dto:any = {
+    let dto: any = {
       id: training.id
     };
     navigate({
@@ -61,8 +61,8 @@ const Preview: React.FC = () => {
   }
 
   const go_exercice = async (exercice_id?: string) => {
-    if(exercice_id) {
-      let dto:any = {
+    if (exercice_id) {
+      let dto: any = {
         id: exercice_id
       };
       navigate({
@@ -76,7 +76,7 @@ const Preview: React.FC = () => {
     const fetchData = async (training_id: string) => {
       setQry({ loading: true, data: null, error: null });
       try {
-        const result = await inversify.getPreviewUsecase.execute({id: training_id});
+        const result = await inversify.getPreviewUsecase.execute({ id: training_id });
         if (result.message !== CODES.SUCCESS) {
           throw new Error(result.message);
         } else if (result.data) {
@@ -132,118 +132,118 @@ const Preview: React.FC = () => {
               color: '#fff',
               padding: 2,
             }}
-        >
-          <Box 
-            display="flex" 
-            flexDirection="column" 
-            alignItems="center"
           >
-            {/* Titre */}
-            <Typography variant="h4" fontWeight="bold">
-              {qry.data.data.training.label??qry.data.data.training.slug}
-            </Typography>
-    
-            {/* Chronomètre */}
-            <Typography variant="h4">
-              {duration}
-            </Typography>
-
-            <Box 
-              display="flex" 
-              alignItems="center" 
-              justifyContent="center" 
-              gap={2} // Adds spacing between buttons
+            <Box
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
             >
-              {/* Bt Go Training */}
-              <LargeIconButton
-                onClick={(e) => {
-                  e.preventDefault();
-                  goTraining(qry.data.data.training);
-                }}
+              {/* Titre */}
+              <Typography variant="h4" fontWeight="bold">
+                {qry.data.data.training.label ?? qry.data.data.training.slug}
+              </Typography>
+
+              {/* Chronomètre */}
+              <Typography variant="h4">
+                {duration}
+              </Typography>
+
+              <Box
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                gap={2} // Adds spacing between buttons
               >
-                <PlayCircleOutlineIcon/>
-              </LargeIconButton>
-              {/* Bt Go edit training */}
-              {qry.data.data.training?.contributors?.find((contributor:any) => contributor.id === context.id) && 
-                <IconButton
-                  size="small"
-                  sx={{
-                    display: { xs: 'none', md: 'block' },
-                  }}
+                {/* Bt Go Training */}
+                <LargeIconButton
                   onClick={(e) => {
                     e.preventDefault();
-                    go_training_edit(qry.data.data.training);
+                    goTraining(qry.data.data.training);
                   }}
                 >
-                  <EditIcon/>
-                </IconButton>
-              }
+                  <PlayCircleOutlineIcon />
+                </LargeIconButton>
+                {/* Bt Go edit training */}
+                {qry.data.data.training?.contributors?.find((contributor: any) => contributor.id === context.id) &&
+                  <IconButton
+                    size="small"
+                    sx={{
+                      display: { xs: 'none', md: 'block' },
+                    }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      go_training_edit(qry.data.data.training);
+                    }}
+                  >
+                    <EditIcon />
+                  </IconButton>
+                }
+              </Box>
             </Box>
-          </Box>
-    
-          {/* Grille des éléments */}
-          <Grid2 
-            container 
-            spacing={2}
-          >
-            {items.map((item, index) => {
-              let divider = null;
-              if (item.workout_slug && old_workout_slug !== item.workout_slug) {
-                /**
-                 * Block Workout
-                 */
-                const ex = qry.data?.data?.workouts.find((workout:any) => workout.search === item.workout_slug)?.found;
-                const title = ex?.title.find((elt:any) => elt.lang === currentLocale).value??item.workout_slug;
-                const description = ex?.description.find((elt:any) => elt.lang === currentLocale).value;
-                divider = (
-                  <Grid2 size={12}>
-                    <Typography>
-                      {ex && (
-                          <IconButton><EditIcon/></IconButton>
+
+            {/* Grille des éléments */}
+            <Grid2
+              container
+              spacing={2}
+            >
+              {items.map((item, index) => {
+                let divider = null;
+                if (item.workout_slug && old_workout_slug !== item.workout_slug) {
+                  /**
+                   * Block Workout
+                   */
+                  const ex = qry.data?.data?.workouts.find((workout: any) => workout.search === item.workout_slug)?.found;
+                  const title = ex?.title.find((elt: any) => elt.lang === currentLocale).value ?? item.workout_slug;
+                  const description = ex?.description.find((elt: any) => elt.lang === currentLocale).value;
+                  divider = (
+                    <Grid2 size={12}>
+                      <Typography>
+                        {ex && (
+                          <IconButton><EditIcon /></IconButton>
                         )
-                      }
-                      {description && (
+                        }
+                        {description && (
                           <Tooltip title={description}>
-                            <IconButton><InfoIcon/></IconButton>
+                            <IconButton><InfoIcon /></IconButton>
                           </Tooltip>
                         )
-                      }
-                      {title}
-                    </Typography>
-                    <Divider />
-                  </Grid2>)
-                old_workout_slug = item.workout_slug;
-              }
+                        }
+                        {title}
+                      </Typography>
+                      <Divider />
+                    </Grid2>)
+                  old_workout_slug = item.workout_slug;
+                }
 
-              return <React.Fragment key={index}>
-                {divider}
-                <Grid2
-                  size={{
-                    xs: 4,
-                    sm: 3,
-                    md: 2,
-                  }}
-                >
-                  <ExerciseCard
-                    exercice_id={item.exercice_id}
-                    title={item.title}
-                    description={item.description}
-                    serie={item.serie}
-                    ite={item.ite}
-                    weight={item.weight}
-                    duration={item.duration}
-                    rest={item.rest}
-                    pause={item.pause}
-                    gender={qry.data.data.training.gender ?? 'woman'}
-                    img={item.img}
-                    onEditClick={go_exercice}
-                  />
-                </Grid2>
+                return <React.Fragment key={index}>
+                  {divider}
+                  <Grid2
+                    size={{
+                      xs: 4,
+                      sm: 3,
+                      md: 2,
+                    }}
+                  >
+                    <ExerciseCard
+                      exercice_id={item.exercice_id}
+                      title={item.title}
+                      description={item.description}
+                      serie={item.serie}
+                      ite={item.ite}
+                      weight={item.weight}
+                      duration={item.duration}
+                      rest={item.rest}
+                      pause={item.pause}
+                      gender={qry.data.data.training.gender ?? 'woman'}
+                      img={item.img}
+                      onEditClick={go_exercice}
+                    />
+                  </Grid2>
                 </React.Fragment>
               })
-            }
-          </Grid2>
-        </Box>
+              }
+            </Grid2>
+          </Box>
         )}
       </Box>
     </Container>

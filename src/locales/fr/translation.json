@@ -55,7 +55,9 @@
     "private": "Privé",
     "public": "Public",
     "creator": "Créateur",
-    "personal": "Personel"
+    "personal": "Personel",
+    "search": "Recherche",
+    "empty": "Aucun entraînement trouvé"
   },
   "training_create": {
     "create_success": "Création réussi",

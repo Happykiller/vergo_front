@@ -1,7 +1,7 @@
 import moment from 'moment';
 import React, { useEffect } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { Container, Typography, Box, CircularProgress, Alert, Grid2, TextField } from '@mui/material';
+import { Container, Typography, Box, CircularProgress, Alert, Grid2, TextField, useTheme } from '@mui/material';
 
 import commons from '@src/commons/commons';
 import { CODES } from '@src/commons/codes';
@@ -12,6 +12,7 @@ import { WorkoutDefUsecaseModel } from '@usecases/workout/model/workout.def.usec
 
 const Workouts: React.FC = () => {
   const limit = 25;
+  const theme = useTheme();
   const { i18n } = useTranslation();
   const currentLocale = i18n.language;
   const [offset, setOffset] = React.useState(0);
@@ -70,10 +71,14 @@ const Workouts: React.FC = () => {
       <Grid2
         container
         sx={{
-          marginBottom: '1px',
-          "&:hover": {
-            backgroundColor: "#606368"
-          }
+          mb: '1px',
+          px: 2,
+          py: 1,
+          borderRadius: 0,
+          backgroundColor: theme.palette.background.paper,
+          '&:hover': {
+            backgroundColor: `${theme.palette.primary.main}22`,
+          },
         }}
       >
         <Grid2
@@ -169,15 +174,25 @@ const Workouts: React.FC = () => {
   };
 
   return (<>
-    <Container>
+    <Box
+      sx={{
+        minHeight: '100vh',
+        py: 4,
+        px: { xs: 1, sm: 2 },
+        background: theme.palette.background.default,
+        backgroundImage: theme.palette.gradient,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+      }}
+    >
       {/* Box component to center the content vertically and horizontally */}
       <Box
-        display="flex"
-        justifyContent="center"
-        flexDirection="column"
-        textAlign="center" // Center text alignment
-        marginBottom={"5vh"}
-        marginTop={"2vh"}
+        sx={{
+          width: '100%',
+          maxWidth: { xs: '100%', md: '1400px' },
+          mx: 'auto',
+          px: { xs: 1, sm: 2 },
+        }}
       >
         {/* loading */}
         {qry.loading && (
@@ -197,12 +212,16 @@ const Workouts: React.FC = () => {
         {qry.data && (<>
           {/* Champ de recherche */}
           <TextField
-            label="Recherche"
+            label={<Trans>trainings.search</Trans>}
             variant="outlined"
             value={searchTerm}
             onChange={(e: any) => setSearchTerm(e.target.value)}
             fullWidth
-            sx={{ marginBottom: 2 }}
+            sx={{
+              mb: 3,
+              backgroundColor: theme.palette.background.paper,
+              borderRadius: 1,
+            }}
           />
 
           <Box
@@ -215,11 +234,12 @@ const Workouts: React.FC = () => {
             <Grid2
               container
               sx={{
-                color: "#000000",
-                fontWeight: "bold",
-                backgroundColor: "#EA80FC",
-                borderRadius: "5px 5px 0px 0px",
-                fontSize: "0.875rem"
+                fontWeight: 600,
+                backgroundColor: theme.palette.primary.main,
+                color: theme.palette.primary.contrastText,
+                borderRadius: '10px 10px 0 0',
+                px: 2,
+                py: 1,
               }}
             >
               <Grid2
@@ -317,7 +337,7 @@ const Workouts: React.FC = () => {
         }
 
       </Box>
-    </Container>
+    </Box>
   </>);
 }
 

@@ -2,7 +2,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
-import { Done, Key, Visibility, VisibilityOff, Info as InfoIcon, HelpOutline, VpnKey, Add, Delete, Email, BugReport, Map, LightMode, DarkMode, Person, Lock, Language, Cloud } from '@mui/icons-material';
+import { Done, Key, Visibility, VisibilityOff, Info as InfoIcon, HelpOutline, VpnKey, Add, Delete, Person, Lock } from '@mui/icons-material';
 
 import Info from '@pages/Info';
 import Preview from '@pages/Preview';
@@ -21,13 +21,11 @@ import Training_create from '@pages/Training_create';
 import Exercice_create from '@pages/Exercice_create';
 import { LayoutProtectedExt } from '@src/components/layout/LayoutProtectedExt';
 
-import '@happykiller/sunny-ui/dist/index.css';
-import { CGU, FlashMessage, Footer, NotFound, Login, Profile } from '@happykiller/sunny-ui';
+import { CGU, FlashMessage, NotFound, Login, Profile } from '@happykiller/sunny-ui';
+import { FooterExt } from './components/layout/FooterExt';
 
 // Main application component
 const App: React.FC = () => {
-  const mode = contextStore((s) => s.themeMode);
-  const toggleTheme = contextStore((s) => s.toggleTheme);
 
   return (
     <div>
@@ -40,7 +38,7 @@ const App: React.FC = () => {
         <Route
           path="/login"
           element={
-            <Login
+            <><Login
               icons={{
                 visibility: <Visibility fontSize="small" />,
                 visibilityOff: <VisibilityOff fontSize="small" />,
@@ -56,7 +54,7 @@ const App: React.FC = () => {
                 loggerService: inversify.loggerService,
               }}
               contextStore={contextStore}
-            />
+            /><FooterExt/></>
           }
         />
 
@@ -125,29 +123,10 @@ const App: React.FC = () => {
         <Route path="/sandbox" element={<LayoutProtectedExt><Sandbox /></LayoutProtectedExt>} />
 
         {/* Route for the cgu page */}
-        <Route path="/cgu" element={<CGU />} />
+        <Route path="/cgu" element={<><CGU /><FooterExt/></>} />
 
-        <Route path="*" element={<NotFound />} />
+        <Route path="*" element={<><NotFound /><FooterExt/></>} />
       </Routes>
-
-      {/* Render the Footer component */}
-      <Footer
-        systemInfoUsecase={inversify.systemInfoUsecase}
-        frontVersion={process.env.VERSION ?? '1.0.0'}
-        issuesUrl="https://github.com/Happykiller/vergo_front/issues"
-        projectUrl="https://github.com/users/Happykiller/projects/4/views/1"
-        mailto="fabrice.rosito@gmail.com"
-        brandName="Vergo"
-        icons={{
-          email: <Email fontSize="small" />,
-          issues: <BugReport fontSize="small" />,
-          roadmap: <Map fontSize="small" />,
-          language: <Language fontSize="small" />,
-          cloud: <Cloud fontSize="small" />
-        }}
-        onToggleTheme={toggleTheme}
-        iconThemeToggle={mode === 'dark' ? <LightMode fontSize="small" /> : <DarkMode fontSize="small" />}
-      />
       <FlashMessage icons={{ close: <CloseIcon fontSize="small" /> }} />
     </div>
   );
