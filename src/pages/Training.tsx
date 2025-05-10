@@ -508,32 +508,9 @@ const Training: React.FC = () => {
     </Paper>;
   }
 
-  return (<>
-    <Box
-      sx={{
-        minHeight: '100vh',
-        py: 4,
-        px: { xs: 1, sm: 2 },
-        background: theme.palette.background.default,
-        backgroundImage: theme.palette.gradient,
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
-      }}
-    >
-      <Box
-        sx={{
-          width: '100%',
-          maxWidth: { xs: '100%', md: '1400px' },
-          mx: 'auto',
-          px: { xs: 1, sm: 2 },
-        }}
-      >
-        <Grid2 container justifyContent="center" gap={1}>
-          {content}
-        </Grid2>
-      </Box>
-    </Box>
-  </>);
+  return (<Grid2 container justifyContent="center" gap={1}>
+    {content}
+  </Grid2>);
 }
 
 export default Training;

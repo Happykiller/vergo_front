@@ -1,5 +1,6 @@
-import { Box, Typography } from '@mui/material';
-import React, { useEffect, useRef, useState } from 'react';
+// src\components\WakeLock.tsx
+import { Box } from '@mui/material';
+import { useEffect, useRef, useState } from 'react';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 import HourglassDisabledIcon from '@mui/icons-material/HourglassDisabled';
 

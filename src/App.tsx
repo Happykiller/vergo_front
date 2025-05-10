@@ -1,8 +1,7 @@
 // src\App.tsx
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import CloseIcon from '@mui/icons-material/Close';
-import { Done, Key, Visibility, VisibilityOff, Info as InfoIcon, HelpOutline, VpnKey, Add, Delete, Person, Lock } from '@mui/icons-material';
+import { Done, Key, Visibility, VisibilityOff, Info as InfoIcon, HelpOutline, VpnKey, Add, Delete, Person, Lock, Close as CloseIcon } from '@mui/icons-material';
 
 import Info from '@pages/Info';
 import Preview from '@pages/Preview';
@@ -19,10 +18,9 @@ import Exercice_edit from '@pages/Exercices_edit';
 import { contextStore } from '@stores/contextStore';
 import Training_create from '@pages/Training_create';
 import Exercice_create from '@pages/Exercice_create';
-import { LayoutProtectedExt } from '@src/components/layout/LayoutProtectedExt';
-
+import { LayoutPublicExt } from '@components/layout/LayoutPublicExt';
+import { LayoutProtectedExt } from '@components/layout/LayoutProtectedExt';
 import { CGU, FlashMessage, NotFound, Login, Profile } from '@happykiller/sunny-ui';
-import { FooterExt } from './components/layout/FooterExt';
 
 // Main application component
 const App: React.FC = () => {
@@ -38,7 +36,7 @@ const App: React.FC = () => {
         <Route
           path="/login"
           element={
-            <><Login
+            <LayoutPublicExt><Login
               icons={{
                 visibility: <Visibility fontSize="small" />,
                 visibilityOff: <VisibilityOff fontSize="small" />,
@@ -54,7 +52,7 @@ const App: React.FC = () => {
                 loggerService: inversify.loggerService,
               }}
               contextStore={contextStore}
-            /><FooterExt/></>
+            /></LayoutPublicExt>
           }
         />
 
@@ -123,9 +121,9 @@ const App: React.FC = () => {
         <Route path="/sandbox" element={<LayoutProtectedExt><Sandbox /></LayoutProtectedExt>} />
 
         {/* Route for the cgu page */}
-        <Route path="/cgu" element={<><CGU /><FooterExt/></>} />
+        <Route path="/cgu" element={<LayoutPublicExt><CGU /></LayoutPublicExt>} />
 
-        <Route path="*" element={<><NotFound /><FooterExt/></>} />
+        <Route path="*" element={<LayoutPublicExt><NotFound /></LayoutPublicExt>} />
       </Routes>
       <FlashMessage icons={{ close: <CloseIcon fontSize="small" /> }} />
     </div>

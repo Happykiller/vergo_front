@@ -6,7 +6,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { Trans, useTranslation } from 'react-i18next';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { createSearchParams, useNavigate } from 'react-router-dom';
-import { Typography, Box, CircularProgress, Alert, Grid2, TextField, IconButton, Button, useTheme } from '@mui/material';
+import { Typography, CircularProgress, Alert, Grid2, TextField, IconButton, Button, useTheme } from '@mui/material';
 
 import commons from '@src/commons/commons';
 import { CODES } from '@src/commons/codes';
@@ -269,217 +269,186 @@ const Exercices: React.FC = () => {
   };
 
   return (<>
-    <Box
-      sx={{
-        minHeight: '100vh',
-        py: 4,
-        px: { xs: 1, sm: 2 },
-        background: theme.palette.background.default,
-        backgroundImage: theme.palette.gradient,
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
-      }}
-    >
-      {/* Box component to center the content vertically and horizontally */}
-      <Box
+    {/* loading */}
+    {qry.loading && (
+      <>
+        <CircularProgress />
+      </>
+    )}
+
+    {/* error */}
+    {qry.error && (
+      <Alert severity="error" variant="filled">
+        <Trans>CODES.FAIL</Trans>
+      </Alert>
+    )}
+
+    {/* data */}
+    {qry.data && (<>
+      {/* Champ de recherche */}
+      <TextField
+        label={<Trans>trainings.search</Trans>}
+        variant="outlined"
+        value={searchTerm}
+        onChange={(e: any) => setSearchTerm(e.target.value)}
+        fullWidth
         sx={{
-          width: '100%',
-          maxWidth: { xs: '100%', md: '1400px' },
-          mx: 'auto',
-          px: { xs: 1, sm: 2 },
+          mb: 3,
+          backgroundColor: theme.palette.background.paper,
+          borderRadius: `${theme.shape.borderRadius}px`,
+        }}
+      />
+
+      {/* Table */}
+      <Grid2
+        container
+        sx={{
+          fontWeight: 600,
+          backgroundColor: theme.palette.primary.main,
+          color: theme.palette.primary.contrastText,
+          borderRadius: `${theme.shape.borderRadius}px ${theme.shape.borderRadius}px 0 0`,
+          px: 2,
+          py: 1,
         }}
       >
-        {/* loading */}
-        {qry.loading && (
-          <>
-            <CircularProgress />
-          </>
-        )}
-
-        {/* error */}
-        {qry.error && (
-          <Alert severity="error" variant="filled">
-            <Trans>CODES.FAIL</Trans>
-          </Alert>
-        )}
-
-        {/* data */}
-        {qry.data && (<>
-          {/* Champ de recherche */}
-          <TextField
-            label={<Trans>trainings.search</Trans>}
-            variant="outlined"
-            value={searchTerm}
-            onChange={(e: any) => setSearchTerm(e.target.value)}
-            fullWidth
-            sx={{
-              mb: 3,
-              backgroundColor: theme.palette.background.paper,
-              borderRadius: 1,
-            }}
-          />
-
-          <Box
-            sx={{
-              color: '#fff',
-              padding: 2,
-            }}
-          >
-            {/* Table */}
-            <Grid2
-              container
-              sx={{
-                fontWeight: 600,
-                backgroundColor: theme.palette.primary.main,
-                color: theme.palette.primary.contrastText,
-                borderRadius: '10px 10px 0 0',
-                px: 2,
-                py: 1,
-              }}
-            >
-              <Grid2
-                size={{
-                  xs: 2,
-                  sm: 2,
-                  md: 2,
-                  lg: 2,
-                  xl: 2,
-                }}
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                <Trans>exercices.slug</Trans>
-              </Grid2>
-              <Grid2
-                size={{
-                  xs: 1,
-                  sm: 1,
-                  md: 1,
-                  lg: 1,
-                  xl: 1,
-                }}
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                <Trans>exercices.creator</Trans>
-              </Grid2>
-              <Grid2
-                size={{
-                  xs: 2,
-                  sm: 2,
-                  md: 2,
-                  lg: 2,
-                  xl: 2,
-                }}
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                <Trans>exercices.creation_date</Trans>
-              </Grid2>
-              <Grid2
-                size={{
-                  xs: 2,
-                  sm: 2,
-                  md: 2,
-                  lg: 2,
-                  xl: 2,
-                }}
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                <Trans>exercices.title</Trans>
-              </Grid2>
-              <Grid2
-                size={{
-                  sm: 2,
-                  md: 2,
-                  lg: 2,
-                  xl: 2,
-                }}
-                sx={{
-                  display: { xs: 'none', sm: 'flex' },
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                <Trans>exercices.description</Trans>
-              </Grid2>
-              <Grid2
-                size={{
-                  sm: 2,
-                  md: 2,
-                  lg: 2,
-                  xl: 2,
-                }}
-                sx={{
-                  display: { xs: 'none', sm: 'flex' },
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                <Trans>exercices.image</Trans>
-              </Grid2>
-              <Grid2
-                size={{
-                  sm: 1,
-                  md: 1,
-                  lg: 1,
-                  xl: 1,
-                }}
-              >
-              </Grid2>
-            </Grid2>
-
-            {showed?.map((exercice) => (
-              <Row key={exercice.id} exercice={exercice} />
-            ))}
-          </Box>
-        </>)}
-
-        {/* Pagination */}
-        {
-          (totalItem / limit > 1) && (
-            <Grid2 size={12} sx={{ marginBottom: 2 }}>
-              <PaginationComponent
-                totalItems={totalItem}
-                limit={limit}
-                onPageChange={handlePageChange}
-              />
-            </Grid2>
-          )
-        }
-
-        <Grid2 size={12}>
-          {/* Submit button */}
-          <Button
-            type="submit"
-            variant="contained"
-            fullWidth
-            startIcon={<Add />}
-            onClick={(e) => {
-              e.preventDefault();
-              goCreate();
-            }}
-            sx={{
-              mt: 2
-            }}
-          ><Trans>common.create</Trans></Button>
+        <Grid2
+          size={{
+            xs: 2,
+            sm: 2,
+            md: 2,
+            lg: 2,
+            xl: 2,
+          }}
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Trans>exercices.slug</Trans>
         </Grid2>
+        <Grid2
+          size={{
+            xs: 1,
+            sm: 1,
+            md: 1,
+            lg: 1,
+            xl: 1,
+          }}
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Trans>exercices.creator</Trans>
+        </Grid2>
+        <Grid2
+          size={{
+            xs: 2,
+            sm: 2,
+            md: 2,
+            lg: 2,
+            xl: 2,
+          }}
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Trans>exercices.creation_date</Trans>
+        </Grid2>
+        <Grid2
+          size={{
+            xs: 2,
+            sm: 2,
+            md: 2,
+            lg: 2,
+            xl: 2,
+          }}
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Trans>exercices.title</Trans>
+        </Grid2>
+        <Grid2
+          size={{
+            sm: 2,
+            md: 2,
+            lg: 2,
+            xl: 2,
+          }}
+          sx={{
+            display: { xs: 'none', sm: 'flex' },
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Trans>exercices.description</Trans>
+        </Grid2>
+        <Grid2
+          size={{
+            sm: 2,
+            md: 2,
+            lg: 2,
+            xl: 2,
+          }}
+          sx={{
+            display: { xs: 'none', sm: 'flex' },
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Trans>exercices.image</Trans>
+        </Grid2>
+        <Grid2
+          size={{
+            sm: 1,
+            md: 1,
+            lg: 1,
+            xl: 1,
+          }}
+        >
+        </Grid2>
+      </Grid2>
 
-      </Box>
-    </Box>
+      {showed?.map((exercice) => (
+        <Row key={exercice.id} exercice={exercice} />
+      ))}
+    </>)}
+
+    {/* Pagination */}
+    {(totalItem / limit > 1) && (
+      <Grid2 size={12} sx={{ marginBottom: 2 }}>
+        <PaginationComponent
+          totalItems={totalItem}
+          limit={limit}
+          onPageChange={handlePageChange}
+        />
+      </Grid2>
+    )}
+
+    <Grid2 size={12}>
+      {/* Submit button */}
+      <Button
+        type="submit"
+        variant="contained"
+        fullWidth
+        startIcon={<Add />}
+        onClick={(e) => {
+          e.preventDefault();
+          goCreate();
+        }}
+        sx={{
+          mt: 2
+        }}
+      ><Trans>common.create</Trans></Button>
+    </Grid2>
+
   </>);
 }
 
