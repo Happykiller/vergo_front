@@ -12,7 +12,9 @@
     "title": "Title",
     "description": "Description",
     "image": "Image",
-    "creator": "Creator"
+    "creator": "Creator",
+    "view": "Voir l'exercice",
+    "edit": "Editer l'exercice"
   },
   "exercice_create": {
     "create_success": "Create successful",
@@ -62,7 +64,10 @@
     "creator": "Creator",
     "personal": "Personel",
     "search": "Search",
-    "empty": "No training found"
+    "empty": "No training found",
+    "go_training": "Join training",
+    "go_preview": "View training",
+    "go_edit": "Edit training"
   },
   "training_create": {
     "create_success": "Create successful",

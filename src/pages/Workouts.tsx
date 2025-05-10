@@ -1,7 +1,8 @@
+// src\pages\Workouts.tsx
 import moment from 'moment';
 import React, { useEffect } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { Container, Typography, Box, CircularProgress, Alert, Grid2, TextField, useTheme } from '@mui/material';
+import { Typography, Box, CircularProgress, Alert, Grid2, TextField, useTheme } from '@mui/material';
 
 import commons from '@src/commons/commons';
 import { CODES } from '@src/commons/codes';
@@ -74,7 +75,6 @@ const Workouts: React.FC = () => {
           mb: '1px',
           px: 2,
           py: 1,
-          borderRadius: 0,
           backgroundColor: theme.palette.background.paper,
           '&:hover': {
             backgroundColor: `${theme.palette.primary.main}22`,
@@ -83,14 +83,14 @@ const Workouts: React.FC = () => {
       >
         <Grid2
           size={{
-            xs: 2,
+            xs: 0,
             sm: 2,
             md: 2,
             lg: 2,
             xl: 2,
           }}
           sx={{
-            display: 'flex',
+            display: { xs: 'none', sm: 'flex' },
             justifyContent: 'center',
             alignItems: 'center',
           }}
@@ -100,14 +100,14 @@ const Workouts: React.FC = () => {
         </Grid2>
         <Grid2
           size={{
-            xs: 2,
+            xs: 0,
             sm: 2,
             md: 2,
             lg: 2,
             xl: 2,
           }}
           sx={{
-            display: 'flex',
+            display: { xs: 'none', sm: 'flex' },
             justifyContent: 'center',
             alignItems: 'center',
           }}
@@ -117,7 +117,7 @@ const Workouts: React.FC = () => {
         </Grid2>
         <Grid2
           size={{
-            xs: 3,
+            xs: 6,
             sm: 3,
             md: 3,
             lg: 3,
@@ -134,7 +134,7 @@ const Workouts: React.FC = () => {
         </Grid2>
         <Grid2
           size={{
-            xs: 4,
+            xs: 5,
             sm: 4,
             md: 4,
             lg: 4,
@@ -174,170 +174,146 @@ const Workouts: React.FC = () => {
   };
 
   return (<>
-    <Box
-      sx={{
-        minHeight: '100vh',
-        py: 4,
-        px: { xs: 1, sm: 2 },
-        background: theme.palette.background.default,
-        backgroundImage: theme.palette.gradient,
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
-      }}
-    >
-      {/* Box component to center the content vertically and horizontally */}
-      <Box
+    {/* loading */}
+    {qry.loading && (
+      <>
+        <CircularProgress />
+      </>
+    )}
+
+    {/* error */}
+    {qry.error && (
+      <Alert severity="error" variant="filled">
+        <Trans>CODES.FAIL</Trans>
+      </Alert>
+    )}
+
+    {/* data */}
+    {qry.data && (<>
+      {/* Champ de recherche */}
+      <TextField
+        label={<Trans>trainings.search</Trans>}
+        variant="outlined"
+        value={searchTerm}
+        onChange={(e: any) => setSearchTerm(e.target.value)}
+        fullWidth
         sx={{
-          width: '100%',
-          maxWidth: { xs: '100%', md: '1400px' },
-          mx: 'auto',
-          px: { xs: 1, sm: 2 },
+          mb: 3,
+          backgroundColor: theme.palette.background.paper,
+          borderRadius: `${theme.shape.borderRadius}px`,
+        }}
+      />
+
+      {/* Table */}
+      <Grid2
+        container
+        sx={{
+          fontWeight: 600,
+          backgroundColor: theme.palette.primary.main,
+          color: theme.palette.primary.contrastText,
+          borderRadius: `${theme.shape.borderRadius}px ${theme.shape.borderRadius}px 0 0`,
+          px: 2,
+          py: 1,
         }}
       >
-        {/* loading */}
-        {qry.loading && (
-          <>
-            <CircularProgress />
-          </>
-        )}
+        <Grid2
+          size={{
+            xs: 0,
+            sm: 2,
+            md: 2,
+            lg: 2,
+            xl: 2,
+          }}
+          sx={{
+            display: { xs: 'none', sm: 'flex' },
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Trans>workouts.slug</Trans>
+        </Grid2>
+        <Grid2
+          size={{
+            xs: 0,
+            sm: 2,
+            md: 2,
+            lg: 2,
+            xl: 2,
+          }}
+          sx={{
+            display: { xs: 'none', sm: 'flex' },
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Trans>workouts.creation_date</Trans>
+        </Grid2>
+        <Grid2
+          size={{
+            xs: 6,
+            sm: 3,
+            md: 3,
+            lg: 3,
+            xl: 3,
+          }}
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Trans>workouts.title</Trans>
+        </Grid2>
+        <Grid2
+          size={{
+            xs: 5,
+            sm: 4,
+            md: 4,
+            lg: 4,
+            xl: 4,
+          }}
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Trans>workouts.description</Trans>
+        </Grid2>
+        <Grid2
+          size={{
+            xs: 1,
+            sm: 1,
+            md: 1,
+            lg: 1,
+            xl: 1,
+          }}
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+        </Grid2>
+      </Grid2>
 
-        {/* error */}
-        {qry.error && (
-          <Alert severity="error" variant="filled">
-            <Trans>CODES.FAIL</Trans>
-          </Alert>
-        )}
+      {showed?.map((exercice) => (
+        <Row key={exercice.id} exercice={exercice} />
+      ))}
+    </>)}
 
-        {/* data */}
-        {qry.data && (<>
-          {/* Champ de recherche */}
-          <TextField
-            label={<Trans>trainings.search</Trans>}
-            variant="outlined"
-            value={searchTerm}
-            onChange={(e: any) => setSearchTerm(e.target.value)}
-            fullWidth
-            sx={{
-              mb: 3,
-              backgroundColor: theme.palette.background.paper,
-              borderRadius: 1,
-            }}
+    {/* Pagination */}
+    {
+      (totalItem / limit > 1) && (
+        <Grid2 size={12} sx={{ marginBottom: 2 }}>
+          <PaginationComponent
+            totalItems={totalItem}
+            limit={limit}
+            onPageChange={handlePageChange}
           />
-
-          <Box
-            sx={{
-              color: '#fff',
-              padding: 2,
-            }}
-          >
-            {/* Table */}
-            <Grid2
-              container
-              sx={{
-                fontWeight: 600,
-                backgroundColor: theme.palette.primary.main,
-                color: theme.palette.primary.contrastText,
-                borderRadius: '10px 10px 0 0',
-                px: 2,
-                py: 1,
-              }}
-            >
-              <Grid2
-                size={{
-                  xs: 2,
-                  sm: 2,
-                  md: 2,
-                  lg: 2,
-                  xl: 2,
-                }}
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                <Trans>workouts.slug</Trans>
-              </Grid2>
-              <Grid2
-                size={{
-                  xs: 2,
-                  sm: 2,
-                  md: 2,
-                  lg: 2,
-                  xl: 2,
-                }}
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                <Trans>workouts.creation_date</Trans>
-              </Grid2>
-              <Grid2
-                size={{
-                  xs: 3,
-                  sm: 3,
-                  md: 3,
-                  lg: 3,
-                  xl: 3,
-                }}
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                <Trans>workouts.title</Trans>
-              </Grid2>
-              <Grid2
-                size={{
-                  xs: 4,
-                  sm: 4,
-                  md: 4,
-                  lg: 4,
-                  xl: 4,
-                }}
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                <Trans>workouts.description</Trans>
-              </Grid2>
-              <Grid2
-                size={{
-                  xs: 1,
-                  sm: 1,
-                  md: 1,
-                  lg: 1,
-                  xl: 1,
-                }}>
-              </Grid2>
-            </Grid2>
-
-            {showed?.map((exercice) => (
-              <Row key={exercice.id} exercice={exercice} />
-            ))}
-          </Box>
-        </>)}
-
-        {/* Pagination */}
-        {
-          (totalItem / limit > 1) && (
-            <Grid2 size={12} sx={{ marginBottom: 2 }}>
-              <PaginationComponent
-                totalItems={totalItem}
-                limit={limit}
-                onPageChange={handlePageChange}
-              />
-            </Grid2>
-          )
-        }
-
-      </Box>
-    </Box>
+        </Grid2>
+      )
+    }
   </>);
 }
 

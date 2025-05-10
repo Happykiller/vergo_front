@@ -18,7 +18,9 @@
     "create_success": "Création réussi",
     "create_fail": "Erreur lors de la création",
     "json_fail": "JSON format error",
-    "title": "Création d'un nouvel exercice"
+    "title": "Création d'un nouvel exercice",
+    "view": "View exercice",
+    "edit": "Edit exercice"
   },
   "exercice_edit": {
     "update_sucess": "Mise à jour réussi",
@@ -57,7 +59,10 @@
     "creator": "Créateur",
     "personal": "Personel",
     "search": "Recherche",
-    "empty": "Aucun entraînement trouvé"
+    "empty": "Aucun entraînement trouvé",
+    "go_training": "Rejoindre l'entrainement",
+    "go_preview": "Voir l'entrainement",
+    "go_edit": "Editer l'entrainement"
   },
   "training_create": {
     "create_success": "Création réussi",

@@ -5,7 +5,6 @@ const Dotenv = require('dotenv-webpack');
 const { version } = require('./package.json');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 
@@ -27,6 +26,8 @@ module.exports = (env, argv) => {
     entry: './src/index.tsx',
 
     output: {
+      clean: true,
+
       // The name of the output bundle.
       filename: 'bundle.[contenthash].js',
 
@@ -107,14 +108,6 @@ module.exports = (env, argv) => {
           }
         }
       }),
-
-      new CleanWebpackPlugin({
-        cleanOnceBeforeBuildPatterns: [
-          '**/*',        // Par défaut, nettoie tout le contenu de "dist"
-          'dist/src/',   // Spécifie explicitement la suppression du dossier "src" dans "dist"
-        ],
-        verbose: true, // Affiche les fichiers supprimés dans la console (utile pour le débogage)
-      }),  // Nettoie le dossier dist avant chaque build
 
       // Plugin to generate an HTML file from a template, and include the bundled assets.
       new HtmlWebpackPlugin({

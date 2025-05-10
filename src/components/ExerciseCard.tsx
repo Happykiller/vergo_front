@@ -1,9 +1,9 @@
 // src\components\ExerciseCard.tsx
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Paper, useTheme } from '@mui/material';
-import InfoIcon from '@mui/icons-material/Info';
-import EditIcon from '@mui/icons-material/Edit';
-import { Badge, Card, CardContent, IconButton, Tooltip, Typography } from '@mui/material';
+import { InfoOutlined, ModeEditOutline } from '@mui/icons-material';
+import { Badge, CardContent, IconButton, Tooltip, Typography } from '@mui/material';
 
 import ImageFetcher from '@components/Image';
 
@@ -37,21 +37,23 @@ const ExerciseCard: React.FC<ExerciseCardProps> = ({
   onEditClick,
 }) => {
   const theme = useTheme();
+  const { t } = useTranslation();
   const cardContent = (
     <Paper
       elevation={0}
       sx={{
-        backgroundColor: theme.palette.background.paper,
-        borderRadius: `${theme.shape.borderRadius}px`,
         p: 2,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         textAlign: 'center',
-        boxShadow: `
-        0 0 12px ${theme.palette.primary.main}22,
-        inset 0 0 4px rgba(255,255,255,0.05)
-      `,
+        backgroundColor: theme.palette.background.default,
+        boxShadow: `0 0 24px ${theme.palette.primary.main}33,
+           0 0 64px ${theme.palette.primary.main}1A,
+           inset 0 0 8px rgba(255, 255, 255, 0.02)`,
+        border: `1px solid ${theme.palette.primary.main}`,
+        borderRadius: `${theme.shape.borderRadius}px`,
+        backdropFilter: { xs: 'none', sm: 'blur(2px)' },
       }}
     >
       {/* Image */}
@@ -63,19 +65,21 @@ const ExerciseCard: React.FC<ExerciseCardProps> = ({
           {/* Edit Button */}
           {exercice_id && onEditClick && (
             <IconButton
+              size="small"
+              title={t('trainings.go_edit')}
               onClick={(e) => {
                 e.preventDefault();
                 onEditClick(exercice_id);
               }}
             >
-              <EditIcon />
+              <ModeEditOutline fontSize="small" />
             </IconButton>
           )}
           {/* Info Tooltip */}
           {description && (
             <Tooltip title={description}>
               <IconButton>
-                <InfoIcon />
+                <InfoOutlined fontSize="small" />
               </IconButton>
             </Tooltip>
           )}

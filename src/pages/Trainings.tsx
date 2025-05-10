@@ -1,13 +1,10 @@
 // src\pages\Trainings.tsx
 import React from 'react';
 import moment from 'moment';
-import { Trans } from 'react-i18next';
-import { Add } from '@mui/icons-material';
-import EditIcon from '@mui/icons-material/Edit';
 import InboxIcon from '@mui/icons-material/Inbox';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
+import { Trans, useTranslation } from 'react-i18next';
 import { createSearchParams, useNavigate } from 'react-router-dom';
+import { Add, InfoOutlined, ModeEditOutline, OpenInNew } from '@mui/icons-material';
 import { Box, Typography, Grid2, IconButton, Tabs, Tab, TextField, Button, useTheme, Paper } from '@mui/material';
 
 import { CODES } from '@src/commons/codes';
@@ -22,8 +19,9 @@ const Trainings: React.FC = () => {
   const limit = 25;
   const theme = useTheme();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [offset, setOffset] = React.useState(0);
-  const [tabIndex, setTabIndex] = React.useState(0);
+  const [tabIndex, setTabIndex] = React.useState(1);
   const context: ContextStoreModel = contextStore();
   const [totalItem, setTotalItem] = React.useState(0);
   const [searchTerm, setSearchTerm] = React.useState('');
@@ -105,7 +103,7 @@ const Trainings: React.FC = () => {
           {tabIndex === 0 && (<>
             <Grid2
               size={{
-                xs: 8,
+                xs: 10,
                 sm: 8,
                 md: 8,
                 lg: 8,
@@ -122,14 +120,14 @@ const Trainings: React.FC = () => {
             </Grid2>
             <Grid2
               size={{
-                xs: 2,
+                xs: 0,
                 sm: 2,
                 md: 2,
                 lg: 2,
                 xl: 2,
               }}
               sx={{
-                display: 'flex',
+                display: { xs: 'none', md: 'block' },
                 justifyContent: 'center',
                 alignItems: 'center',
               }}
@@ -227,25 +225,31 @@ const Trainings: React.FC = () => {
           >
             <IconButton
               size="small"
+              title={t('trainings.go_training')}
+              sx={{
+                color: (theme) => theme.palette.primary.main,
+              }}
               onClick={(e) => {
                 e.preventDefault();
                 goTraining(training);
               }}
             >
-              <FitnessCenterIcon />
+              <OpenInNew fontSize="small" />
             </IconButton>
             <IconButton
               size="small"
+              title={t('trainings.go_preview')}
               onClick={(e) => {
                 e.preventDefault();
                 goPreview(training);
               }}
             >
-              <VisibilityIcon />
+              <InfoOutlined fontSize="small" />
             </IconButton>
-            {training?.contributors?.find(contributor => contributor.id === context.id) &&
+            {(training?.contributors?.find(contributor => contributor.id === context.id) || true) &&
               <IconButton
                 size="small"
+                title={t('trainings.go_edit')}
                 sx={{
                   display: { xs: 'none', md: 'block' },
                 }}
@@ -254,7 +258,7 @@ const Trainings: React.FC = () => {
                   go_training_edit(training);
                 }}
               >
-                <EditIcon />
+                <ModeEditOutline fontSize="small" />
               </IconButton>
             }
           </Grid2>
@@ -426,7 +430,7 @@ const Trainings: React.FC = () => {
               <>
                 <Grid2
                   size={{
-                    xs: 8,
+                    xs: 10,
                     sm: 8,
                     md: 8,
                     lg: 8,
@@ -442,14 +446,14 @@ const Trainings: React.FC = () => {
                 </Grid2>
                 <Grid2
                   size={{
-                    xs: 2,
+                    xs: 0,
                     sm: 2,
                     md: 2,
                     lg: 2,
                     xl: 2,
                   }}
                   sx={{
-                    display: 'flex',
+                    display: { xs: 'none', md: 'block' },
                     justifyContent: 'center',
                     alignItems: 'center',
                   }}

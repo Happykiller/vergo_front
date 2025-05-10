@@ -1,10 +1,8 @@
 // src\pages\Exercices.tsx
 import moment from 'moment';
 import React, { useEffect } from 'react';
-import { Add } from '@mui/icons-material';
-import EditIcon from '@mui/icons-material/Edit';
 import { Trans, useTranslation } from 'react-i18next';
-import VisibilityIcon from '@mui/icons-material/Visibility';
+import { Add, InfoOutlined, ModeEditOutline } from '@mui/icons-material';
 import { createSearchParams, useNavigate } from 'react-router-dom';
 import { Typography, CircularProgress, Alert, Grid2, TextField, IconButton, Button, useTheme } from '@mui/material';
 
@@ -19,7 +17,7 @@ const Exercices: React.FC = () => {
   const limit = 25;
   const theme = useTheme();
   const navigate = useNavigate();
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const currentLocale = i18n.language;
   const [offset, setOffset] = React.useState(0);
   const context: ContextStoreModel = contextStore();
@@ -111,7 +109,6 @@ const Exercices: React.FC = () => {
           mb: '1px',
           px: 2,
           py: 1,
-          borderRadius: 0,
           backgroundColor: theme.palette.background.paper,
           '&:hover': {
             backgroundColor: `${theme.palette.primary.main}22`,
@@ -120,14 +117,14 @@ const Exercices: React.FC = () => {
       >
         <Grid2
           size={{
-            xs: 2,
+            xs: 0,
             sm: 2,
             md: 2,
             lg: 2,
             xl: 2,
           }}
           sx={{
-            display: 'flex',
+            display: { xs: 'none', sm: 'flex' },
             justifyContent: 'center',
             alignItems: 'center',
           }}
@@ -137,14 +134,14 @@ const Exercices: React.FC = () => {
         </Grid2>
         <Grid2
           size={{
-            xs: 1,
+            xs: 0,
             sm: 1,
             md: 1,
             lg: 1,
             xl: 1,
           }}
           sx={{
-            display: 'flex',
+            display: { xs: 'none', sm: 'flex' },
             justifyContent: 'center',
             alignItems: 'center',
           }}
@@ -154,14 +151,14 @@ const Exercices: React.FC = () => {
         </Grid2>
         <Grid2
           size={{
-            xs: 2,
+            xs: 0,
             sm: 2,
             md: 2,
             lg: 2,
             xl: 2,
           }}
           sx={{
-            display: 'flex',
+            display: { xs: 'none', sm: 'flex' },
             justifyContent: 'center',
             alignItems: 'center',
           }}
@@ -171,7 +168,7 @@ const Exercices: React.FC = () => {
         </Grid2>
         <Grid2
           size={{
-            xs: 2,
+            xs: 6,
             sm: 2,
             md: 2,
             lg: 2,
@@ -188,7 +185,7 @@ const Exercices: React.FC = () => {
         </Grid2>
         <Grid2
           size={{
-            xs: 2,
+            xs: 5,
             sm: 2,
             md: 2,
             lg: 2,
@@ -205,14 +202,14 @@ const Exercices: React.FC = () => {
         </Grid2>
         <Grid2
           size={{
-            xs: 2,
+            xs: 0,
             sm: 2,
             md: 2,
             lg: 2,
             xl: 2,
           }}
           sx={{
-            display: 'flex',
+            display: { xs: 'none', sm: 'flex' },
             justifyContent: 'center',
             alignItems: 'center',
           }}
@@ -237,16 +234,18 @@ const Exercices: React.FC = () => {
           {/* actions */}
           <IconButton
             size="small"
+            title={t('exercices.view')}
             onClick={(e) => {
               e.preventDefault();
               goView(exercice);
             }}
           >
-            <VisibilityIcon />
+            <InfoOutlined fontSize="small" />
           </IconButton>
           {exercice?.contributors?.find(contributor => contributor.id === context.id) &&
             <IconButton
               size="small"
+              title={t('exercices.edit')}
               sx={{
                 display: { xs: 'none', md: 'block' },
               }}
@@ -255,7 +254,7 @@ const Exercices: React.FC = () => {
                 go_exercice_edit(exercice);
               }}
             >
-              <EditIcon />
+              <ModeEditOutline fontSize="small" />
             </IconButton>
           }
         </Grid2>
@@ -313,14 +312,14 @@ const Exercices: React.FC = () => {
       >
         <Grid2
           size={{
-            xs: 2,
+            xs: 0,
             sm: 2,
             md: 2,
             lg: 2,
             xl: 2,
           }}
           sx={{
-            display: 'flex',
+            display: { xs: 'none', sm: 'flex' },
             justifyContent: 'center',
             alignItems: 'center',
           }}
@@ -329,14 +328,14 @@ const Exercices: React.FC = () => {
         </Grid2>
         <Grid2
           size={{
-            xs: 1,
+            xs: 0,
             sm: 1,
             md: 1,
             lg: 1,
             xl: 1,
           }}
           sx={{
-            display: 'flex',
+            display: { xs: 'none', sm: 'flex' },
             justifyContent: 'center',
             alignItems: 'center',
           }}
@@ -345,14 +344,14 @@ const Exercices: React.FC = () => {
         </Grid2>
         <Grid2
           size={{
-            xs: 2,
+            xs: 0,
             sm: 2,
             md: 2,
             lg: 2,
             xl: 2,
           }}
           sx={{
-            display: 'flex',
+            display: { xs: 'none', sm: 'flex' },
             justifyContent: 'center',
             alignItems: 'center',
           }}
@@ -361,7 +360,7 @@ const Exercices: React.FC = () => {
         </Grid2>
         <Grid2
           size={{
-            xs: 2,
+            xs: 6,
             sm: 2,
             md: 2,
             lg: 2,
@@ -377,13 +376,14 @@ const Exercices: React.FC = () => {
         </Grid2>
         <Grid2
           size={{
+            xs: 5,
             sm: 2,
             md: 2,
             lg: 2,
             xl: 2,
           }}
           sx={{
-            display: { xs: 'none', sm: 'flex' },
+            display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
           }}
@@ -392,6 +392,7 @@ const Exercices: React.FC = () => {
         </Grid2>
         <Grid2
           size={{
+            xs: 0,
             sm: 2,
             md: 2,
             lg: 2,
@@ -407,10 +408,16 @@ const Exercices: React.FC = () => {
         </Grid2>
         <Grid2
           size={{
+            xs: 1,
             sm: 1,
             md: 1,
             lg: 1,
             xl: 1,
+          }}
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
         >
         </Grid2>
