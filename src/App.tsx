@@ -29,8 +29,10 @@ const App: React.FC = () => {
     <div>
       {/* Define the application's routing structure */}
       <Routes>
-        {/* Route for root */}
-        <Route path="/" element={<LayoutProtectedExt><Trainings /></LayoutProtectedExt>} />
+        <Route path="*" element={<LayoutPublicExt><NotFound /></LayoutPublicExt>} />
+
+        {/* Route for the cgu page */}
+        <Route path="/cgu" element={<LayoutPublicExt><CGU /></LayoutPublicExt>} />
 
         {/* Route for the login page */}
         <Route
@@ -81,6 +83,9 @@ const App: React.FC = () => {
           </LayoutProtectedExt>
         } />
 
+        {/* Route for root */}
+        <Route path="/" element={<LayoutProtectedExt><Trainings /></LayoutProtectedExt>} />
+
         {/* Route for the info page */}
         <Route path="/info" element={<LayoutProtectedExt><Info /></LayoutProtectedExt>} />
 
@@ -119,11 +124,6 @@ const App: React.FC = () => {
 
         {/* Page for play with components */}
         <Route path="/sandbox" element={<LayoutProtectedExt><Sandbox /></LayoutProtectedExt>} />
-
-        {/* Route for the cgu page */}
-        <Route path="/cgu" element={<LayoutPublicExt><CGU /></LayoutPublicExt>} />
-
-        <Route path="*" element={<LayoutPublicExt><NotFound /></LayoutPublicExt>} />
       </Routes>
       <FlashMessage icons={{ close: <CloseIcon fontSize="small" /> }} />
     </div>

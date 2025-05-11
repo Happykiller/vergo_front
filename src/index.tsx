@@ -3,8 +3,9 @@
 import '@fontsource/roboto';
 import '@fontsource/montserrat';
 import '@fontsource/roboto/400.css';
-import React, { useMemo } from 'react';
 import '@fontsource/montserrat/600.css';
+
+import React, { useMemo } from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ThemeProvider, CssBaseline } from '@mui/material';
