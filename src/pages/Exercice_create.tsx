@@ -2,7 +2,7 @@ import React from 'react';
 import { Add } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
-import { Container, Box, Grid2, TextField, Button } from '@mui/material';
+import { Container, Box, Grid, TextField, Button } from '@mui/material';
 
 import inversify from '@src/commons/inversify';
 import { useFlashStore } from '@happykiller/sunny-ui';
@@ -49,16 +49,16 @@ const Exercice_create: React.FC = () => {
         marginBottom={"5vh"}
         marginTop={"2vh"}
       >
-        <Grid2 
+        <Grid 
           container 
           spacing={2}
         >
-          <Grid2
+          <Grid
             size={12}
           >
             <h1><Trans>exercice_create.title</Trans></h1>
-          </Grid2>
-          <Grid2
+          </Grid>
+          <Grid
             size={12}
           >
             <TextField
@@ -74,8 +74,8 @@ const Exercice_create: React.FC = () => {
                 },
               }}
             />
-          </Grid2>
-          <Grid2
+          </Grid>
+          <Grid
             size={12}
           >
             {/* Submit button */}
@@ -89,8 +89,8 @@ const Exercice_create: React.FC = () => {
                 submit();
               }}
             ><Trans>common.create</Trans></Button>
-          </Grid2>
-        </Grid2>
+          </Grid>
+        </Grid>
       </Box>
     </Container>
   </>);

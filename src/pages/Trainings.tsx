@@ -5,7 +5,7 @@ import InboxIcon from '@mui/icons-material/Inbox';
 import { Trans, useTranslation } from 'react-i18next';
 import { createSearchParams, useNavigate } from 'react-router-dom';
 import { Add, InfoOutlined, ModeEditOutline, OpenInNew } from '@mui/icons-material';
-import { Box, Typography, Grid2, IconButton, Tabs, Tab, TextField, Button, useTheme, Paper } from '@mui/material';
+import { Box, Typography, Grid, IconButton, Tabs, Tab, TextField, Button, useTheme, Paper } from '@mui/material';
 
 import { CODES } from '@src/commons/codes';
 import commons from '@src/commons/commons';
@@ -98,10 +98,10 @@ const Trainings: React.FC = () => {
           },
         }}
       >
-        <Grid2 container alignItems="center">
+        <Grid container alignItems="center">
           {/* For personal */}
           {tabIndex === 0 && (<>
-            <Grid2
+            <Grid
               size={{
                 xs: 10,
                 sm: 8,
@@ -117,8 +117,8 @@ const Trainings: React.FC = () => {
               title={training.label ?? training.slug}
             >
               <Typography noWrap>{training.label ?? training.slug}</Typography>
-            </Grid2>
-            <Grid2
+            </Grid>
+            <Grid
               size={{
                 xs: 0,
                 sm: 2,
@@ -134,12 +134,12 @@ const Trainings: React.FC = () => {
               title={strDate}
             >
               <Typography noWrap>{strDate}</Typography>
-            </Grid2>
+            </Grid>
           </>)}
 
           {/* For public and private */}
           {tabIndex !== 0 && (<>
-            <Grid2
+            <Grid
               size={{
                 xs: 10,
                 sm: 4,
@@ -155,8 +155,8 @@ const Trainings: React.FC = () => {
               title={training.label ?? training.slug}
             >
               <Typography noWrap>{training.label ?? training.slug}</Typography>
-            </Grid2>
-            <Grid2
+            </Grid>
+            <Grid
               size={{
                 xs: 0,
                 sm: 2,
@@ -172,8 +172,8 @@ const Trainings: React.FC = () => {
               title={training.gender}
             >
               <Typography noWrap>{training?.creator?.code}</Typography>
-            </Grid2>
-            <Grid2
+            </Grid>
+            <Grid
               size={{
                 xs: 0,
                 sm: 2,
@@ -189,8 +189,8 @@ const Trainings: React.FC = () => {
               title={training.gender}
             >
               <Typography noWrap><Trans>trainings.{training.gender ?? 'woman'}</Trans></Typography>
-            </Grid2>
-            <Grid2
+            </Grid>
+            <Grid
               size={{
                 xs: 0,
                 sm: 2,
@@ -206,10 +206,10 @@ const Trainings: React.FC = () => {
               title={strDate}
             >
               <Typography noWrap>{strDate}</Typography>
-            </Grid2>
+            </Grid>
           </>)}
 
-          <Grid2
+          <Grid
             size={{
               xs: 2,
               sm: 2,
@@ -261,8 +261,8 @@ const Trainings: React.FC = () => {
                 <ModeEditOutline fontSize="small" />
               </IconButton>
             }
-          </Grid2>
-        </Grid2>
+          </Grid>
+        </Grid>
       </Paper>
     )
   });
@@ -297,7 +297,7 @@ const Trainings: React.FC = () => {
   let content = <></>;
 
   if (qry.loading) {
-    content = <Grid2
+    content = <Grid
       container
       sx={{
         marginBottom: '1px',
@@ -306,7 +306,7 @@ const Trainings: React.FC = () => {
         },
       }}
     >
-      <Grid2
+      <Grid
         size={{
           md: 12,
         }}
@@ -317,10 +317,10 @@ const Trainings: React.FC = () => {
         }}
       >
         <Typography noWrap><Trans>common.loading</Trans></Typography>
-      </Grid2>
-    </Grid2>;
+      </Grid>
+    </Grid>;
   } else if (qry.error) {
-    content = <Grid2
+    content = <Grid
       container
       sx={{
         marginBottom: '1px',
@@ -329,7 +329,7 @@ const Trainings: React.FC = () => {
         },
       }}
     >
-      <Grid2
+      <Grid
         size={{
           md: 12,
         }}
@@ -340,8 +340,8 @@ const Trainings: React.FC = () => {
         }}
       >
         <Typography noWrap><Trans>{qry.error}</Trans></Typography>
-      </Grid2>
-    </Grid2>;
+      </Grid>
+    </Grid>;
   } else if (!trainings) {
     setQry(qry => ({
       ...qry,
@@ -424,11 +424,11 @@ const Trainings: React.FC = () => {
             fontWeight: 600,
           }}
         >
-          <Grid2 container alignItems="center">
+          <Grid container alignItems="center">
             {/* For personal */}
             {tabIndex === 0 && (
               <>
-                <Grid2
+                <Grid
                   size={{
                     xs: 10,
                     sm: 8,
@@ -443,8 +443,8 @@ const Trainings: React.FC = () => {
                   }}
                 >
                   <Trans>trainings.label</Trans>
-                </Grid2>
-                <Grid2
+                </Grid>
+                <Grid
                   size={{
                     xs: 0,
                     sm: 2,
@@ -459,14 +459,14 @@ const Trainings: React.FC = () => {
                   }}
                 >
                   <Trans>trainings.date</Trans>
-                </Grid2>
+                </Grid>
               </>
             )}
 
             {/* For public and private */}
             {tabIndex !== 0 && (
               <>
-                <Grid2
+                <Grid
                   size={{
                     xs: 10,
                     sm: 4,
@@ -481,8 +481,8 @@ const Trainings: React.FC = () => {
                   }}
                 >
                   <Trans>trainings.label</Trans>
-                </Grid2>
-                <Grid2
+                </Grid>
+                <Grid
                   size={{
                     xs: 0,
                     sm: 2,
@@ -497,8 +497,8 @@ const Trainings: React.FC = () => {
                   }}
                 >
                   <Trans>trainings.creator</Trans>
-                </Grid2>
-                <Grid2
+                </Grid>
+                <Grid
                   size={{
                     xs: 0,
                     sm: 2,
@@ -513,8 +513,8 @@ const Trainings: React.FC = () => {
                   }}
                 >
                   <Trans>trainings.gender</Trans>
-                </Grid2>
-                <Grid2
+                </Grid>
+                <Grid
                   size={{
                     xs: 0,
                     sm: 2,
@@ -529,11 +529,11 @@ const Trainings: React.FC = () => {
                   }}
                 >
                   <Trans>trainings.date</Trans>
-                </Grid2>
+                </Grid>
               </>
             )}
 
-            <Grid2
+            <Grid
               size={{
                 xs: 2,
                 sm: 2,
@@ -543,8 +543,8 @@ const Trainings: React.FC = () => {
               }}
             >
               {/* Empty Grid for spacing or layout */}
-            </Grid2>
-          </Grid2>
+            </Grid>
+          </Grid>
         </Paper>
 
         {trainingsShowed?.map((training) => (
@@ -555,7 +555,7 @@ const Trainings: React.FC = () => {
 
         {/* Pagination */}
         {totalItem / limit > 1 && (
-          <Grid2
+          <Grid
             size={12}
             sx={{ marginBottom: 2 }}
           >
@@ -564,7 +564,7 @@ const Trainings: React.FC = () => {
               limit={limit}
               onPageChange={handlePageChange}
             />
-          </Grid2>
+          </Grid>
         )}
 
       </>
@@ -584,7 +584,7 @@ const Trainings: React.FC = () => {
       </Box>
     )}
 
-    <Grid2
+    <Grid
       size={12}
       sx={{
         display: 'flex',
@@ -604,7 +604,7 @@ const Trainings: React.FC = () => {
       >
         <Trans>common.create</Trans>
       </Button>
-    </Grid2>
+    </Grid>
   </>);
 }
 

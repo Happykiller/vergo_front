@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import DoneIcon from '@mui/icons-material/Done';
 import { useSearchParams } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
-import { Container, Typography, Box, Grid2, TextField, Button, CircularProgress, Alert } from '@mui/material';
+import { Container, Typography, Box, Grid, TextField, Button, CircularProgress, Alert } from '@mui/material';
 
 import { CODES } from '@src/commons/codes';
 import inversify from '@src/commons/inversify';
@@ -123,11 +123,11 @@ const Exercice_edit: React.FC = () => {
             {data?.label??data?.slug}
           </Typography>
           
-          <Grid2 
+          <Grid 
             container 
             spacing={2}
           >
-            <Grid2 size={12}>
+            <Grid size={12}>
               <TextField
                 label="JSON Input"
                 multiline
@@ -142,8 +142,8 @@ const Exercice_edit: React.FC = () => {
                   },
                 }}
               />
-            </Grid2>
-            <Grid2 size={12}>
+            </Grid>
+            <Grid size={12}>
               {/* Submit button */}
               <Button 
                 type="submit"
@@ -155,8 +155,8 @@ const Exercice_edit: React.FC = () => {
                   update();
                 }}
               ><Trans>common.update</Trans></Button>
-            </Grid2>
-          </Grid2>
+            </Grid>
+          </Grid>
         </>)}
       </Box>
     </Container>

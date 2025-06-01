@@ -25,7 +25,7 @@ export const sharedTypography = {
     },
   },
   body1: {
-    fontFamily: 'Roboto',
+    fontFamily: 'Montserrat',
     fontWeight: 400,
     fontSize: pxToRem(15),
     lineHeight: 1.6,
@@ -49,8 +49,6 @@ export const createSharedComponents = (
         fontWeight: 600,
         letterSpacing: '0.05em',
         textTransform: 'none',
-        paddingTop: 12,
-        paddingBottom: 12,
       },
       contained: {
         backgroundColor: buttonPalette.main,

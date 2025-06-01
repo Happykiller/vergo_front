@@ -1,7 +1,7 @@
 // src\pages\Sandbox.tsx
 import React from 'react';
 import CloseIcon from '@mui/icons-material/Close';
-import { Box, Grid2, Typography, Paper, Button } from '@mui/material';
+import { Box, Grid, Typography, Paper, Button } from '@mui/material';
 
 import { FlashMessage, useFlashStore, Input } from '@happykiller/sunny-ui';
 
@@ -14,8 +14,8 @@ export const Sandbox: React.FC = () => {
     <Box p={4}>
       <Typography variant="h4" gutterBottom>Sandbox</Typography>
 
-      <Grid2 container spacing={4}>
-        <Grid2
+      <Grid container spacing={4}>
+        <Grid
           size={{
             xs: 12,
             md: 6,
@@ -34,9 +34,9 @@ export const Sandbox: React.FC = () => {
             >Trigger Flash</Button>
             <FlashMessage icons={{ close: <CloseIcon fontSize="small" /> }} />
           </Paper>
-        </Grid2>
+        </Grid>
 
-        <Grid2
+        <Grid
           size={{
             xs: 12,
             md: 6,
@@ -51,9 +51,9 @@ export const Sandbox: React.FC = () => {
               tooltip="Enter something"
             />
           </Paper>
-        </Grid2>
+        </Grid>
 
-      </Grid2>
+      </Grid>
     </Box>
   );
 };

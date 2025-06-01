@@ -7,7 +7,7 @@ import {
   sharedTypography,
 } from './shared';
 
-export const lightPalette = {
+const palette = {
   mode: 'light' as const,
   primary: { main: '#4169E1', light: '#598AE3' },
   secondary: { main: '#8ECAE6', light: '#B2E4F3' },
@@ -25,22 +25,22 @@ export const lightPalette = {
 
 export const lightTheme = responsiveFontSizes(
   createTheme({
-    palette: {
-      ...lightPalette,
-    },
+    palette: palette,
     shape: sharedShape,
-    typography: {
-      ...sharedTypography,
-      h1: { ...sharedTypography.h1, color: lightPalette.text.primary },
-      body1: { ...sharedTypography.body1, color: lightPalette.text.primary },
-    },
+    typography: sharedTypography,
     components: {
-      ...createSharedComponents(lightPalette.primary),
+      ...createSharedComponents(palette.primary),
       MuiCssBaseline: {
         styleOverrides: {
+          html: {
+            fontFamily: sharedTypography.fontFamily,
+          },
           body: {
-            background: lightPalette.background.default,
-            backgroundImage: lightPalette.gradient,
+            fontFamily: sharedTypography.fontFamily,
+            backgroundColor: palette.background.default,
+            backgroundImage: palette.gradient,
+            color: palette.text.primary,
+            margin: 0,
           },
         },
       },

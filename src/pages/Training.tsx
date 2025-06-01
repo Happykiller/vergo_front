@@ -6,7 +6,7 @@ import { useSearchParams } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
-import { Box, Typography, useTheme, useMediaQuery, TypographyProps, Tooltip, IconButton, CircularProgress, Grid2, Paper } from '@mui/material';
+import { Box, Typography, useTheme, useMediaQuery, TypographyProps, Tooltip, IconButton, CircularProgress, Grid, Paper } from '@mui/material';
 
 import Chrono from '@components/Chrono';
 import { CODES } from '@src/commons/codes';
@@ -508,9 +508,9 @@ const Training: React.FC = () => {
     </Paper>;
   }
 
-  return (<Grid2 container justifyContent="center" gap={1}>
+  return (<Grid container justifyContent="center" gap={1}>
     {content}
-  </Grid2>);
+  </Grid>);
 }
 
 export default Training;

@@ -4,7 +4,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { useSearchParams } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
 import { createSearchParams, useNavigate } from 'react-router-dom';
-import { Container, Box, CircularProgress, Alert, Typography, Card, CardContent, IconButton, Grid2, Paper, useTheme } from '@mui/material';
+import { Container, Box, CircularProgress, Alert, Typography, Card, CardContent, IconButton, Grid, Paper, useTheme } from '@mui/material';
 
 import { CODES } from '@src/commons/codes';
 import ImageFetcher from '@components/Image';
@@ -127,14 +127,14 @@ const Exercice: React.FC = () => {
           </Typography>
 
           {/* Grid images */}
-          <Grid2 container spacing={2} mb={3}>
+          <Grid container spacing={2} mb={3}>
             {[
               { label: 'V1 Man', gender: 'man', v2: false },
               { label: 'V1 Woman', gender: 'woman', v2: false },
               { label: 'V2 Man', gender: 'man', v2: true },
               { label: 'V2 Woman', gender: 'woman', v2: true }
             ].map(({ label, gender, v2 }, idx) => (
-              <Grid2 key={idx} size={6}>
+              <Grid key={idx} size={6}>
                 <Box display="flex" flexDirection="column" alignItems="center">
                   <ImageFetcher
                     name={`${gender} ${qry.data?.image}`}
@@ -143,9 +143,9 @@ const Exercice: React.FC = () => {
                   />
                   <Typography variant="caption" mt={1}>{label}</Typography>
                 </Box>
-              </Grid2>
+              </Grid>
             ))}
-          </Grid2>
+          </Grid>
 
           {/* Métadonnées */}
           <Card variant="outlined" sx={{ backgroundColor: theme.palette.background.paper }}>

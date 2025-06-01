@@ -2,7 +2,7 @@ import React from 'react';
 import { Add } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
-import { Container, Box, Grid2, TextField, Button } from '@mui/material';
+import { Container, Box, Grid, TextField, Button } from '@mui/material';
 
 import inversify from '@src/commons/inversify';
 import { useFlashStore } from '@happykiller/sunny-ui';
@@ -47,8 +47,8 @@ const Training_create: React.FC = () => {
         marginBottom={"5vh"}
         marginTop={"2vh"}
       >
-        <Grid2 container spacing={2}>
-          <Grid2 size={12}>
+        <Grid container spacing={2}>
+          <Grid size={12}>
             <TextField
               label="JSON Input"
               multiline
@@ -62,8 +62,8 @@ const Training_create: React.FC = () => {
                 },
               }}
             />
-          </Grid2>
-          <Grid2 size={12}>
+          </Grid>
+          <Grid size={12}>
             {/* Submit button */}
             <Button 
               type="submit"
@@ -75,8 +75,8 @@ const Training_create: React.FC = () => {
                 submit();
               }}
             ><Trans>common.create</Trans></Button>
-          </Grid2>
-        </Grid2>
+          </Grid>
+        </Grid>
       </Box>
     </Container>
   </>);

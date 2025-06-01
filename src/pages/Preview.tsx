@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import { createSearchParams, useNavigate, useSearchParams } from 'react-router-dom';
-import { Typography, Box, CircularProgress, Alert, Grid2, IconButton, Tooltip, Divider } from '@mui/material';
+import { Typography, Box, CircularProgress, Alert, Grid, IconButton, Tooltip, Divider } from '@mui/material';
 
 import { CODES } from '@src/commons/codes';
 import inversify from '@src/commons/inversify';
@@ -167,7 +167,7 @@ const Preview: React.FC = () => {
           </Box>
 
           {/* Grille des éléments */}
-          <Grid2
+          <Grid
             container
             spacing={2}
             display="flex"
@@ -184,7 +184,7 @@ const Preview: React.FC = () => {
                 const title = ex?.title.find((elt: any) => elt.lang === currentLocale).value ?? item.workout_slug;
                 const description = ex?.description.find((elt: any) => elt.lang === currentLocale).value;
                 divider = (
-                  <Grid2 size={12}>
+                  <Grid size={12}>
                     <Typography variant="h4">
                       {ex && (
                         <IconButton
@@ -201,13 +201,13 @@ const Preview: React.FC = () => {
                       {title}
                     </Typography>
                     <Divider />
-                  </Grid2>)
+                  </Grid>)
                 old_workout_slug = item.workout_slug;
               }
 
               return <React.Fragment key={index}>
                 {divider}
-                <Grid2
+                <Grid
                   size={{
                     xs: 4,
                     sm: 3,
@@ -228,11 +228,11 @@ const Preview: React.FC = () => {
                     img={item.img}
                     onEditClick={go_exercice}
                   />
-                </Grid2>
+                </Grid>
               </React.Fragment>
             })
             }
-          </Grid2>
+          </Grid>
         </>
       )}
     </>

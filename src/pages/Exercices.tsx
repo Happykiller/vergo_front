@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { Add, InfoOutlined, ModeEditOutline } from '@mui/icons-material';
 import { createSearchParams, useNavigate } from 'react-router-dom';
-import { Typography, CircularProgress, Alert, Grid2, TextField, IconButton, Button, useTheme } from '@mui/material';
+import { Typography, CircularProgress, Alert, Grid, TextField, IconButton, Button, useTheme } from '@mui/material';
 
 import commons from '@src/commons/commons';
 import { CODES } from '@src/commons/codes';
@@ -103,7 +103,7 @@ const Exercices: React.FC = () => {
     const description = exercice.description.find((elt: any) => elt.lang === currentLocale)?.value;
 
     return (
-      <Grid2
+      <Grid
         container
         sx={{
           mb: '1px',
@@ -115,7 +115,7 @@ const Exercices: React.FC = () => {
           },
         }}
       >
-        <Grid2
+        <Grid
           size={{
             xs: 0,
             sm: 2,
@@ -131,8 +131,8 @@ const Exercices: React.FC = () => {
           title={exercice.slug}
         >
           <Typography noWrap>{exercice.slug}</Typography>
-        </Grid2>
-        <Grid2
+        </Grid>
+        <Grid
           size={{
             xs: 0,
             sm: 1,
@@ -148,8 +148,8 @@ const Exercices: React.FC = () => {
           title={exercice?.creator?.code}
         >
           <Typography noWrap>{exercice?.creator?.code}</Typography>
-        </Grid2>
-        <Grid2
+        </Grid>
+        <Grid
           size={{
             xs: 0,
             sm: 2,
@@ -165,8 +165,8 @@ const Exercices: React.FC = () => {
           title={strDate}
         >
           <Typography noWrap>{strDate}</Typography>
-        </Grid2>
-        <Grid2
+        </Grid>
+        <Grid
           size={{
             xs: 6,
             sm: 2,
@@ -182,8 +182,8 @@ const Exercices: React.FC = () => {
           title={title}
         >
           <Typography noWrap>{title}</Typography>
-        </Grid2>
-        <Grid2
+        </Grid>
+        <Grid
           size={{
             xs: 5,
             sm: 2,
@@ -199,8 +199,8 @@ const Exercices: React.FC = () => {
           title={description}
         >
           <Typography noWrap>{description}</Typography>
-        </Grid2>
-        <Grid2
+        </Grid>
+        <Grid
           size={{
             xs: 0,
             sm: 2,
@@ -216,8 +216,8 @@ const Exercices: React.FC = () => {
           title={exercice.image}
         >
           <Typography noWrap>{exercice.image}</Typography>
-        </Grid2>
-        <Grid2
+        </Grid>
+        <Grid
           size={{
             xs: 1,
             sm: 1,
@@ -257,8 +257,8 @@ const Exercices: React.FC = () => {
               <ModeEditOutline fontSize="small" />
             </IconButton>
           }
-        </Grid2>
-      </Grid2>
+        </Grid>
+      </Grid>
     )
   }
 
@@ -299,7 +299,7 @@ const Exercices: React.FC = () => {
       />
 
       {/* Table */}
-      <Grid2
+      <Grid
         container
         sx={{
           fontWeight: 600,
@@ -310,7 +310,7 @@ const Exercices: React.FC = () => {
           py: 1,
         }}
       >
-        <Grid2
+        <Grid
           size={{
             xs: 0,
             sm: 2,
@@ -325,8 +325,8 @@ const Exercices: React.FC = () => {
           }}
         >
           <Trans>exercices.slug</Trans>
-        </Grid2>
-        <Grid2
+        </Grid>
+        <Grid
           size={{
             xs: 0,
             sm: 1,
@@ -341,8 +341,8 @@ const Exercices: React.FC = () => {
           }}
         >
           <Trans>exercices.creator</Trans>
-        </Grid2>
-        <Grid2
+        </Grid>
+        <Grid
           size={{
             xs: 0,
             sm: 2,
@@ -357,8 +357,8 @@ const Exercices: React.FC = () => {
           }}
         >
           <Trans>exercices.creation_date</Trans>
-        </Grid2>
-        <Grid2
+        </Grid>
+        <Grid
           size={{
             xs: 6,
             sm: 2,
@@ -373,8 +373,8 @@ const Exercices: React.FC = () => {
           }}
         >
           <Trans>exercices.title</Trans>
-        </Grid2>
-        <Grid2
+        </Grid>
+        <Grid
           size={{
             xs: 5,
             sm: 2,
@@ -389,8 +389,8 @@ const Exercices: React.FC = () => {
           }}
         >
           <Trans>exercices.description</Trans>
-        </Grid2>
-        <Grid2
+        </Grid>
+        <Grid
           size={{
             xs: 0,
             sm: 2,
@@ -405,8 +405,8 @@ const Exercices: React.FC = () => {
           }}
         >
           <Trans>exercices.image</Trans>
-        </Grid2>
-        <Grid2
+        </Grid>
+        <Grid
           size={{
             xs: 1,
             sm: 1,
@@ -420,8 +420,8 @@ const Exercices: React.FC = () => {
             alignItems: 'center',
           }}
         >
-        </Grid2>
-      </Grid2>
+        </Grid>
+      </Grid>
 
       {showed?.map((exercice) => (
         <Row key={exercice.id} exercice={exercice} />
@@ -430,16 +430,16 @@ const Exercices: React.FC = () => {
 
     {/* Pagination */}
     {(totalItem / limit > 1) && (
-      <Grid2 size={12} sx={{ marginBottom: 2 }}>
+      <Grid size={12} sx={{ marginBottom: 2 }}>
         <PaginationComponent
           totalItems={totalItem}
           limit={limit}
           onPageChange={handlePageChange}
         />
-      </Grid2>
+      </Grid>
     )}
 
-    <Grid2 size={12}>
+    <Grid size={12}>
       {/* Submit button */}
       <Button
         type="submit"
@@ -454,7 +454,7 @@ const Exercices: React.FC = () => {
           mt: 2
         }}
       ><Trans>common.create</Trans></Button>
-    </Grid2>
+    </Grid>
 
   </>);
 }

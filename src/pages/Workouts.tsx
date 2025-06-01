@@ -2,7 +2,7 @@
 import moment from 'moment';
 import React, { useEffect } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { Typography, Box, CircularProgress, Alert, Grid2, TextField, useTheme } from '@mui/material';
+import { Typography, Box, CircularProgress, Alert, Grid, TextField, useTheme } from '@mui/material';
 
 import commons from '@src/commons/commons';
 import { CODES } from '@src/commons/codes';
@@ -69,7 +69,7 @@ const Workouts: React.FC = () => {
     const description = exercice.description.find((elt: any) => elt.lang === currentLocale)?.value;
 
     return (
-      <Grid2
+      <Grid
         container
         sx={{
           mb: '1px',
@@ -81,7 +81,7 @@ const Workouts: React.FC = () => {
           },
         }}
       >
-        <Grid2
+        <Grid
           size={{
             xs: 0,
             sm: 2,
@@ -97,8 +97,8 @@ const Workouts: React.FC = () => {
           title={exercice.slug}
         >
           <Typography noWrap>{exercice.slug}</Typography>
-        </Grid2>
-        <Grid2
+        </Grid>
+        <Grid
           size={{
             xs: 0,
             sm: 2,
@@ -114,8 +114,8 @@ const Workouts: React.FC = () => {
           title={strDate}
         >
           <Typography noWrap>{strDate}</Typography>
-        </Grid2>
-        <Grid2
+        </Grid>
+        <Grid
           size={{
             xs: 6,
             sm: 3,
@@ -131,8 +131,8 @@ const Workouts: React.FC = () => {
           title={title}
         >
           <Typography noWrap>{title}</Typography>
-        </Grid2>
-        <Grid2
+        </Grid>
+        <Grid
           size={{
             xs: 5,
             sm: 4,
@@ -148,8 +148,8 @@ const Workouts: React.FC = () => {
           title={description}
         >
           <Typography noWrap>{description}</Typography>
-        </Grid2>
-        <Grid2
+        </Grid>
+        <Grid
           size={{
             xs: 1,
             sm: 1,
@@ -163,8 +163,8 @@ const Workouts: React.FC = () => {
             alignItems: 'center',
           }}
         >
-        </Grid2>
-      </Grid2>
+        </Grid>
+      </Grid>
     )
   }
 
@@ -205,7 +205,7 @@ const Workouts: React.FC = () => {
       />
 
       {/* Table */}
-      <Grid2
+      <Grid
         container
         sx={{
           fontWeight: 600,
@@ -216,7 +216,7 @@ const Workouts: React.FC = () => {
           py: 1,
         }}
       >
-        <Grid2
+        <Grid
           size={{
             xs: 0,
             sm: 2,
@@ -231,8 +231,8 @@ const Workouts: React.FC = () => {
           }}
         >
           <Trans>workouts.slug</Trans>
-        </Grid2>
-        <Grid2
+        </Grid>
+        <Grid
           size={{
             xs: 0,
             sm: 2,
@@ -247,8 +247,8 @@ const Workouts: React.FC = () => {
           }}
         >
           <Trans>workouts.creation_date</Trans>
-        </Grid2>
-        <Grid2
+        </Grid>
+        <Grid
           size={{
             xs: 6,
             sm: 3,
@@ -263,8 +263,8 @@ const Workouts: React.FC = () => {
           }}
         >
           <Trans>workouts.title</Trans>
-        </Grid2>
-        <Grid2
+        </Grid>
+        <Grid
           size={{
             xs: 5,
             sm: 4,
@@ -279,8 +279,8 @@ const Workouts: React.FC = () => {
           }}
         >
           <Trans>workouts.description</Trans>
-        </Grid2>
-        <Grid2
+        </Grid>
+        <Grid
           size={{
             xs: 1,
             sm: 1,
@@ -294,8 +294,8 @@ const Workouts: React.FC = () => {
             alignItems: 'center',
           }}
         >
-        </Grid2>
-      </Grid2>
+        </Grid>
+      </Grid>
 
       {showed?.map((exercice) => (
         <Row key={exercice.id} exercice={exercice} />
@@ -305,13 +305,13 @@ const Workouts: React.FC = () => {
     {/* Pagination */}
     {
       (totalItem / limit > 1) && (
-        <Grid2 size={12} sx={{ marginBottom: 2 }}>
+        <Grid size={12} sx={{ marginBottom: 2 }}>
           <PaginationComponent
             totalItems={totalItem}
             limit={limit}
             onPageChange={handlePageChange}
           />
-        </Grid2>
+        </Grid>
       )
     }
   </>);

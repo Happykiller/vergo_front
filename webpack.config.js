@@ -1,6 +1,7 @@
 const path = require('path');
 const dotenv = require('dotenv');
 const webpack = require('webpack');
+const WebpackBar = require('webpackbar');
 const Dotenv = require('dotenv-webpack');
 const { version } = require('./package.json');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -39,7 +40,7 @@ module.exports = (env, argv) => {
 
     resolve: {
       // Extensions to resolve, allowing for imports without specifying the file extension.
-      extensions: ['.ts', '.tsx', '.js'],
+      extensions: ['.tsx', '.ts', '.js', '.json', '.scss', '.svg', '.woff', '.woff2', '.ttf', '.eot'],
       alias: {
         '@src': path.resolve(__dirname, 'src'), // Alias for the src directory
         '@pages': path.resolve(__dirname, 'src/pages'), // Alias for the pages directory
@@ -87,6 +88,7 @@ module.exports = (env, argv) => {
     },
 
     plugins: [
+      new WebpackBar(),
       new FaviconsWebpackPlugin({
         logo: './src/public/logo.png', // Chemin vers votre logo de base
         mode: 'webapp', // Génère des icônes pour PWA
