@@ -1,3 +1,6 @@
+// src\commons\commons.ts
+import moment from 'moment';
+
 export class Commons {
   getTimestampFromObjectId = (objectId:string) => {
     // Les premiers 8 caractères (4 octets) de l'ObjectId représentent le timestamp en hexadécimal
@@ -24,6 +27,24 @@ export class Commons {
       .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Supprimer les accents
       .replace(/[^a-z0-9]/g, ''); // Supprimer les caractères spéciaux
   };
+
+  /**
+ * Format a duration (in seconds) into a readable HH:mm:ss or mm:ss string.
+ * @param totalSeconds - Duration in seconds
+ * @returns A string formatted as H:mm:ss or mm:ss
+ */
+  formatDurationFromSeconds = (totalSeconds: number): string => {
+  if (!Number.isFinite(totalSeconds) || totalSeconds < 0) return '00:00';
+
+  const duration = moment.duration(totalSeconds, 'seconds');
+  const hours = duration.hours();
+  const minutes = duration.minutes().toString().padStart(2, '0');
+  const seconds = duration.seconds().toString().padStart(2, '0');
+
+  return hours > 0
+    ? `${hours}:${minutes}:${seconds}`
+    : `${minutes}:${seconds}`;
+}
 }
 
 const commons = new Commons();

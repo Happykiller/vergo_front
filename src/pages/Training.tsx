@@ -9,9 +9,11 @@ import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 import { Box, Typography, useTheme, useMediaQuery, TypographyProps, Tooltip, IconButton, CircularProgress, Grid, Paper } from '@mui/material';
 
 import Chrono from '@components/Chrono';
+import commons from '@src/commons/commons';
 import { CODES } from '@src/commons/codes';
 import ImageFetcher from '@components/Image';
 import inversify from '@src/commons/inversify';
+import TrainingCard from '@components/TrainingCard';
 import WakeLockComponent from '@src/components/WakeLock';
 import { contextStore, ContextStoreModel } from '@src/stores/contextStore';
 import { volatileStore, VolatileStoreModel } from '@src/stores/volatileStore';
@@ -121,10 +123,8 @@ const Training: React.FC = () => {
 
   const doThing = (index: number | null) => {
     if (index === null || training === null) return <></>;
-
     const totalDuration = training.training.reduce((acc, exercise) => acc + exercise.duration, 0);
-    // Convertir la durée totale en format MM:SS
-    const durationFormatted = moment.utc(totalDuration * 1000).format('mm:ss');
+    const durationFormatted = commons.formatDurationFromSeconds(totalDuration);;
     // Calculer la date et l'heure de fin en ajoutant la durée totale à maintenant
     const endDateTime = moment(start).add(totalDuration, 'seconds').format('HH:mm:ss');
 
@@ -155,7 +155,7 @@ const Training: React.FC = () => {
         } else {
           tootips = null;
         }
-        exercice.push(<Typography key={thing.slugs[pas]} variant={variant} align="center" color={'#B59DF7'} noWrap>{(tootips) ? tootips : ''}{(finded?.title) ? finded.title : <Trans>{thing.slugs[pas]}</Trans>}</Typography>);
+        exercice.push(<Typography key={thing.slugs[pas]} variant={variant} align="center" noWrap>{(tootips) ? tootips : ''}{(finded?.title) ? finded.title : <Trans>{thing.slugs[pas]}</Trans>}</Typography>);
       }
     }
 
@@ -170,55 +170,46 @@ const Training: React.FC = () => {
         let next_details: any = null;
         for (let pas = 1; pas < thing_next.slugs.length; pas++) {
           const finded = findExercice(thing_next.slugs[pas]);
+          const slug = thing_next.slugs[pas];
           if (!next_details && finded) {
             next_details = finded;
           }
-          next_exercice.push(<Typography key={finded.slug} variant={variant} align="center" color={'#664FA1'} noWrap>{(finded?.title) ? finded.title : <Trans>{thing.slugs[pas]}</Trans>}</Typography>)
-        }
-        if (thing_next.weight) {
-          next_exercice.push(<Typography key='weight' variant={variant} align="center" color={'#664FA1'} noWrap>{thing_next.weight}Kg</Typography>)
+          next_exercice.push(
+            <Typography
+              key={`next-${index}-${slug}`}
+              variant={variant}
+              align="center"
+              noWrap
+            >
+              {finded?.title ?? <Trans>{slug}</Trans>}
+            </Typography>
+          );
+          if (thing_next.weight) {
+            next_exercice.push(
+              <Typography
+                key={`next-${index}-weight`}
+                variant={variant}
+                align="center"
+                noWrap
+              >
+                {thing_next.weight}Kg
+              </Typography>
+            );
+          }
         }
       }
       if (thing_next.type === 'effort') {
-        next = <Paper
-          elevation={0}
+        next = <TrainingCard
+          direction="column"
           sx={{
-            width: '100%',
-            display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            p: 2,
-            mb: 2,
-            borderRadius: `${theme.shape.borderRadius}px`,
-            backgroundColor: theme.palette.background.paper,
-            boxShadow: `
-            0 0 12px ${theme.palette.primary.main}22,
-            inset 0 0 8px rgba(255, 255, 255, 0.03)
-          `,
-            border: `1px solid ${theme.palette.primary.main}33`,
           }}
         >
           {next_exercice}
-        </Paper>
+        </TrainingCard>
       } else {
-        next = <Paper
-          elevation={0}
-          sx={{
-            width: '100%',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            p: 2,
-            mb: 2,
-            borderRadius: `${theme.shape.borderRadius}px`,
-            backgroundColor: theme.palette.background.paper,
-            boxShadow: `
-            0 0 12px ${theme.palette.primary.main}22,
-            inset 0 0 8px rgba(255, 255, 255, 0.03)
-          `,
-            border: `1px solid ${theme.palette.primary.main}33`,
-          }}
-        >
+        next = <TrainingCard>
           <Typography
             variant={variant}
             align="center"
@@ -227,31 +218,14 @@ const Training: React.FC = () => {
           >
             <Trans>training.{thing_next.type}</Trans>
           </Typography>
-        </Paper>
+        </TrainingCard>
       }
     }
 
     /**
      * Image Block
      */
-    let show = <Paper
-      elevation={0}
-      sx={{
-        width: '100%',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        p: 2,
-        mb: 2,
-        borderRadius: `${theme.shape.borderRadius}px`,
-        backgroundColor: theme.palette.background.paper,
-        boxShadow: `
-        0 0 12px ${theme.palette.primary.main}22,
-        inset 0 0 8px rgba(255, 255, 255, 0.03)
-      `,
-        border: `1px solid ${theme.palette.primary.main}33`,
-      }}
-    >
+    let show = <TrainingCard>
       <Typography
         variant={variant}
         align="center"
@@ -259,26 +233,9 @@ const Training: React.FC = () => {
       >
         {thing.type.toUpperCase()}
       </Typography>
-    </Paper>;
+    </TrainingCard>;
     if (thing.type === 'pause' || thing.type === 'rest') {
-      show = <Paper
-        elevation={0}
-        sx={{
-          width: '100%',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          p: 2,
-          mb: 2,
-          borderRadius: `${theme.shape.borderRadius}px`,
-          backgroundColor: theme.palette.background.paper,
-          boxShadow: `
-          0 0 12px ${theme.palette.primary.main}22,
-          inset 0 0 8px rgba(255, 255, 255, 0.03)
-        `,
-          border: `1px solid ${theme.palette.primary.main}33`,
-        }}
-      >
+      show = <TrainingCard>
         <ImageFetcher
           key={`${training_gender}_rest`}
           name={`${training_gender}_rest`}
@@ -286,27 +243,10 @@ const Training: React.FC = () => {
           width={200}
           title={thing.type}
         />
-      </Paper>;
+      </TrainingCard>;
     } else {
       const src = training_gender + '_' + ((ex_details?.image) ? ex_details?.image : ex_details?.slug);
-      show = <Paper
-        elevation={0}
-        sx={{
-          width: '100%',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          p: 2,
-          mb: 2,
-          borderRadius: `${theme.shape.borderRadius}px`,
-          backgroundColor: theme.palette.background.paper,
-          boxShadow: `
-          0 0 12px ${theme.palette.primary.main}22,
-          inset 0 0 8px rgba(255, 255, 255, 0.03)
-        `,
-          border: `1px solid ${theme.palette.primary.main}33`,
-        }}
-      >
+      show = <TrainingCard>
         <Box display="flex" alignItems="center" gap={2}>
           {thing.ite ? (
             <Typography variant={variant} align="center" noWrap>
@@ -320,26 +260,17 @@ const Training: React.FC = () => {
             </Typography>
           ) : null}
         </Box>
-      </Paper>;
+      </TrainingCard>;
     }
 
     return (<>
-      <Paper
-        elevation={0}
-        sx={{
-          width: '100%',
-          p: 2,
-          mb: 2,
-          borderRadius: `${theme.shape.borderRadius}px`,
-          backgroundColor: theme.palette.background.paper,
-          boxShadow: `
-      0 0 12px ${theme.palette.primary.main}22,
-      inset 0 0 8px rgba(255, 255, 255, 0.03)
-    `,
-          border: `1px solid ${theme.palette.primary.main}33`,
-        }}
+      {/**
+       * Block title
+       */}
+      <TrainingCard
+        direction="column"
       >
-        <Typography variant={variant} align="center" color="#B59DF7" noWrap>
+        <Typography variant={variant} align="center" noWrap>
           {description && (
             <Tooltip title={description}>
               <IconButton>
@@ -352,30 +283,19 @@ const Training: React.FC = () => {
         {(thing.type !== 'pause' && thing.type !== 'rest') ? (
           exercice
         ) : (
-          <Typography variant={variant} align="center" color="#B59DF7" noWrap>
+          <Typography variant={variant} align="center" noWrap>
             <Trans>training.{thing.type}</Trans>
           </Typography>
         )}
-      </Paper>
+      </TrainingCard>
+      {/**
+       * Block Img
+       */}
       {show}
-      <Paper
-        elevation={0}
-        sx={{
-          width: '100%',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          p: 2,
-          mb: 2,
-          borderRadius: `${theme.shape.borderRadius}px`,
-          backgroundColor: theme.palette.background.paper,
-          boxShadow: `
-      0 0 12px ${theme.palette.primary.main}22,
-      inset 0 0 8px rgba(255, 255, 255, 0.03)
-    `,
-          border: `1px solid ${theme.palette.primary.main}33`,
-        }}
-      >
+      {/**
+       * Block chrono
+       */}
+      <TrainingCard>
         <Chrono
           key={index}
           duration={thing.duration}
@@ -392,26 +312,15 @@ const Training: React.FC = () => {
             }
           }}
         />
-      </Paper>
+      </TrainingCard>
+      {/**
+       * Block next
+       */}
       {next}
-      <Paper
-        elevation={0}
-        sx={{
-          width: '100%',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          p: 2,
-          mb: 2,
-          borderRadius: `${theme.shape.borderRadius}px`,
-          backgroundColor: theme.palette.background.paper,
-          boxShadow: `
-      0 0 12px ${theme.palette.primary.main}22,
-      inset 0 0 8px rgba(255, 255, 255, 0.03)
-    `,
-          border: `1px solid ${theme.palette.primary.main}33`,
-        }}
-      >
+      {/**
+       * Block Resume
+       */}
+      <TrainingCard>
         <WakeLockComponent />
         <Typography
           variant={variant}
@@ -424,7 +333,7 @@ const Training: React.FC = () => {
         <IconButton onClick={handleToggle}>
           {volatileContext.fullscreen ? <FullscreenExitIcon /> : <FullscreenIcon />}
         </IconButton>
-      </Paper>
+      </TrainingCard>
     </>);
   }
 
@@ -479,24 +388,7 @@ const Training: React.FC = () => {
   } else if (training && currentIndex !== null) {
     content = doThing(currentIndex);
   } else if (currentIndex === null) {
-    content = <Paper
-      elevation={0}
-      sx={{
-        width: '100%',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        p: 2,
-        mb: 2,
-        borderRadius: `${theme.shape.borderRadius}px`,
-        backgroundColor: theme.palette.background.paper,
-        boxShadow: `
-        0 0 12px ${theme.palette.primary.main}22,
-        inset 0 0 8px rgba(255, 255, 255, 0.03)
-      `,
-        border: `1px solid ${theme.palette.primary.main}33`,
-      }}
-    >
+    content = <TrainingCard>
       <Typography
         variant="h2"
         align="center"
@@ -505,7 +397,7 @@ const Training: React.FC = () => {
       >
         FINIIISHHH !!!
       </Typography>
-    </Paper>;
+    </TrainingCard>;
   }
 
   return (<Grid container justifyContent="center" gap={1}>

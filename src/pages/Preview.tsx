@@ -1,11 +1,12 @@
 // src\pages\Preview.tsx
-import moment from 'moment';
 import React, { useEffect } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { InfoOutlined, ModeEditOutline } from '@mui/icons-material';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import { createSearchParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { Typography, Box, CircularProgress, Alert, Grid, IconButton, Tooltip, Divider } from '@mui/material';
 
+import commons from '@src/commons/commons';
 import { CODES } from '@src/commons/codes';
 import inversify from '@src/commons/inversify';
 import ExerciseCard from '@components/ExerciseCard';
@@ -13,7 +14,6 @@ import LargeIconButton from '@components/LargeIconButton';
 import { GridItem } from '@usecases/preview/build.preview.items.usecase';
 import { contextStore, ContextStoreModel } from '@src/stores/contextStore';
 import { TrainingUsecaseModel } from '@usecases/training/model/training.usecase.model';
-import { InfoOutlined, ModeEditOutline } from '@mui/icons-material';
 
 const Preview: React.FC = () => {
   let old_workout_slug = '';
@@ -81,8 +81,7 @@ const Preview: React.FC = () => {
           throw new Error(result.message);
         } else if (result.data) {
           const totalDuration = result.data.training_normalized.reduce((acc, exercise) => acc + exercise.duration, 0);
-          // Convertir la durée totale en format MM:SS
-          const durationFormatted = moment.utc(totalDuration * 1000).format('mm:ss');
+          const durationFormatted = commons.formatDurationFromSeconds(totalDuration);
           setDuration(durationFormatted);
           setItems(inversify.buildPreviewItemsUsecase.execute({
             ...result.data,
@@ -104,7 +103,14 @@ const Preview: React.FC = () => {
     <>
       {/* loading */}
       {qry.loading && (
-        <CircularProgress />
+        <Box
+          height="100%"
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <CircularProgress />
+        </Box>
       )}
 
       {/* error */}

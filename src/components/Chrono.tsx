@@ -34,7 +34,7 @@ const Chrono: React.FC<CountdownProps> = ({ duration, onComplete, volume = 1 }) 
         oscillator.frequency.value = frequency;
         oscillator.type = 'sine';
         oscillator.start();
-        
+
         setTimeout(() => {
           oscillator.stop();
           context.close();
@@ -44,7 +44,7 @@ const Chrono: React.FC<CountdownProps> = ({ duration, onComplete, volume = 1 }) 
         reject(error);
       }
     });
-  };  
+  };
 
   const start = () => {
     clearInterval(intervalRef.current as NodeJS.Timeout);
@@ -94,7 +94,7 @@ const Chrono: React.FC<CountdownProps> = ({ duration, onComplete, volume = 1 }) 
   });
 
   const handlePause = () => {
-    if(isPaused) {
+    if (isPaused) {
       resume();
     } else {
       pause();
@@ -115,20 +115,24 @@ const Chrono: React.FC<CountdownProps> = ({ duration, onComplete, volume = 1 }) 
       <LargeIconButton
         onClick={handlePause}
       >
-        {isPaused ? <NotStartedIcon/> : <PauseCircleIcon/>}
+        {isPaused ? <NotStartedIcon /> : <PauseCircleIcon />}
       </LargeIconButton>
-      <Typography variant="h3" gutterBottom>
+      <Typography
+        variant="h3"
+        gutterBottom={false}
+        sx={{ display: 'flex', alignItems: 'center', lineHeight: 1 }}
+      >
         {timeLeft}s
       </Typography>
       <LargeIconButton
         onClick={handleReset}
       >
-        <RestartAltIcon/>
+        <RestartAltIcon />
       </LargeIconButton>
       <LargeIconButton
         onClick={handleSkip}
       >
-        <SkipNextIcon/>
+        <SkipNextIcon />
       </LargeIconButton>
     </Box>
   );

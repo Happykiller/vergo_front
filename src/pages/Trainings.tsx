@@ -2,10 +2,11 @@
 import React from 'react';
 import moment from 'moment';
 import InboxIcon from '@mui/icons-material/Inbox';
+import SearchIcon from '@mui/icons-material/Search';
 import { Trans, useTranslation } from 'react-i18next';
 import { createSearchParams, useNavigate } from 'react-router-dom';
-import { Add, InfoOutlined, ModeEditOutline, OpenInNew } from '@mui/icons-material';
-import { Box, Typography, Grid, IconButton, Tabs, Tab, TextField, Button, useTheme, Paper } from '@mui/material';
+import { Add, ModeEditOutline, OpenInNew } from '@mui/icons-material';
+import { Box, Typography, Grid, IconButton, Tabs, Tab, TextField, Button, useTheme, Paper, useMediaQuery } from '@mui/material';
 
 import { CODES } from '@src/commons/codes';
 import commons from '@src/commons/commons';
@@ -21,10 +22,11 @@ const Trainings: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const [offset, setOffset] = React.useState(0);
-  const [tabIndex, setTabIndex] = React.useState(1);
+  const [tabIndex, setTabIndex] = React.useState(0);
   const context: ContextStoreModel = contextStore();
   const [totalItem, setTotalItem] = React.useState(0);
   const [searchTerm, setSearchTerm] = React.useState('');
+  const isXs = useMediaQuery(theme.breakpoints.only('xs'));
   const [trainings, setTrainings] = React.useState<{
     public: TrainingUsecaseModel[],
     private: TrainingUsecaseModel[]
@@ -98,7 +100,16 @@ const Trainings: React.FC = () => {
           },
         }}
       >
-        <Grid container alignItems="center">
+        <Grid
+          container
+          alignItems="center"
+          onClick={(e) => {
+            if (isXs) {
+              e.preventDefault();
+              goTraining(training);
+            }
+          }}
+        >
           {/* For personal */}
           {tabIndex === 0 && (<>
             <Grid
@@ -219,23 +230,24 @@ const Trainings: React.FC = () => {
             }}
             sx={{
               display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
+              justifyContent: 'right'
             }}
           >
-            <IconButton
-              size="small"
-              title={t('trainings.go_training')}
-              sx={{
-                color: (theme) => theme.palette.primary.main,
-              }}
-              onClick={(e) => {
-                e.preventDefault();
-                goTraining(training);
-              }}
-            >
-              <OpenInNew fontSize="small" />
-            </IconButton>
+            {(!isXs) && (
+              <IconButton
+                size="small"
+                title={t('trainings.go_training')}
+                sx={{
+                  color: (theme) => theme.palette.primary.main,
+                }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  goTraining(training);
+                }}
+              >
+                <OpenInNew fontSize="small" />
+              </IconButton>
+            )}
             <IconButton
               size="small"
               title={t('trainings.go_preview')}
@@ -244,15 +256,12 @@ const Trainings: React.FC = () => {
                 goPreview(training);
               }}
             >
-              <InfoOutlined fontSize="small" />
+              <SearchIcon fontSize="small" />
             </IconButton>
-            {(training?.contributors?.find(contributor => contributor.id === context.id) || true) &&
+            {(!isXs && (training?.contributors?.find(contributor => contributor.id === context.id))) && (
               <IconButton
                 size="small"
                 title={t('trainings.go_edit')}
-                sx={{
-                  display: { xs: 'none', md: 'block' },
-                }}
                 onClick={(e) => {
                   e.preventDefault();
                   go_training_edit(training);
@@ -260,7 +269,7 @@ const Trainings: React.FC = () => {
               >
                 <ModeEditOutline fontSize="small" />
               </IconButton>
-            }
+            )}
           </Grid>
         </Grid>
       </Paper>
