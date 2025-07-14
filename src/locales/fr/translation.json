@@ -44,7 +44,8 @@
   },
   "training": {
     "pause": "Pause",
-    "rest": "Repos"
+    "rest": "Repos",
+    "finished": "Bravo, c'est terminé !"
   },
   "trainings": {
     "date": "Date",

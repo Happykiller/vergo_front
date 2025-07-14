@@ -17,7 +17,8 @@
       "@components/*": ["src/components/*"], 
       "@usecases/*": ["src/usecases/*"],
       "@services/*": ["src/services/*"],
-      "@stores/*": ["src/stores/*"]
+      "@stores/*": ["src/stores/*"],
+      "@hooks/*": ["src/hooks/*"]
     },
     "sourceMap": true,                           // Generate source maps for debugging
     "declaration": true,                         // Generate declaration files (.d.ts)

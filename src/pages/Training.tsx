@@ -1,22 +1,23 @@
 // src\pages\Training.tsx
 import moment from 'moment';
-import React, { useState } from 'react';
 import InfoIcon from '@mui/icons-material/Info';
 import { useSearchParams } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
-import FullscreenIcon from '@mui/icons-material/Fullscreen';
-import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
-import { Box, Typography, useTheme, useMediaQuery, TypographyProps, Tooltip, IconButton, CircularProgress, Grid, Paper } from '@mui/material';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Typography, useTheme, useMediaQuery, Tooltip, IconButton, CircularProgress, Grid } from '@mui/material';
 
-import Chrono from '@components/Chrono';
 import commons from '@src/commons/commons';
 import { CODES } from '@src/commons/codes';
-import ImageFetcher from '@components/Image';
 import inversify from '@src/commons/inversify';
 import TrainingCard from '@components/TrainingCard';
-import WakeLockComponent from '@src/components/WakeLock';
-import { contextStore, ContextStoreModel } from '@src/stores/contextStore';
-import { volatileStore, VolatileStoreModel } from '@src/stores/volatileStore';
+import { useFullscreen } from '@hooks/useFullscreen';
+import TrainingNext from '@components/training/TrainingNext';
+import TrainingTitle from '@components/training/TrainingTitle';
+import TrainingImage from '@components/training/TrainingImage';
+import TrainingChrono from '@components/training/TrainingChrono';
+import TrainingFooter from '@components/training/TrainingFooter';
+import TrainingFinish from '@components/training/TrainingFinish';
+import { contextStore, ContextStoreModel } from '@stores/contextStore';
 import { ExerciceUsecaseModel } from '@usecases/exercice/model/exercice.usecase.model';
 import { WorkoutDefUsecaseModel } from '@usecases/workout/model/workout.def.usecase.model';
 import { TrainingNormalizedUsecaseModel } from '@usecases/training/model/training.normalized.usecase.model';
@@ -27,13 +28,11 @@ const Training: React.FC = () => {
   const currentLocale = i18n.language;
   const [searchParams] = useSearchParams();
   const training_id = searchParams.get('id');
-  let training_gender = searchParams.get('gender');
-  training_gender = training_gender ?? 'woman';
   const context: ContextStoreModel = contextStore();
   const [start] = useState<string>(moment().format());
   const isXs = useMediaQuery(theme.breakpoints.only('xs'));
   const isMd = useMediaQuery(theme.breakpoints.only('md'));
-  const volatileContext: VolatileStoreModel = volatileStore();
+  const { isFullscreen, toggleFullscreen } = useFullscreen();
   const [currentIndex, setCurrentIndex] = useState<number | null>(0);
   const [training, setTraining] = React.useState<{
     training: TrainingNormalizedUsecaseModel[],
@@ -52,80 +51,45 @@ const Training: React.FC = () => {
 
   let content = <></>;
 
-  let variant: TypographyProps['variant'];
-  if (isXs) {
-    variant = 'h6';
-  } else if (isMd) {
-    variant = 'h4';
-  } else {
-    variant = 'h5';
-  }
+  const variant = useMemo(() => isXs ? 'h6' : isMd ? 'h4' : 'h5', [isXs, isMd]);
+  const training_gender = useMemo(() => searchParams.get('gender') ?? 'woman', [searchParams]);
 
-  const handleToggle = () => {
-    if (volatileContext.fullscreen) {
-      // Sortir du mode plein écran
-      if (document.exitFullscreen) {
-        document.exitFullscreen();
-      } else if (document.webkitExitFullscreen) { // Safari
-        document.webkitExitFullscreen();
-      } else if (document.mozCancelFullScreen) { // Firefox
-        document.mozCancelFullScreen();
-      } else if (document.msExitFullscreen) { // IE/Edge
-        document.msExitFullscreen();
-      }
-    } else {
-      // Entrer en mode plein écran
-      const elem = document.documentElement;
-      if (elem.requestFullscreen) {
-        elem.requestFullscreen();
-      } else if (elem.webkitRequestFullscreen) { // Safari
-        elem.webkitRequestFullscreen();
-      } else if (elem.mozRequestFullScreen) { // Firefox
-        elem.mozRequestFullScreen();
-      } else if (elem.msRequestFullscreen) { // IE/Edge
-        elem.msRequestFullscreen();
-      }
-    }
-    volatileStore.setState({
-      ...context,
-      fullscreen: !volatileContext.fullscreen
-    });
-  };
+  useEffect(() => {
+    if (!training_id || training) return;
+
+    setQry(q => ({ ...q, loading: true }));
+    inversify.getNormalizedTrainingUsecase.execute({ id: training_id })
+      .then((response) => {
+        if (response.message === CODES.SUCCESS && response.data) {
+          setTraining(response.data);
+        } else {
+          inversify.loggerService.debug(response.error);
+          setQry((q: any) => ({ ...q, error: response.message }));
+        }
+      })
+      .catch((error) => {
+        setQry(q => ({ ...q, error: error.message }));
+      })
+      .finally(() => {
+        setQry(q => ({ ...q, loading: false }));
+      });
+  }, [training_id, training]);
 
   const findExercice = (slug: string) => {
-    if (training === null) return {
-      slug: slug,
-      title: null,
-      description: null,
-      image: null
+    const exerciceDetails = training?.exercices.find(exercice => slug === exercice.slug);
+
+    return {
+      slug,
+      title: exerciceDetails?.title.find(lang => lang.lang === currentLocale)?.value ?? null,
+      description: exerciceDetails?.description.find(lang => lang.lang === currentLocale)?.value ?? null,
+      image: exerciceDetails?.image ?? null,
     };
-
-    let ex_details;
-    const exerciceDetails = training.exercices.find(exercice => slug === exercice.slug);
-    if (exerciceDetails) {
-      ex_details = {
-        slug: slug,
-        title: exerciceDetails?.title.find(lang => lang.lang === currentLocale)?.value,
-        description: exerciceDetails?.description.find(lang => lang.lang === currentLocale)?.value,
-        image: exerciceDetails?.image
-      }
-    } else {
-      ex_details = {
-        slug: slug,
-        title: null,
-        description: null,
-        image: null
-      };
-    }
-
-    return ex_details;
-  }
+  };
 
   const doThing = (index: number | null) => {
     if (index === null || training === null) return <></>;
     const totalDuration = training.training.reduce((acc, exercise) => acc + exercise.duration, 0);
-    const durationFormatted = commons.formatDurationFromSeconds(totalDuration);;
-    // Calculer la date et l'heure de fin en ajoutant la durée totale à maintenant
+    const durationFormatted = commons.formatDurationFromSeconds(totalDuration);
     const endDateTime = moment(start).add(totalDuration, 'seconds').format('HH:mm:ss');
 
     const thing = training.training[index];
@@ -162,106 +126,47 @@ const Training: React.FC = () => {
     /**
      * Block Next
      */
-    let next = <></>;
-    if (thing_next) {
-      let next_exercice = [];
-      if (thing_next.slugs.length > 1) {
-        next_exercice = [];
-        let next_details: any = null;
-        for (let pas = 1; pas < thing_next.slugs.length; pas++) {
-          const finded = findExercice(thing_next.slugs[pas]);
-          const slug = thing_next.slugs[pas];
-          if (!next_details && finded) {
-            next_details = finded;
-          }
-          next_exercice.push(
-            <Typography
-              key={`next-${index}-${slug}`}
-              variant={variant}
-              align="center"
-              noWrap
-            >
-              {finded?.title ?? <Trans>{slug}</Trans>}
-            </Typography>
-          );
-          if (thing_next.weight) {
-            next_exercice.push(
-              <Typography
-                key={`next-${index}-weight`}
-                variant={variant}
-                align="center"
-                noWrap
-              >
-                {thing_next.weight}Kg
-              </Typography>
+    const nextBlock = thing_next ? (
+      <TrainingNext
+        type={thing_next.type}
+        variant={variant}
+        nextTitles={
+          thing_next.slugs.slice(1).map((slug, i) => {
+            const finded = findExercice(slug);
+            return (
+              <React.Fragment key={`next-${index}-${slug}-${i}`}>
+                <Typography variant={variant} align="center" noWrap>
+                  {finded?.title ?? <Trans>{slug}</Trans>}
+                </Typography>
+                {thing_next.weight && (
+                  <Typography variant={variant} align="center" noWrap>
+                    {thing_next.weight}Kg
+                  </Typography>
+                )}
+              </React.Fragment>
             );
-          }
+          })
         }
-      }
-      if (thing_next.type === 'effort') {
-        next = <TrainingCard
-          direction="column"
-          sx={{
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          {next_exercice}
-        </TrainingCard>
-      } else {
-        next = <TrainingCard>
-          <Typography
-            variant={variant}
-            align="center"
-            color={theme.palette.primary.main}
-            noWrap
-          >
-            <Trans>training.{thing_next.type}</Trans>
-          </Typography>
-        </TrainingCard>
-      }
-    }
+      />
+    ) : <></>;
+
 
     /**
      * Image Block
      */
-    let show = <TrainingCard>
-      <Typography
-        variant={variant}
-        align="center"
-        noWrap
-      >
-        {thing.type.toUpperCase()}
-      </Typography>
-    </TrainingCard>;
-    if (thing.type === 'pause' || thing.type === 'rest') {
-      show = <TrainingCard>
-        <ImageFetcher
-          key={`${training_gender}_rest`}
-          name={`${training_gender}_rest`}
-          height={200}
-          width={200}
-          title={thing.type}
+    const imageBlock = (
+      <TrainingCard>
+        <TrainingImage
+          type={thing.type}
+          gender={training_gender}
+          image={ex_details?.image}
+          slug={ex_details?.slug}
+          weight={thing.weight}
+          ite={thing.ite}
+          variant={variant}
         />
-      </TrainingCard>;
-    } else {
-      const src = training_gender + '_' + ((ex_details?.image) ? ex_details?.image : ex_details?.slug);
-      show = <TrainingCard>
-        <Box display="flex" alignItems="center" gap={2}>
-          {thing.ite ? (
-            <Typography variant={variant} align="center" noWrap>
-              X{thing.ite}
-            </Typography>
-          ) : null}
-          <ImageFetcher key={src} name={src} height={200} width={200} title={thing.type} />
-          {thing.weight ? (
-            <Typography variant={variant} align="center" noWrap>
-              {thing.weight}Kg
-            </Typography>
-          ) : null}
-        </Box>
-      </TrainingCard>;
-    }
+      </TrainingCard>
+    );
 
     return (<>
       {/**
@@ -270,16 +175,11 @@ const Training: React.FC = () => {
       <TrainingCard
         direction="column"
       >
-        <Typography variant={variant} align="center" noWrap>
-          {description && (
-            <Tooltip title={description}>
-              <IconButton>
-                <InfoIcon />
-              </IconButton>
-            </Tooltip>
-          )}
-          {title}
-        </Typography>
+        <TrainingTitle
+          title={title}
+          description={description}
+          variant={variant}
+        />
         {(thing.type !== 'pause' && thing.type !== 'rest') ? (
           exercice
         ) : (
@@ -291,24 +191,21 @@ const Training: React.FC = () => {
       {/**
        * Block Img
        */}
-      {show}
+      {imageBlock}
       {/**
        * Block chrono
        */}
       <TrainingCard>
-        <Chrono
-          key={index}
+        <TrainingChrono
+          index={index}
           duration={thing.duration}
           volume={context.volume}
-          onComplete={() => {
+          hasNext={!!training.training[index + 1]}
+          onEnd={() => {
             if (training.training[index + 1]) {
-              setTimeout(() => {
-                setCurrentIndex(index + 1);
-              }, 100);
+              setCurrentIndex(index + 1);
             } else {
-              setTimeout(() => {
-                setCurrentIndex(null);
-              }, 100);
+              setCurrentIndex(null);
             }
           }}
         />
@@ -316,23 +213,18 @@ const Training: React.FC = () => {
       {/**
        * Block next
        */}
-      {next}
+      {nextBlock}
       {/**
        * Block Resume
        */}
       <TrainingCard>
-        <WakeLockComponent />
-        <Typography
+        <TrainingFooter
           variant={variant}
-          align="center"
-          color={theme.palette.primary.main}
-          noWrap
-        >
-          {`${durationFormatted} | ${endDateTime}`}
-        </Typography>
-        <IconButton onClick={handleToggle}>
-          {volatileContext.fullscreen ? <FullscreenExitIcon /> : <FullscreenIcon />}
-        </IconButton>
+          formattedDuration={durationFormatted}
+          endTime={endDateTime}
+          isFullscreen={isFullscreen}
+          toggleFullscreen={toggleFullscreen}
+        />
       </TrainingCard>
     </>);
   }
@@ -343,62 +235,12 @@ const Training: React.FC = () => {
     </>
   } else if (qry.error) {
     content = <span>{qry.error}</span>;
-  } else if (!training && training_id) {
-    setQry(qry => ({
-      ...qry,
-      loading: true
-    }));
-    inversify.getNormalizedTrainingUsecase.execute({
-      id: training_id
-    })
-      .then((response: {
-        message: string,
-        error?: string,
-        data?: {
-          training: TrainingNormalizedUsecaseModel[],
-          exercices: ExerciceUsecaseModel[],
-          workouts: {
-            search: string
-            found: WorkoutDefUsecaseModel
-          }[]
-        }
-      }) => {
-        if (response.message === CODES.SUCCESS && response.data) {
-          setTraining(response.data);
-        } else {
-          inversify.loggerService.debug(response.error);
-          setQry((qry: any) => ({
-            ...qry,
-            error: response.message
-          }));
-        }
-      })
-      .catch((error: any) => {
-        setQry((qry: any) => ({
-          ...qry,
-          error: error.message
-        }));
-      })
-      .finally(() => {
-        setQry((qry: any) => ({
-          ...qry,
-          loading: false
-        }));
-      });
   } else if (training && currentIndex !== null) {
     content = doThing(currentIndex);
   } else if (currentIndex === null) {
-    content = <TrainingCard>
-      <Typography
-        variant="h2"
-        align="center"
-        color={theme.palette.primary.main}
-        noWrap
-      >
-        FINIIISHHH !!!
-      </Typography>
-    </TrainingCard>;
+    content = <TrainingFinish gender={training_gender === 'woman' ? 'female' : 'male'} />;
   }
+
 
   return (<Grid container justifyContent="center" gap={1}>
     {content}

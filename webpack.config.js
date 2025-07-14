@@ -48,6 +48,7 @@ module.exports = (env, argv) => {
         '@usecases': path.resolve(__dirname, 'src/usecases'),
         '@services': path.resolve(__dirname, 'src/services'),
         '@stores': path.resolve(__dirname, 'src/stores'),
+        '@hooks': path.resolve(__dirname, 'src/hooks'),
         // ⛑️ Force React/MUI/Emotion to resolve from the main project's node_modules
         // This avoids duplicate instances when using `npm link` during development
         react: path.resolve(__dirname, 'node_modules/react'),
