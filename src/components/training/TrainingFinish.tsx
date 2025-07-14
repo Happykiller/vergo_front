@@ -1,36 +1,36 @@
-// src/components/training/TrainingFinish.tsx
+// src\components\training\TrainingFinish.tsx
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Typography, TypographyProps, useMediaQuery, useTheme } from '@mui/material';
 
-import ImageFetcher from '@components/Image';
 import TrainingCard from '@components/TrainingCard';
-import { useFullscreen } from '@hooks/useFullscreen';
+import ImageFetcher from '@components/ImageFetcher';
 
 interface Props {
   gender: 'male' | 'female';
   variant?: TypographyProps['variant'];
+  onFinish?: () => void;
 }
 
-const TrainingFinish: React.FC<Props> = ({ gender, variant }) => {
+const TrainingFinish: React.FC<Props> = ({ gender, variant, onFinish }) => {
   const { t } = useTranslation();
   const theme = useTheme();
-  const { exitFullscreen } = useFullscreen();
   const isXs = useMediaQuery(theme.breakpoints.only('xs'));
   const finalVariant: TypographyProps['variant'] = variant ?? (isXs ? 'h4' : 'h2');
 
   const imageName = gender === 'male' ? 'male_finish' : 'female_finish';
 
   useEffect(() => {
-    exitFullscreen();
-  }, [exitFullscreen]);
+    if (onFinish) {
+      onFinish();
+    }
+  }, [onFinish]);
 
   return (
     <TrainingCard direction="column" sx={{ alignItems: 'center', gap: 2 }}>
       <ImageFetcher
         name={imageName}
-        height={200}
-        width={200}
+        width={250}
         title={t('training.finished')}
       />
       <Typography

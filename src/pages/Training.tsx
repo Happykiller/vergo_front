@@ -11,6 +11,7 @@ import { CODES } from '@src/commons/codes';
 import inversify from '@src/commons/inversify';
 import TrainingCard from '@components/TrainingCard';
 import { useFullscreen } from '@hooks/useFullscreen';
+import { useTrainingStats } from '@hooks/useTrainingStats';
 import TrainingNext from '@components/training/TrainingNext';
 import TrainingTitle from '@components/training/TrainingTitle';
 import TrainingImage from '@components/training/TrainingImage';
@@ -29,9 +30,9 @@ const Training: React.FC = () => {
   const [searchParams] = useSearchParams();
   const training_id = searchParams.get('id');
   const context: ContextStoreModel = contextStore();
-  const [start] = useState<string>(moment().format());
   const isXs = useMediaQuery(theme.breakpoints.only('xs'));
   const isMd = useMediaQuery(theme.breakpoints.only('md'));
+  const { start, logStats, setCompleted } = useTrainingStats(training_id);
   const { isFullscreen, toggleFullscreen } = useFullscreen();
   const [currentIndex, setCurrentIndex] = useState<number | null>(0);
   const [training, setTraining] = React.useState<{
@@ -238,7 +239,8 @@ const Training: React.FC = () => {
   } else if (training && currentIndex !== null) {
     content = doThing(currentIndex);
   } else if (currentIndex === null) {
-    content = <TrainingFinish gender={training_gender === 'woman' ? 'female' : 'male'} />;
+    setCompleted(true);
+    content = <TrainingFinish gender={training_gender === 'woman' ? 'female' : 'male'} onFinish={logStats} />;
   }
 
 

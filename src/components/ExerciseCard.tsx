@@ -5,7 +5,7 @@ import { Paper, useTheme } from '@mui/material';
 import { InfoOutlined, ModeEditOutline } from '@mui/icons-material';
 import { Badge, CardContent, IconButton, Tooltip, Typography } from '@mui/material';
 
-import ImageFetcher from '@components/Image';
+import ImageFetcher from '@src/components/ImageFetcher';
 
 interface ExerciseCardProps {
   exercice_id?: string;

@@ -2,7 +2,7 @@
 import React from 'react';
 import { Box, Typography, TypographyProps } from '@mui/material';
 
-import ImageFetcher from '@components/Image';
+import ImageFetcher from '@src/components/ImageFetcher';
 
 interface Props {
   type: string;
@@ -20,8 +20,7 @@ const TrainingImage: React.FC<Props> = ({ type, gender, image, slug, weight, ite
       <ImageFetcher
         key={`${gender}_rest`}
         name={`${gender}_rest`}
-        height={200}
-        width={200}
+        width={250}
         title={type}
       />
     );
@@ -35,7 +34,7 @@ const TrainingImage: React.FC<Props> = ({ type, gender, image, slug, weight, ite
           X{ite}
         </Typography>
       )}
-      <ImageFetcher key={src} name={src} height={200} width={200} title={type} />
+      <ImageFetcher key={src} name={src} width={250} title={type} />
       {weight && (
         <Typography variant={variant} align="center" noWrap>
           {weight}Kg

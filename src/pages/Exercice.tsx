@@ -4,11 +4,11 @@ import EditIcon from '@mui/icons-material/Edit';
 import { useSearchParams } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
 import { createSearchParams, useNavigate } from 'react-router-dom';
-import { Container, Box, CircularProgress, Alert, Typography, Card, CardContent, IconButton, Grid, Paper, useTheme } from '@mui/material';
+import { Box, CircularProgress, Alert, Typography, Card, CardContent, IconButton, Grid, Paper, useTheme } from '@mui/material';
 
 import { CODES } from '@src/commons/codes';
-import ImageFetcher from '@components/Image';
 import inversify from '@src/commons/inversify';
+import ImageFetcher from '@src/components/ImageFetcher';
 import { contextStore, ContextStoreModel } from '@stores/contextStore';
 import { ExerciceUsecaseModel } from '@usecases/exercice/model/exercice.usecase.model';
 
