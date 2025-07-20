@@ -15,8 +15,10 @@ import { CreateExerciceUsecase } from '@usecases/exercice/create.exercice.usecas
 import { UpdateExerciceUsecase } from '@usecases/exercice/update.exercice.usecase';
 import { UpdateTrainingUsecase } from '@usecases/training/update.training.usecase';
 import { CreateTrainingUsecase } from '@usecases/training/create.training.usecase';
+import { SaveTrainingStatUsecase } from '@usecases/training/save.training.stat.usecase';
 import { BuildPreviewItemsUsecase } from '@usecases/preview/build.preview.items.usecase';
 import { GetNormalizedTrainingUsecase } from '@usecases/training/get.normalized.training.usecase';
+
 
 export class Inversify {
   authUsecase: AuthUsecase;
@@ -38,6 +40,7 @@ export class Inversify {
   createTrainingUsecase: CreateTrainingUsecase;
   createExerciceUsecase: CreateExerciceUsecase;
   update_exercice_usecase: UpdateExerciceUsecase;
+  saveTrainingStatUsecase: SaveTrainingStatUsecase;
   buildPreviewItemsUsecase: BuildPreviewItemsUsecase;
   getPasskeyForUserUsecase: GetPasskeyForUserUsecase;
   getNormalizedTrainingUsecase: GetNormalizedTrainingUsecase;
@@ -63,6 +66,7 @@ export class Inversify {
     this.createTrainingUsecase = new CreateTrainingUsecase(this);
     this.update_exercice_usecase = new UpdateExerciceUsecase(this);
     this.buildPreviewItemsUsecase = new BuildPreviewItemsUsecase();
+    this.saveTrainingStatUsecase = new SaveTrainingStatUsecase(this);
     this.getPasskeyForUserUsecase = new GetPasskeyForUserUsecase(this);
     this.getNormalizedTrainingUsecase = new GetNormalizedTrainingUsecase(this);
 
