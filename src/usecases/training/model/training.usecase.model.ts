@@ -1,3 +1,4 @@
+// src\usecases\training\model\training.usecase.model.ts
 import { UserUsecaseModel } from '@usecases/model/user.usecase.model';
 
 export interface TrainingUsecaseModel {

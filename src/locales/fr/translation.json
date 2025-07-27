@@ -6,6 +6,13 @@
     "reset": "Réinitialiser",
     "resume": "Reprendre"
   },
+  "dashboard": {
+    "recent_trainings": "Entraînement récents",
+    "activity": "Activité",
+    "average_duration": "Durée moyenne",
+    "heatmap_title": "Historique des entraînements",
+    "trainings_count": "Nombre d'entraînements sur 6 mois"
+  },
   "exercices": {
     "slug": "Slug",
     "creation_date": "Date création",
@@ -29,6 +36,7 @@
   },
   "header": {
     "info": "Info",
+    "dashboard": "Tableau de board",
     "title": "Vergo",
     "training": "Entraînement",
     "trainings": "Entraînements",

@@ -11,6 +11,7 @@ import Exercice from '@pages/Exercice';
 import { Sandbox } from '@pages/Sandbox';
 import Trainings from '@pages/Trainings';
 import Exercices from '@pages/Exercices';
+import Dashboard from '@pages/Dashboard';
 import inversify from '@src/commons/inversify';
 import Workout_edit from '@pages/Workout_edit';
 import Training_edit from '@pages/Training_edit';
@@ -18,6 +19,7 @@ import Exercice_edit from '@pages/Exercices_edit';
 import { contextStore } from '@stores/contextStore';
 import Training_create from '@pages/Training_create';
 import Exercice_create from '@pages/Exercice_create';
+import LoaderOverlay from '@components/layout/LoaderOverlay';
 import { LayoutPublicExt } from '@components/layout/LayoutPublicExt';
 import { LayoutProtectedExt } from '@components/layout/LayoutProtectedExt';
 import { CGU, FlashMessage, NotFound, Login, Profile } from '@happykiller/sunny-ui';
@@ -27,6 +29,7 @@ const App: React.FC = () => {
 
   return (
     <div>
+      <LoaderOverlay />
       {/* Define the application's routing structure */}
       <Routes>
         <Route path="*" element={<LayoutPublicExt><NotFound /></LayoutPublicExt>} />
@@ -84,7 +87,7 @@ const App: React.FC = () => {
         } />
 
         {/* Route for root */}
-        <Route path="/" element={<LayoutProtectedExt><Trainings /></LayoutProtectedExt>} />
+        <Route path="/" element={<LayoutProtectedExt><Dashboard /></LayoutProtectedExt>} />
 
         {/* Route for the info page */}
         <Route path="/info" element={<LayoutProtectedExt><Info /></LayoutProtectedExt>} />
@@ -124,6 +127,9 @@ const App: React.FC = () => {
 
         {/* Page for play with components */}
         <Route path="/sandbox" element={<LayoutProtectedExt><Sandbox /></LayoutProtectedExt>} />
+
+        {/* Page for play with components */}
+        <Route path="/dashboard" element={<LayoutProtectedExt><Dashboard /></LayoutProtectedExt>} />
       </Routes>
       <FlashMessage icons={{ close: <CloseIcon fontSize="small" /> }} />
     </div>

@@ -10,7 +10,7 @@ export function HeaderExt() {
   return <Header
     contextStore={contextStore()}
     volatileStore={volatileStore()}
-    routes={['trainings', 'exercices', 'workouts', 'info']}
+    routes={['trainings', 'exercices', 'workouts', 'info', 'dashboard']}
     settings={['profile', 'logout']}
     brandName='Vergo'
     icons={{ menu: <MenuIcon /> }}

@@ -1,3 +1,4 @@
+// src\stores\volatileStore.tsx
 import { create } from 'zustand';
 
 export interface VolatileStoreModel {
