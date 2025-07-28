@@ -1,8 +1,8 @@
+// webpack.config.js
 const path = require('path');
 const dotenv = require('dotenv');
 const webpack = require('webpack');
 const WebpackBar = require('webpackbar');
-const Dotenv = require('dotenv-webpack');
 const { version } = require('./package.json');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
