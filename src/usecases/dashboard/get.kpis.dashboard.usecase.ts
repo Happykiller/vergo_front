@@ -6,12 +6,12 @@ import { KpisDashbardUsecaseModel } from './model/kpis.dashboard.usecase.model';
 export class GetKpisDashbardUsecase {
 
   constructor(
-    private inversify:Inversify
-  ){}
+    private inversify: Inversify
+  ) { }
 
-  async execute(): Promise<{message: string, error?:string, data?:KpisDashbardUsecaseModel}>  {
+  async execute(): Promise<{ message: string, error?: string, data?: KpisDashbardUsecaseModel }> {
     try {
-      const kpis:any = await this.inversify.graphqlService.send(
+      const kpis: any = await this.inversify.graphqlService.send(
         {
           operationName: 'getUserKpis',
           variables: {},
@@ -29,12 +29,33 @@ export class GetKpisDashbardUsecase {
                 date
                 duration
               }
+              gamification {
+                xp
+                level
+                levelXp
+                levelXpToNext
+                levelProgressPct
+                league {
+                  code
+                  minutes
+                  threshold
+                  nextCode
+                  nextThreshold
+                }
+                weeklyLeague {
+                  code
+                  minutes
+                  threshold
+                  nextCode
+                  nextThreshold
+                }
+              }
             }
           }`
         }
       );
 
-      if(kpis.errors) {
+      if (kpis.errors) {
         throw new Error(kpis.errors[0].message);
       }
 
@@ -43,7 +64,7 @@ export class GetKpisDashbardUsecase {
         data: kpis.data.getUserKpis
       }
     } catch (e: any) {
-      if(e.message in CODES) {
+      if (e.message in CODES) {
         return {
           message: e.message,
           error: e.message

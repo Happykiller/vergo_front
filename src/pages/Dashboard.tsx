@@ -4,9 +4,10 @@ import React, { useEffect, useState } from 'react';
 
 import inversify from '@src/commons/inversify';
 import { useAsyncTask } from '@hooks/useAsyncTask';
+import ActivityCard from '@components/dashboard/ActivityCard';
+import GamificationCard from '@components/dashboard/GamificationCard';
 import RecentTrainingsCard from '@components/dashboard/RecentTrainingsCard';
 import { KpisDashbardUsecaseModel } from '@usecases/dashboard/model/kpis.dashboard.usecase.model';
-import ActivityCard from '@src/components/dashboard/ActivityCard';
 
 const Dashboard: React.FC = () => {
   const [datas, setDatas] = useState<KpisDashbardUsecaseModel>();
@@ -31,6 +32,8 @@ const Dashboard: React.FC = () => {
       }}
     >
       <Box sx={{ width: '100%', maxWidth: 720 }}>
+        {/* Gamification Card */}
+        <GamificationCard gamification={datas?.gamification} />
         {/* Activity Card */}
         <ActivityCard activities={datas?.activities ?? []} />
         {/* Recent Trainings Card */}

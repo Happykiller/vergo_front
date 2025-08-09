@@ -1,48 +1,66 @@
 // src/hooks/useFullscreen.ts
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+
 import { volatileStore } from '@stores/volatileStore';
-import { contextStore } from '@stores/contextStore';
 
 export const useFullscreen = () => {
-  const context = contextStore();
-  const volatileContext = volatileStore();
+  // Subscribe to store; assume it has a `fullscreen` boolean
+  const isFullscreen = volatileStore((s) => s.fullscreen);
+  const [supported, setSupported] = useState<boolean>(true);
 
-  const isFullscreen = volatileContext.fullscreen;
+  // Keep store in sync with the real DOM fullscreen state
+  useEffect(() => {
+    const handleChange = () => {
+      const active = !!document.fullscreenElement;
+      // Functional update to avoid overwriting other volatile keys
+      volatileStore.setState((s: any) => ({ ...s, fullscreen: active }));
+    };
+    document.addEventListener('fullscreenchange', handleChange);
+    return () => document.removeEventListener('fullscreenchange', handleChange);
+  }, []);
 
-  const exitFullscreen = useCallback(() => {
-    if (document.fullscreenElement) {
-      document.exitFullscreen?.();
-    } else if ((document as any).webkitExitFullscreen) {
-      (document as any).webkitExitFullscreen();
-    } else if ((document as any).mozCancelFullScreen) {
-      (document as any).mozCancelFullScreen();
-    } else if ((document as any).msExitFullscreen) {
-      (document as any).msExitFullscreen();
+  const exitFullscreen = useCallback(async () => {
+    try {
+      if (document.fullscreenElement && document.exitFullscreen) {
+        await document.exitFullscreen();
+      } else if ((document as any).webkitExitFullscreen) {
+        await (document as any).webkitExitFullscreen();
+      } else if ((document as any).mozCancelFullScreen) {
+        await (document as any).mozCancelFullScreen();
+      } else if ((document as any).msExitFullscreen) {
+        await (document as any).msExitFullscreen();
+      } else {
+        setSupported(false);
+      }
+    } finally {
+      // Always reflect intention in store even if API fails
+      volatileStore.setState((s: any) => ({ ...s, fullscreen: false }));
     }
-    volatileStore.setState({ ...context, fullscreen: false });
-  }, [context]);
+  }, []);
 
-  const enterFullscreen = useCallback(() => {
-    const elem = document.documentElement;
-    if (elem.requestFullscreen) {
-      elem.requestFullscreen();
-    } else if ((elem as any).webkitRequestFullscreen) {
-      (elem as any).webkitRequestFullscreen();
-    } else if ((elem as any).mozRequestFullScreen) {
-      (elem as any).mozRequestFullScreen();
-    } else if ((elem as any).msRequestFullscreen) {
-      (elem as any).msRequestFullscreen();
+  const enterFullscreen = useCallback(async () => {
+    try {
+      const elem = document.documentElement;
+      if (elem.requestFullscreen) {
+        await elem.requestFullscreen();
+      } else if ((elem as any).webkitRequestFullscreen) {
+        await (elem as any).webkitRequestFullscreen();
+      } else if ((elem as any).mozRequestFullScreen) {
+        await (elem as any).mozRequestFullScreen();
+      } else if ((elem as any).msRequestFullscreen) {
+        await (elem as any).msRequestFullscreen();
+      } else {
+        setSupported(false);
+      }
+    } finally {
+      volatileStore.setState((s: any) => ({ ...s, fullscreen: true }));
     }
-    volatileStore.setState({ ...context, fullscreen: true });
-  }, [context]);
+  }, []);
 
   const toggleFullscreen = useCallback(() => {
-    if (isFullscreen) {
-      exitFullscreen();
-    } else {
-      enterFullscreen();
-    }
-  }, [isFullscreen, exitFullscreen, enterFullscreen]);
+    if (isFullscreen) return exitFullscreen();
+    return enterFullscreen();
+  }, [isFullscreen, enterFullscreen, exitFullscreen]);
 
-  return { isFullscreen, toggleFullscreen, enterFullscreen, exitFullscreen };
+  return { isFullscreen, toggleFullscreen, enterFullscreen, exitFullscreen, supported };
 };

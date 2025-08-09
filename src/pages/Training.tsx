@@ -33,7 +33,7 @@ const Training: React.FC = () => {
   const isXs = useMediaQuery(theme.breakpoints.only('xs'));
   const isMd = useMediaQuery(theme.breakpoints.only('md'));
   const { start, logStats, setCompleted } = useTrainingStats(training_id);
-  const { isFullscreen, toggleFullscreen } = useFullscreen();
+  const { isFullscreen, toggleFullscreen, exitFullscreen } = useFullscreen();
   const [currentIndex, setCurrentIndex] = useState<number | null>(0);
   const [training, setTraining] = React.useState<{
     training: TrainingNormalizedUsecaseModel[],
@@ -240,9 +240,9 @@ const Training: React.FC = () => {
     content = doThing(currentIndex);
   } else if (currentIndex === null) {
     setCompleted(true);
+    exitFullscreen();
     content = <TrainingFinish gender={training_gender === 'woman' ? 'female' : 'male'} onFinish={logStats} />;
   }
-
 
   return (<Grid container justifyContent="center" gap={1}>
     {content}

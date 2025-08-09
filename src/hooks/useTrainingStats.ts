@@ -4,6 +4,14 @@ import { useRef, useEffect, useCallback } from 'react';
 
 import inversify from '@src/commons/inversify';
 
+const MIN_DURATION_SEC = 120;
+
+/** Pure helper exported for tests */
+export const shouldPersistTraining = (durationSec: number, completed: boolean): boolean => {
+  // Persist if completed OR duration >= threshold
+  return completed || durationSec >= MIN_DURATION_SEC;
+};
+
 export const useTrainingStats = (trainingId: string | null) => {
   const completedRef = useRef<boolean>(false);
   const startRef = useRef<string>(moment().toISOString());
@@ -14,6 +22,14 @@ export const useTrainingStats = (trainingId: string | null) => {
     const end = moment().toISOString();
     const duration = moment(end).diff(moment(startRef.current), 'seconds');
 
+    // Guard: skip noisy stats
+    if (!shouldPersistTraining(duration, completedRef.current)) {
+      if (process.env.DEBUG === 'true') {
+        console.log('[TRAINING STATS][SKIP]', { trainingId, duration, completed: completedRef.current });
+      }
+      return;
+    }
+
     const result = await inversify.saveTrainingStatUsecase.execute({
       training_id: trainingId,
       start: startRef.current,
@@ -23,7 +39,7 @@ export const useTrainingStats = (trainingId: string | null) => {
     });
 
     if (process.env.DEBUG === 'true') {
-      console.log('[TRAINING STATS]', {
+      console.log('[TRAINING STATS][SENT]', {
         training_id: trainingId,
         start: startRef.current,
         end,
@@ -36,15 +52,14 @@ export const useTrainingStats = (trainingId: string | null) => {
 
   useEffect(() => {
     return () => {
-      logStats();
+      // Send (or skip) on unmount
+      void logStats();
     };
   }, [logStats]);
 
   return {
     start: startRef.current,
     logStats,
-    setCompleted: (val: boolean) => {
-      completedRef.current = val;
-    },
+    setCompleted: (val: boolean) => { completedRef.current = val; },
   };
 };
