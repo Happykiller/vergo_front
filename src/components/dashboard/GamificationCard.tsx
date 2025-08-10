@@ -1,10 +1,22 @@
 // src\components\dashboard\GamificationCard.tsx
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Box, Grid, Typography, useTheme, Chip, Paper, LinearProgress, Skeleton } from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
+import { Box, Grid, Typography, useTheme, Paper, LinearProgress, Skeleton, Tooltip, IconButton, Chip } from '@mui/material';
 
 // ---------- Types (import from your model if already created) ----------
 export type LeagueCode = 'BRONZE' | 'SILVER' | 'GOLD' | 'PLATINUM' | 'DIAMOND' | 'LEGEND' | string;
+
+const LEAGUES = [
+  { code: 'BRONZE', labelKey: 'leagues.bronze.label', descKey: 'leagues.bronze.desc', thresholdKey: 'leagues.bronze.threshold' },
+  { code: 'SILVER', labelKey: 'leagues.silver.label', descKey: 'leagues.silver.desc', thresholdKey: 'leagues.silver.threshold' },
+  { code: 'GOLD', labelKey: 'leagues.gold.label', descKey: 'leagues.gold.desc', thresholdKey: 'leagues.gold.threshold' },
+  { code: 'PLATINUM', labelKey: 'leagues.platinum.label', descKey: 'leagues.platinum.desc', thresholdKey: 'leagues.platinum.threshold' },
+  { code: 'DIAMOND', labelKey: 'leagues.diamond.label', descKey: 'leagues.diamond.desc', thresholdKey: 'leagues.diamond.threshold' },
+  { code: 'LEGEND', labelKey: 'leagues.legend.label', descKey: 'leagues.legend.desc', thresholdKey: 'leagues.legend.threshold' },
+];
 
 export interface KpisLeagueSnapshot {
   code: LeagueCode;
@@ -47,10 +59,6 @@ const GamificationCard: React.FC<Props> = React.memo(({ gamification }) => {
 
   const monthlyPct = useMemo(
     () => (gamification ? computeLeaguePct(gamification.league) : 0),
-    [gamification]
-  );
-  const weeklyPct = useMemo(
-    () => (gamification ? computeLeaguePct(gamification.weeklyLeague) : 0),
     [gamification]
   );
 
@@ -164,21 +172,40 @@ const GamificationCard: React.FC<Props> = React.memo(({ gamification }) => {
                 <Paper variant="outlined" sx={{ p: 1.5, borderRadius: 2 }}>
                   <Box display="flex" alignItems="center" justifyContent="space-between" gap={1} mb={1}>
                     <Box display="flex" alignItems="center" gap={1}>
-                      <Chip
-                        size="small"
-                        label={gamification.league.code}
-                        sx={{ bgcolor: `${leagueColor(gamification.league.code)}22`, color: leagueColor(gamification.league.code) }}
+                      <img
+                        src={`/leagues/${gamification.league.code}.png`}
+                        alt={gamification.league.code}
+                        width={64}
+                        height={64}
+                        style={{ objectFit: 'contain' }}
                       />
-                      <Typography variant="caption">→</Typography>
-                      <Chip
-                        size="small"
-                        label={gamification.league.nextCode ?? '—'}
-                        sx={{ bgcolor: `${leagueColor(gamification.league.nextCode)}22`, color: leagueColor(gamification.league.nextCode) }}
-                      />
+                      <ArrowForwardIosRoundedIcon fontSize="small" />
+                      {gamification.league.nextCode ? (
+                        <img
+                          src={`/leagues/${gamification.league.nextCode}.png`}
+                          alt={gamification.league.nextCode}
+                          width={64}
+                          height={64}
+                          style={{ objectFit: 'contain' }}
+                        />
+                      ) : (
+                        <Typography variant="caption">—</Typography>
+                      )}
                     </Box>
                     <Typography variant="caption" color="text.secondary">
                       {gamification.league.minutes} / {gamification.league.nextThreshold ?? gamification.league.threshold} min
                     </Typography>
+
+                    <Tooltip title={t('dashboard.gamification.all_badges', 'Voir tous les blasons')}>
+                      <IconButton
+                        size="small"
+                        component={RouterLink}
+                        to="/medals"
+                        aria-label={t('dashboard.gamification.all_badges', 'Voir tous les blasons')}
+                      >
+                        <InfoOutlinedIcon fontSize="small" />
+                      </IconButton>
+                    </Tooltip>
                   </Box>
 
                   <LinearProgress
@@ -193,7 +220,16 @@ const GamificationCard: React.FC<Props> = React.memo(({ gamification }) => {
                   />
                   <Typography variant="caption" color="text.secondary" mt={0.5} display="block">
                     {t('dashboard.gamification.threshold', 'Seuil')}{' '}
-                    {gamification.league.code}: {gamification.league.threshold} min
+                    <Chip
+                      size="small"
+                      label={t(LEAGUES.find((elt) => elt.code === gamification?.league?.code)?.labelKey
+                        ?? 'gamification.league.unknown')}
+                      sx={{
+                        bgcolor: `${leagueColor(gamification.league.code)}22`,
+                        color: leagueColor(gamification.league.code),
+                        fontWeight: 700,
+                      }}
+                    />: {gamification.league.threshold} min
                   </Typography>
                 </Paper>
               </Grid>

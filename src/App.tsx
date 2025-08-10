@@ -4,6 +4,7 @@ import { Routes, Route } from 'react-router-dom';
 import { Done, Key, Visibility, VisibilityOff, Info as InfoIcon, HelpOutline, VpnKey, Add, Delete, Person, Lock, Close as CloseIcon } from '@mui/icons-material';
 
 import Info from '@pages/Info';
+import Medals from '@pages/Medals';
 import Preview from '@pages/Preview';
 import Workouts from '@pages/Workouts';
 import Training from '@pages/Training';
@@ -130,6 +131,9 @@ const App: React.FC = () => {
 
         {/* Page for play with components */}
         <Route path="/dashboard" element={<LayoutProtectedExt><Dashboard /></LayoutProtectedExt>} />
+
+        {/* Page display Medals */}
+        <Route path="/medals" element={<LayoutProtectedExt><Medals /></LayoutProtectedExt>} />
       </Routes>
       <FlashMessage icons={{ close: <CloseIcon fontSize="small" /> }} />
     </div>

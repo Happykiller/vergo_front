@@ -1,0 +1,218 @@
+// src\pages\Medals.tsx
+import React, { useEffect, useState } from 'react';
+import {
+  Box,
+  Grid,
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
+  Chip,
+  useTheme,
+} from '@mui/material';
+import { useTranslation } from 'react-i18next';
+
+import inversify from '@src/commons/inversify';
+import { useAsyncTask } from '@hooks/useAsyncTask';
+import { KpisDashbardUsecaseModel } from '@usecases/dashboard/model/kpis.dashboard.usecase.model';
+import i18n from 'i18next';
+
+type LeagueCode = 'BRONZE' | 'SILVER' | 'GOLD' | 'PLATINUM' | 'DIAMOND' | 'LEGEND';
+
+interface MedalDef {
+  code: LeagueCode;
+  labelKey: string;        // i18n key for label
+  descKey: string;         // i18n key for description
+  thresholdKey?: string;   // optional i18n key "ex: 600 min/mois"
+}
+
+const LEAGUES: MedalDef[] = [
+  { code: 'BRONZE', labelKey: 'leagues.bronze.label', descKey: 'leagues.bronze.desc', thresholdKey: 'leagues.bronze.threshold' },
+  { code: 'SILVER', labelKey: 'leagues.silver.label', descKey: 'leagues.silver.desc', thresholdKey: 'leagues.silver.threshold' },
+  { code: 'GOLD', labelKey: 'leagues.gold.label', descKey: 'leagues.gold.desc', thresholdKey: 'leagues.gold.threshold' },
+  { code: 'PLATINUM', labelKey: 'leagues.platinum.label', descKey: 'leagues.platinum.desc', thresholdKey: 'leagues.platinum.threshold' },
+  { code: 'DIAMOND', labelKey: 'leagues.diamond.label', descKey: 'leagues.diamond.desc', thresholdKey: 'leagues.diamond.threshold' },
+  { code: 'LEGEND', labelKey: 'leagues.legend.label', descKey: 'leagues.legend.desc', thresholdKey: 'leagues.legend.threshold' },
+];
+
+type BadgeCode =
+  | 'FIRST_STEP'
+  | 'COMEBACK'
+  | 'MACHINE'
+  | 'LOYAL'
+  | 'SPRINTER'
+  | 'MARATHONER'
+  | 'UNSTOPPABLE'
+  | 'FULL_BODY_WARRIOR';
+
+interface BadgeDef {
+  code: BadgeCode;
+  labelKey: string;
+  descKey: string;
+}
+
+const BADGES: BadgeDef[] = [
+  { code: 'FIRST_STEP', labelKey: 'badges.first_step.label', descKey: 'badges.first_step.description' },
+  { code: 'COMEBACK', labelKey: 'badges.comeback.label', descKey: 'badges.comeback.description' },
+  { code: 'MACHINE', labelKey: 'badges.machine.label', descKey: 'badges.machine.description' },
+  { code: 'LOYAL', labelKey: 'badges.loyal.label', descKey: 'badges.loyal.description' },
+  { code: 'SPRINTER', labelKey: 'badges.sprinter.label', descKey: 'badges.sprinter.description' },
+  { code: 'MARATHONER', labelKey: 'badges.marathoner.label', descKey: 'badges.marathoner.description' },
+  { code: 'UNSTOPPABLE', labelKey: 'badges.unstoppable.label', descKey: 'badges.unstoppable.description' },
+  { code: 'FULL_BODY_WARRIOR', labelKey: 'badges.full_body_warrior.label', descKey: 'badges.full_body_warrior.description' },
+];
+
+const Medals: React.FC = () => {
+  const { t } = useTranslation();
+  const theme = useTheme();
+
+  const [datas, setDatas] = useState<KpisDashbardUsecaseModel>();
+  const { execute } = useAsyncTask();
+
+  useEffect(() => {
+    execute(async () => {
+      const response = await inversify.getKpisDashboardUsecase.execute();
+      if (response.data) {
+        setDatas(response.data);
+      }
+    });
+  }, []);
+
+  const badgesWithState = BADGES.map(b => {
+    const state = datas?.badges.find(db => db.code === b.code);
+    return { ...b, earned: state?.earned ?? false, earnedAt: state?.earnedAt ?? null };
+  });
+
+  const colorByLeague = (code: LeagueCode) => {
+    const map: Record<LeagueCode, string> = {
+      BRONZE: theme.palette.warning.dark,
+      SILVER: theme.palette.grey[400],
+      GOLD: '#d4af37',
+      PLATINUM: theme.palette.info.light,
+      DIAMOND: '#5ad1ff',
+      LEGEND: theme.palette.secondary.main,
+    };
+    return map[code];
+  };
+
+  return (
+    <Box sx={{ px: 2, py: 3, maxWidth: 1024, mx: 'auto' }}>
+      <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+        <Typography variant="h5" fontWeight={800}>
+          {t('medals.title', 'Ligues')}
+        </Typography>
+      </Box>
+
+      <Typography variant="body2" color="text.secondary" mb={3}>
+        {t('medals.subtitle', "Découvrez tous les blasons, leurs paliers et ce qu'ils représentent.")}
+      </Typography>
+
+      <Grid container spacing={2}>
+        {LEAGUES.map(({ code, labelKey, descKey, thresholdKey }) => (
+          <Grid key={code} size={{ xs: 12, sm: 6, md: 4 }}>
+            <Card
+              sx={{
+                height: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                borderRadius: 2,
+                backgroundColor: theme.palette.background.paper,
+                boxShadow: `0 0 12px ${theme.palette.primary.main}22, inset 0 0 8px rgba(255,255,255,0.03)`,
+                border: `1px solid ${theme.palette.primary.main}33`,
+              }}
+            >
+              <CardMedia
+                component="img"
+                image={`/leagues/${code}.png`} // /public/leagues/<code>.png
+                alt={t(labelKey)}
+                sx={{
+                  objectFit: 'contain',
+                  height: 160,
+                  p: 2,
+                  filter: theme.palette.mode === 'dark' ? 'drop-shadow(0 2px 8px rgba(0,0,0,.5))' : 'none',
+                }}
+              />
+              <CardContent sx={{ pt: 0 }}>
+                <Box display="flex" alignItems="center" justifyContent="space-between" mb={1}>
+                  <Chip
+                    size="small"
+                    label={t(labelKey)}
+                    sx={{
+                      bgcolor: `${colorByLeague(code)}22`,
+                      color: colorByLeague(code),
+                      fontWeight: 700,
+                    }}
+                  />
+                </Box>
+
+                {thresholdKey && (
+                  <Typography variant="caption" color="text.secondary" display="block" mb={0.5}>
+                    {t('medals.threshold', 'Palier')}: {t(thresholdKey)}
+                  </Typography>
+                )}
+
+                <Typography variant="body2">
+                  {t(descKey)}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+
+      <Typography variant="h6" fontWeight={800} mt={4} mb={2}>
+        {t('medals.badges_title', 'Badges')}
+      </Typography>
+
+      <Grid container spacing={2}>
+        {badgesWithState.map(({ code, labelKey, descKey, earned, earnedAt }) => (
+          <Grid key={code} size={{ xs: 12, sm: 6, md: 4 }}>
+            <Card
+              sx={{
+                height: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                borderRadius: 2,
+                backgroundColor: theme.palette.background.paper,
+                boxShadow: `0 0 12px ${theme.palette.primary.main}22, inset 0 0 8px rgba(255,255,255,0.03)`,
+                border: `1px solid ${theme.palette.primary.main}33`,
+                opacity: earned ? 1 : 0.4
+              }}
+            >
+              <CardMedia
+                component="img"
+                image={`/badges/${code}.png`}
+                alt={t(labelKey)}
+                sx={{
+                  objectFit: 'contain',
+                  height: 120,
+                  p: 2,
+                  filter:
+                    theme.palette.mode === 'dark'
+                      ? 'drop-shadow(0 2px 8px rgba(0,0,0,.5))'
+                      : 'none',
+                }}
+              />
+              <CardContent sx={{ pt: 0 }}>
+                <Typography variant="subtitle1" fontWeight={700} gutterBottom>
+                  {t(labelKey)}
+                </Typography>
+                {earned && earnedAt && (
+                  <Typography variant="caption" color="text.secondary" display="block" mb={0.5}>
+                    {new Date(earnedAt).toLocaleDateString(i18n.language, { year: 'numeric', month: 'short', day: '2-digit' })}
+                  </Typography>
+                )}
+                <Typography variant="body2" color="text.secondary">
+                  {t(descKey)}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+
+    </Box>
+  );
+};
+
+export default Medals;

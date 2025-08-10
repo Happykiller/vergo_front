@@ -11,7 +11,10 @@
     "activity": "Activité",
     "average_duration": "Durée moyenne",
     "heatmap_title": "Historique des entraînements",
-    "trainings_count": "Nombre d'entraînements sur 6 mois"
+    "trainings_count": "Nombre d'entraînements sur 6 mois",
+    "badges_card": "Section des badges",
+    "badges_recent": "Badges récents",
+    "badge_item": "{{badge}} obtenu le {{date}}"
   },
   "exercices": {
     "slug": "Slug",
@@ -93,5 +96,80 @@
     "title": "Titre",
     "description": "Description",
     "creator": "Créateur"
+  },
+  "medals": {
+    "title": "Blasons & Ligues",
+    "subtitle": "Découvrez tous les blasons, leurs paliers et ce qu'ils représentent.",
+    "threshold": "Palier",
+    "back_to_dashboard": "Retour au tableau de bord"
+  },
+  "common": {
+    "back": "Retour"
+  },
+  "leagues": {
+    "bronze": {
+      "label": "Bronze",
+      "desc": "Premier palier : régularité en construction.",
+      "threshold": "ex: 200 min / mois"
+    },
+    "silver": {
+      "label": "Argent",
+      "desc": "Vous installez une vraie routine d'entraînement.",
+      "threshold": "ex: 400 min / mois"
+    },
+    "gold": {
+      "label": "Or",
+      "desc": "Engagement solide et progression continue.",
+      "threshold": "ex: 600 min / mois"
+    },
+    "platinum": {
+      "label": "Platine",
+      "desc": "Discipline exemplaire, charge soutenue.",
+      "threshold": "ex: 900 min / mois"
+    },
+    "diamond": {
+      "label": "Diamant",
+      "desc": "Top des performers, vous inspirez les autres.",
+      "threshold": "ex: 1200 min / mois"
+    },
+    "legend": {
+      "label": "Légende",
+      "desc": "Icône de constance. Objectifs au long cours.",
+      "threshold": "ex: Sur invitation / saison"
+    }
+  },
+  "badges": {
+    "first_step": {
+      "label": "Premier Pas",
+      "description": "Obtenu lorsque l’utilisateur termine son tout premier entraînement."
+    },
+    "comeback": {
+      "label": "Retour gagnant",
+      "description": "Revenir à l’entraînement après au moins 7 jours d’inactivité."
+    },
+    "machine": {
+      "label": "Machine",
+      "description": "7 jours consécutifs d’activité physique."
+    },
+    "loyal": {
+      "label": "Loyal",
+      "description": "Être actif 30 jours sur une période de 60 jours."
+    },
+    "sprinter": {
+      "label": "Sprinteur",
+      "description": "Réaliser une séance unique de 60 minutes ou plus."
+    },
+    "marathoner": {
+      "label": "Marathonien",
+      "description": "Cumuler un total de 10 heures d’activité."
+    },
+    "unstoppable": {
+      "label": "Inarrêtable",
+      "description": "Réaliser 4 séances ou plus dans une même semaine."
+    },
+    "full_body_warrior": {
+      "label": "Full Body Warrior",
+      "description": "Avoir effectué tous les types d’exercices proposés."
+    }
   }
 }

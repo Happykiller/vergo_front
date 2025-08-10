@@ -49,6 +49,12 @@ export class GetKpisDashbardUsecase {
                   nextCode
                   nextThreshold
                 }
+              }      
+              badges {
+                code
+                earned
+                earnedAt
+                meta
               }
             }
           }`
