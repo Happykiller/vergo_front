@@ -6,6 +6,36 @@
     "reset": "Reset",
     "resume": "Resume"
   },
+  "dashboard": {
+    "recent_trainings": "Recent trainings",
+    "activity": "Activity",
+    "average_duration": "Average duration",
+    "heatmap_title": "Training history",
+    "trainings_count": "Number of trainings over 6 months",
+    "volume_summary": "Training volume",
+    "volume_last_15_days": "Last 15 days",
+    "volume_last_30_days": "Last 30 days",
+    "volume_last_90_days": "Last 90 days",
+    "volume_last_6_months": "Last 6 months",
+    "volume_last_1_year": "Last 12 months",
+    "volume_hours_one": "{{count}} h",
+    "volume_hours_other": "{{count}} h",
+    "volume_minutes_one": "{{count}} min",
+    "volume_minutes_other": "{{count}} min",
+    "volume_sessions_one": "{{count}} session",
+    "volume_sessions_other": "{{count}} sessions",
+    "badges_card": "Badges section",
+    "badges_recent": "Recent badges",
+    "badge_item": "{{badge}} earned on {{date}}",
+    "badge_info": "Information about badge {{badge}}",
+    "gamification": {
+      "title": "Gamification",
+      "next_level": "Next level in",
+      "all_badges": "View all badges",
+      "monthly_progress": "Monthly progress",
+      "threshold": "Threshold"
+    }
+  },
   "exercices": {
     "slug": "Slug",
     "creation_date": "Creation Date",
@@ -89,5 +119,85 @@
     "title": "Title",
     "description": "Description",
     "creator": "Creator"
+  },
+  "medals": {
+    "title": "Badges & Leagues",
+    "subtitle": "Discover all badges, their tiers, and what they represent.",
+    "threshold": "Threshold",
+    "back_to_dashboard": "Back to dashboard"
+  },
+  "common": {
+    "back": "Back"
+  },
+  "leagues": {
+    "bronze": {
+      "label": "Bronze",
+      "desc": "First tier: consistency is taking shape.",
+      "threshold": "e.g. 200 min / month"
+    },
+    "silver": {
+      "label": "Silver",
+      "desc": "A real training routine is settling in.",
+      "threshold": "e.g. 400 min / month"
+    },
+    "gold": {
+      "label": "Gold",
+      "desc": "Strong commitment and steady progress.",
+      "threshold": "e.g. 600 min / month"
+    },
+    "platinum": {
+      "label": "Platinum",
+      "desc": "Exemplary discipline, sustained workload.",
+      "threshold": "e.g. 900 min / month"
+    },
+    "diamond": {
+      "label": "Diamond",
+      "desc": "Top performer, inspiring others.",
+      "threshold": "e.g. 1200 min / month"
+    },
+    "legend": {
+      "label": "Legend",
+      "desc": "An icon of consistency. Long-term goals.",
+      "threshold": "e.g. Invitation / season"
+    }
+  },
+  "gamification": {
+    "league": {
+      "unknown": "Unknown league"
+    }
+  },
+  "badges": {
+    "first_step": {
+      "label": "First Step",
+      "description": "Earned when the user completes their very first training."
+    },
+    "comeback": {
+      "label": "Comeback",
+      "description": "Return to training after at least 7 days of inactivity."
+    },
+    "machine": {
+      "label": "Machine",
+      "description": "7 consecutive days of physical activity."
+    },
+    "loyal": {
+      "label": "Loyal",
+      "description": "Be active for 30 days over a 60-day period."
+    },
+    "sprinter": {
+      "label": "Sprinter",
+      "description": "Complete a single workout lasting 60 minutes or more."
+    },
+    "marathoner": {
+      "label": "Marathoner",
+      "description": "Accumulate a total of 10 hours of activity."
+    },
+    "unstoppable": {
+      "label": "Unstoppable",
+      "description": "Complete 4 or more workouts in the same week."
+    },
+    "full_body_warrior": {
+      "label": "Full Body Warrior",
+      "description": "Have completed every exercise type offered."
+    }
   }
 }

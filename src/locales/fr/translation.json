@@ -12,9 +12,29 @@
     "average_duration": "Durée moyenne",
     "heatmap_title": "Historique des entraînements",
     "trainings_count": "Nombre d'entraînements sur 6 mois",
+    "volume_summary": "Volume d'entraînement",
+    "volume_last_15_days": "15 derniers jours",
+    "volume_last_30_days": "30 derniers jours",
+    "volume_last_90_days": "90 derniers jours",
+    "volume_last_6_months": "6 derniers mois",
+    "volume_last_1_year": "12 derniers mois",
+    "volume_hours_one": "{{count}} h",
+    "volume_hours_other": "{{count}} h",
+    "volume_minutes_one": "{{count}} min",
+    "volume_minutes_other": "{{count}} min",
+    "volume_sessions_one": "{{count}} séance",
+    "volume_sessions_other": "{{count}} séances",
     "badges_card": "Section des badges",
     "badges_recent": "Badges récents",
-    "badge_item": "{{badge}} obtenu le {{date}}"
+    "badge_item": "{{badge}} obtenu le {{date}}",
+    "badge_info": "Informations sur le badge {{badge}}",
+    "gamification": {
+      "title": "Gamification",
+      "next_level": "Prochain niveau dans",
+      "all_badges": "Voir tous les badges",
+      "monthly_progress": "Progression mensuelle",
+      "threshold": "Seuil"
+    }
   },
   "exercices": {
     "slug": "Slug",
@@ -136,6 +156,11 @@
       "label": "Légende",
       "desc": "Icône de constance. Objectifs au long cours.",
       "threshold": "ex: Sur invitation / saison"
+    }
+  },
+  "gamification": {
+    "league": {
+      "unknown": "Ligue inconnue"
     }
   },
   "badges": {

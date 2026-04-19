@@ -1,5 +1,4 @@
-// src/components/dashboard/RecentTrainingsCard.tsx
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Box, Grid, Typography, useTheme } from '@mui/material';
 import {
@@ -12,6 +11,7 @@ import {
 } from 'recharts';
 import CalendarHeatmap from 'react-calendar-heatmap';
 import 'react-calendar-heatmap/dist/styles.css';
+import { KpisVolumeDashbardUsecaseModel } from '@usecases/dashboard/model/kpis.volume.dashboard.usecase.model';
 
 interface Activity {
   date: string;
@@ -20,37 +20,67 @@ interface Activity {
 
 interface Props {
   activities: Activity[];
+  volume?: KpisVolumeDashbardUsecaseModel;
 }
 
-const formatDay = (dateStr: string) => {
-  return new Date(dateStr).toLocaleDateString('fr-FR', {
-    weekday: 'short',
-  });
-};
+const formatVolume = (hours: number, t: (key: string, options?: any) => string) =>
+  t('dashboard.volume_hours', { count: hours });
 
-const heatmapValues = (activities: any) => activities.map((a: any) => ({
-  date: new Date(a.date).toISOString().split('T')[0],
-  count: Math.round(a.duration / 60),
-}));
+const formatDay = (dateStr: string, locale: string) =>
+  new Date(dateStr).toLocaleDateString(locale, { weekday: 'short' });
 
-const ActivityCard: React.FC<Props> = ({ activities }) => {
-  const theme = useTheme();
-  const { t } = useTranslation();
-
-  const MONTHS_AGO = 6;
-  const endDate = new Date();
-  const startDate = new Date();
-  startDate.setMonth(startDate.getMonth() - MONTHS_AGO);
-
-  const data = activities.filter((a) => {
-    const date = new Date(a.date);
-    return date >= startDate && date <= endDate;
-  }).map((a) => ({
-    name: formatDay(a.date),
-    minutes: Math.round(a.duration / 60),
+const heatmapValues = (activities: Activity[]) =>
+  activities.map((a) => ({
+    date: new Date(a.date).toISOString().split('T')[0],
+    count: Math.round(a.duration / 60),
   }));
 
-  const avg = Math.round(data.reduce((acc, d) => acc + d.minutes, 0) / data.length);
+const MONTHS_AGO = 6;
+
+const ActivityCard: React.FC<Props> = ({ activities, volume }) => {
+  const theme = useTheme();
+  const { t, i18n } = useTranslation();
+
+  const { startDate, endDate } = useMemo(() => {
+    const end = new Date();
+    const start = new Date();
+    start.setMonth(start.getMonth() - MONTHS_AGO);
+    return { startDate: start, endDate: end };
+  }, []);
+
+  const data = useMemo(
+    () =>
+      activities
+        .filter((a) => {
+          const date = new Date(a.date);
+          return date >= startDate && date <= endDate;
+        })
+        .map((a) => ({
+          name: formatDay(a.date, i18n.language),
+          minutes: Math.round(a.duration / 60),
+        })),
+    [activities, startDate, endDate, i18n.language],
+  );
+
+  const avg = useMemo(
+    () =>
+      data.length
+        ? Math.round(data.reduce((acc, d) => acc + d.minutes, 0) / data.length)
+        : 0,
+    [data],
+  );
+
+  const volumeStats = useMemo(() => {
+    if (!volume) return [];
+
+    return [
+      { key: 'last15Days', label: t('dashboard.volume_last_15_days'), value: volume.last15Days },
+      { key: 'last30Days', label: t('dashboard.volume_last_30_days'), value: volume.last30Days },
+      { key: 'last90Days', label: t('dashboard.volume_last_90_days'), value: volume.last90Days },
+      { key: 'last6Months', label: t('dashboard.volume_last_6_months'), value: volume.last6Months },
+      { key: 'last1Year', label: t('dashboard.volume_last_1_year'), value: volume.last1Year },
+    ];
+  }, [t, volume]);
 
   return (
     <Box
@@ -102,7 +132,7 @@ const ActivityCard: React.FC<Props> = ({ activities }) => {
           </Typography>
         </Grid>
 
-        {/* Right: Placeholder for other stats */}
+        {/* Right: Heatmap */}
         <Grid size={{ xs: 12, md: 6 }}>
           <Box sx={{ overflowX: 'auto' }}>
             <Box
@@ -120,7 +150,7 @@ const ActivityCard: React.FC<Props> = ({ activities }) => {
             >
               <CalendarHeatmap
                 startDate={startDate}
-                endDate={new Date()}
+                endDate={endDate}
                 values={heatmapValues(activities)}
                 gutterSize={3}
                 showWeekdayLabels={true}
@@ -135,21 +165,52 @@ const ActivityCard: React.FC<Props> = ({ activities }) => {
                   return 'vg-level-1';
                 }}
               />
-              <Typography
-                variant="caption"
-                display="block"
-                align="center"
-                mt={1}
-                sx={{ color: theme.palette.text.secondary }}
-              >
-                {t('dashboard.trainings_count')}: <strong>{data.length}</strong>
-              </Typography>
+            </Box>
+          </Box>
+
+          <Box mt={2}>
+            <Box
+              sx={{
+                display: 'grid',
+                gap: 0.75,
+              }}
+            >
+              {volumeStats.map(({ key, label, value }) => (
+                <Box
+                  key={key}
+                  sx={{
+                    display: 'grid',
+                    gridTemplateColumns: '1fr auto auto',
+                    alignItems: 'baseline',
+                    columnGap: 1,
+                    py: 0.5,
+                    borderBottom: `1px solid ${theme.palette.divider}`,
+                    '&:last-child': {
+                      borderBottom: 'none',
+                    },
+                  }}
+                >
+                  <Typography
+                    variant="caption"
+                    color="text.secondary"
+                    sx={{
+                      minWidth: 0,
+                    }}
+                  >
+                    {label}
+                  </Typography>
+                  <Typography variant="body2" fontWeight={700} whiteSpace="nowrap">
+                    {formatVolume(value.hours, t)}
+                  </Typography>
+                  <Typography variant="caption" color="text.secondary" whiteSpace="nowrap">
+                    {t('dashboard.volume_sessions', { count: value.sessionsCount })}
+                  </Typography>
+                </Box>
+              ))}
             </Box>
           </Box>
         </Grid>
-
       </Grid>
-
     </Box>
   );
 };

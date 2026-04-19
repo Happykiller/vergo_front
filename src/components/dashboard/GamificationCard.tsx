@@ -1,4 +1,3 @@
-// src\components\dashboard\GamificationCard.tsx
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink } from 'react-router-dom';
@@ -6,78 +5,34 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
 import { Box, Grid, Typography, useTheme, Paper, LinearProgress, Skeleton, Tooltip, IconButton, Chip } from '@mui/material';
 
-// ---------- Types (import from your model if already created) ----------
-export type LeagueCode = 'BRONZE' | 'SILVER' | 'GOLD' | 'PLATINUM' | 'DIAMOND' | 'LEGEND' | string;
-
-const LEAGUES = [
-  { code: 'BRONZE', labelKey: 'leagues.bronze.label', descKey: 'leagues.bronze.desc', thresholdKey: 'leagues.bronze.threshold' },
-  { code: 'SILVER', labelKey: 'leagues.silver.label', descKey: 'leagues.silver.desc', thresholdKey: 'leagues.silver.threshold' },
-  { code: 'GOLD', labelKey: 'leagues.gold.label', descKey: 'leagues.gold.desc', thresholdKey: 'leagues.gold.threshold' },
-  { code: 'PLATINUM', labelKey: 'leagues.platinum.label', descKey: 'leagues.platinum.desc', thresholdKey: 'leagues.platinum.threshold' },
-  { code: 'DIAMOND', labelKey: 'leagues.diamond.label', descKey: 'leagues.diamond.desc', thresholdKey: 'leagues.diamond.threshold' },
-  { code: 'LEGEND', labelKey: 'leagues.legend.label', descKey: 'leagues.legend.desc', thresholdKey: 'leagues.legend.threshold' },
-];
-
-export interface KpisLeagueSnapshot {
-  code: LeagueCode;
-  minutes: number;
-  threshold: number;
-  nextCode?: LeagueCode;
-  nextThreshold?: number;
-}
-
-export interface KpisGamificationDashbardUsecaseModel {
-  xp: number;
-  level: number;
-  levelXp: number;
-  levelXpToNext: number;
-  levelProgressPct: number; // 0..100
-  league: KpisLeagueSnapshot;
-  weeklyLeague: KpisLeagueSnapshot;
-}
+import { KpisGamificationDashbardUsecaseModel, KpisLeagueSnapshot } from '@usecases/dashboard/model/kpis.gamification.dashboard.usecase.model';
+import { LEAGUES, getLeagueColor } from '@src/commons/leagues';
 
 interface Props {
-  gamification?: KpisGamificationDashbardUsecaseModel; // optional => skeleton
+  gamification?: KpisGamificationDashbardUsecaseModel;
 }
 
-// ---------- Helpers ----------
 const clamp = (v: number, min = 0, max = 100) => Math.max(min, Math.min(max, v));
 
-// Computes progress from current league threshold to next threshold
 const computeLeaguePct = (snap: KpisLeagueSnapshot): number => {
   const from = snap.threshold ?? 0;
-  const to = snap.nextThreshold ?? Math.max(from, snap.minutes); // avoid div by 0
+  const to = snap.nextThreshold ?? Math.max(from, snap.minutes);
   const progress = snap.minutes - from;
   const span = Math.max(1, to - from);
   return clamp((progress / span) * 100);
 };
 
-// ---------- Component ----------
 const GamificationCard: React.FC<Props> = React.memo(({ gamification }) => {
   const theme = useTheme();
   const { t } = useTranslation();
 
   const monthlyPct = useMemo(
     () => (gamification ? computeLeaguePct(gamification.league) : 0),
-    [gamification]
+    [gamification],
   );
 
   const ringPct = clamp(gamification?.levelProgressPct ?? 0);
 
-  // Colors per league (fallback to primary)
-  const leagueColor = (code?: LeagueCode) => {
-    const map: Record<string, string> = {
-      BRONZE: theme.palette.warning.dark,
-      SILVER: theme.palette.grey[400],
-      GOLD: '#d4af37',
-      PLATINUM: theme.palette.info.light,
-      DIAMOND: '#5ad1ff',
-      LEGEND: theme.palette.secondary.main,
-    };
-    return (code && map[code]) || theme.palette.primary.main;
-  };
-
-  // Card container styles (Vergo halo)
   const cardSx = {
     borderRadius: `${theme.shape.borderRadius}px`,
     backgroundColor: theme.palette.background.paper,
@@ -105,17 +60,12 @@ const GamificationCard: React.FC<Props> = React.memo(({ gamification }) => {
           {/* Left: XP radial + copy */}
           <Grid size={{ xs: 12, md: 5 }}>
             <Box display="flex" flexDirection="column" alignItems="center" gap={1}>
-              {/* Radial progress using two stacked circles */}
               <Box
                 role="progressbar"
                 aria-valuenow={Math.round(ringPct)}
                 aria-valuemin={0}
                 aria-valuemax={100}
-                sx={{
-                  position: 'relative',
-                  width: 140,
-                  height: 140,
-                }}
+                sx={{ position: 'relative', width: 140, height: 140 }}
               >
                 {/* Background ring */}
                 <Box
@@ -126,7 +76,7 @@ const GamificationCard: React.FC<Props> = React.memo(({ gamification }) => {
                     border: `8px solid ${theme.palette.action.hover}`,
                   }}
                 />
-                {/* Progress arc (conic-gradient for performance) */}
+                {/* Progress arc (conic-gradient) */}
                 <Box
                   sx={{
                     position: 'absolute',
@@ -164,10 +114,9 @@ const GamificationCard: React.FC<Props> = React.memo(({ gamification }) => {
             </Box>
           </Grid>
 
-          {/* Right: Leagues */}
+          {/* Right: League */}
           <Grid size={{ xs: 12, md: 7 }}>
             <Grid container spacing={2}>
-              {/* Monthly league */}
               <Grid size={{ xs: 12 }}>
                 <Paper variant="outlined" sx={{ p: 1.5, borderRadius: 2 }}>
                   <Box display="flex" alignItems="center" justifyContent="space-between" gap={1} mb={1}>
@@ -222,11 +171,13 @@ const GamificationCard: React.FC<Props> = React.memo(({ gamification }) => {
                     {t('dashboard.gamification.threshold', 'Seuil')}{' '}
                     <Chip
                       size="small"
-                      label={t(LEAGUES.find((elt) => elt.code === gamification?.league?.code)?.labelKey
-                        ?? 'gamification.league.unknown')}
+                      label={t(
+                        LEAGUES.find((l) => l.code === gamification.league.code)?.labelKey
+                          ?? 'gamification.league.unknown',
+                      )}
                       sx={{
-                        bgcolor: `${leagueColor(gamification.league.code)}22`,
-                        color: leagueColor(gamification.league.code),
+                        bgcolor: `${getLeagueColor(theme, gamification.league.code)}22`,
+                        color: getLeagueColor(theme, gamification.league.code),
                         fontWeight: 700,
                       }}
                     />: {gamification.league.threshold} min

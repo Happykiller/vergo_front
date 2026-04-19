@@ -1,6 +1,6 @@
-// src\pages\Medals.tsx
 import React, { useEffect, useState } from 'react';
 import {
+  Alert,
   Box,
   Grid,
   Card,
@@ -11,63 +11,19 @@ import {
   useTheme,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import i18n from 'i18next';
 
 import inversify from '@src/commons/inversify';
 import { useAsyncTask } from '@hooks/useAsyncTask';
 import { KpisDashbardUsecaseModel } from '@usecases/dashboard/model/kpis.dashboard.usecase.model';
-import i18n from 'i18next';
-
-type LeagueCode = 'BRONZE' | 'SILVER' | 'GOLD' | 'PLATINUM' | 'DIAMOND' | 'LEGEND';
-
-interface MedalDef {
-  code: LeagueCode;
-  labelKey: string;        // i18n key for label
-  descKey: string;         // i18n key for description
-  thresholdKey?: string;   // optional i18n key "ex: 600 min/mois"
-}
-
-const LEAGUES: MedalDef[] = [
-  { code: 'BRONZE', labelKey: 'leagues.bronze.label', descKey: 'leagues.bronze.desc', thresholdKey: 'leagues.bronze.threshold' },
-  { code: 'SILVER', labelKey: 'leagues.silver.label', descKey: 'leagues.silver.desc', thresholdKey: 'leagues.silver.threshold' },
-  { code: 'GOLD', labelKey: 'leagues.gold.label', descKey: 'leagues.gold.desc', thresholdKey: 'leagues.gold.threshold' },
-  { code: 'PLATINUM', labelKey: 'leagues.platinum.label', descKey: 'leagues.platinum.desc', thresholdKey: 'leagues.platinum.threshold' },
-  { code: 'DIAMOND', labelKey: 'leagues.diamond.label', descKey: 'leagues.diamond.desc', thresholdKey: 'leagues.diamond.threshold' },
-  { code: 'LEGEND', labelKey: 'leagues.legend.label', descKey: 'leagues.legend.desc', thresholdKey: 'leagues.legend.threshold' },
-];
-
-type BadgeCode =
-  | 'FIRST_STEP'
-  | 'COMEBACK'
-  | 'MACHINE'
-  | 'LOYAL'
-  | 'SPRINTER'
-  | 'MARATHONER'
-  | 'UNSTOPPABLE'
-  | 'FULL_BODY_WARRIOR';
-
-interface BadgeDef {
-  code: BadgeCode;
-  labelKey: string;
-  descKey: string;
-}
-
-const BADGES: BadgeDef[] = [
-  { code: 'FIRST_STEP', labelKey: 'badges.first_step.label', descKey: 'badges.first_step.description' },
-  { code: 'COMEBACK', labelKey: 'badges.comeback.label', descKey: 'badges.comeback.description' },
-  { code: 'MACHINE', labelKey: 'badges.machine.label', descKey: 'badges.machine.description' },
-  { code: 'LOYAL', labelKey: 'badges.loyal.label', descKey: 'badges.loyal.description' },
-  { code: 'SPRINTER', labelKey: 'badges.sprinter.label', descKey: 'badges.sprinter.description' },
-  { code: 'MARATHONER', labelKey: 'badges.marathoner.label', descKey: 'badges.marathoner.description' },
-  { code: 'UNSTOPPABLE', labelKey: 'badges.unstoppable.label', descKey: 'badges.unstoppable.description' },
-  { code: 'FULL_BODY_WARRIOR', labelKey: 'badges.full_body_warrior.label', descKey: 'badges.full_body_warrior.description' },
-];
+import { LEAGUES, BADGES, getLeagueColor } from '@src/commons/leagues';
 
 const Medals: React.FC = () => {
   const { t } = useTranslation();
   const theme = useTheme();
 
   const [datas, setDatas] = useState<KpisDashbardUsecaseModel>();
-  const { execute } = useAsyncTask();
+  const { execute, error } = useAsyncTask();
 
   useEffect(() => {
     execute(async () => {
@@ -76,24 +32,12 @@ const Medals: React.FC = () => {
         setDatas(response.data);
       }
     });
-  }, []);
+  }, [execute]);
 
-  const badgesWithState = BADGES.map(b => {
-    const state = datas?.badges.find(db => db.code === b.code);
+  const badgesWithState = BADGES.map((b) => {
+    const state = datas?.badges.find((db) => db.code === b.code);
     return { ...b, earned: state?.earned ?? false, earnedAt: state?.earnedAt ?? null };
   });
-
-  const colorByLeague = (code: LeagueCode) => {
-    const map: Record<LeagueCode, string> = {
-      BRONZE: theme.palette.warning.dark,
-      SILVER: theme.palette.grey[400],
-      GOLD: '#d4af37',
-      PLATINUM: theme.palette.info.light,
-      DIAMOND: '#5ad1ff',
-      LEGEND: theme.palette.secondary.main,
-    };
-    return map[code];
-  };
 
   return (
     <Box sx={{ px: 2, py: 3, maxWidth: 1024, mx: 'auto' }}>
@@ -102,6 +46,12 @@ const Medals: React.FC = () => {
           {t('medals.title', 'Ligues')}
         </Typography>
       </Box>
+
+      {error && (
+        <Alert severity="error" sx={{ mb: 2 }}>
+          {error}
+        </Alert>
+      )}
 
       <Typography variant="body2" color="text.secondary" mb={3}>
         {t('medals.subtitle', "Découvrez tous les blasons, leurs paliers et ce qu'ils représentent.")}
@@ -123,7 +73,7 @@ const Medals: React.FC = () => {
             >
               <CardMedia
                 component="img"
-                image={`/leagues/${code}.png`} // /public/leagues/<code>.png
+                image={`/leagues/${code}.png`}
                 alt={t(labelKey)}
                 sx={{
                   objectFit: 'contain',
@@ -138,8 +88,8 @@ const Medals: React.FC = () => {
                     size="small"
                     label={t(labelKey)}
                     sx={{
-                      bgcolor: `${colorByLeague(code)}22`,
-                      color: colorByLeague(code),
+                      bgcolor: `${getLeagueColor(theme, code)}22`,
+                      color: getLeagueColor(theme, code),
                       fontWeight: 700,
                     }}
                   />
@@ -176,7 +126,7 @@ const Medals: React.FC = () => {
                 backgroundColor: theme.palette.background.paper,
                 boxShadow: `0 0 12px ${theme.palette.primary.main}22, inset 0 0 8px rgba(255,255,255,0.03)`,
                 border: `1px solid ${theme.palette.primary.main}33`,
-                opacity: earned ? 1 : 0.4
+                opacity: earned ? 1 : 0.4,
               }}
             >
               <CardMedia
@@ -210,7 +160,6 @@ const Medals: React.FC = () => {
           </Grid>
         ))}
       </Grid>
-
     </Box>
   );
 };

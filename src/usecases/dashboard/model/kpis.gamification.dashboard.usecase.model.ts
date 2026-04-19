@@ -22,6 +22,6 @@ export interface KpisGamificationDashbardUsecaseModel {
   levelXp: number;           // XP earned within the current level
   levelXpToNext: number;     // XP remaining to reach next level
   levelProgressPct: number;  // current level progress in percent (0..100)
-  league: KpisLeagueSnapshot;       // monthly league snapshot
-  weeklyLeague: KpisLeagueSnapshot; // weekly league snapshot
+  league: KpisLeagueSnapshot;        // monthly league snapshot
+  weeklyLeague?: KpisLeagueSnapshot; // weekly league snapshot (not yet displayed in UI)
 }

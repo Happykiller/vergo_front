@@ -15,9 +15,11 @@ export const shouldPersistTraining = (durationSec: number, completed: boolean): 
 export const useTrainingStats = (trainingId: string | null) => {
   const completedRef = useRef<boolean>(false);
   const startRef = useRef<string>(moment().toISOString());
+  const sentRef = useRef<boolean>(false);
 
   const logStats = useCallback(async () => {
     if (!trainingId) return;
+    if (sentRef.current) return;
 
     const end = moment().toISOString();
     const duration = moment(end).diff(moment(startRef.current), 'seconds');
@@ -30,23 +32,30 @@ export const useTrainingStats = (trainingId: string | null) => {
       return;
     }
 
-    const result = await inversify.saveTrainingStatUsecase.execute({
-      training_id: trainingId,
-      start: startRef.current,
-      end,
-      durationInSeconds: duration,
-      completed: completedRef.current,
-    });
+    sentRef.current = true;
 
-    if (process.env.DEBUG === 'true') {
-      console.log('[TRAINING STATS][SENT]', {
+    try {
+      const result = await inversify.saveTrainingStatUsecase.execute({
         training_id: trainingId,
         start: startRef.current,
         end,
         durationInSeconds: duration,
         completed: completedRef.current,
-        result,
       });
+
+      if (process.env.DEBUG === 'true') {
+        console.log('[TRAINING STATS][SENT]', {
+          training_id: trainingId,
+          start: startRef.current,
+          end,
+          durationInSeconds: duration,
+          completed: completedRef.current,
+          result,
+        });
+      }
+    } catch (error) {
+      sentRef.current = false;
+      throw error;
     }
   }, [trainingId]);
 

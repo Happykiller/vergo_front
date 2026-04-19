@@ -12,10 +12,14 @@ type BadgesCardProps = {
 };
 
 const badgeEmojiByCode: Record<string, string> = {
-  // Example mappings – replace with your own icons later
-  'first_training': '👟',
-  'streak_7': '🔥',
-  'marathoner': '🏃',
+  'first_step':       '👟',
+  'comeback':         '🔄',
+  'machine':          '⚙️',
+  'loyal':            '🔒',
+  'sprinter':         '⚡',
+  'marathoner':       '🏃',
+  'unstoppable':      '🚀',
+  'full_body_warrior': '💪',
 };
 
 function formatDate(dateIso?: string, locale = 'fr-FR'): string {

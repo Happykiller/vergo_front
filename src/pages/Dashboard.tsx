@@ -1,25 +1,24 @@
-// src/pages/Dashboard.tsx
-import { Box } from '@mui/material';
 import React, { useEffect, useState } from 'react';
+import { Alert, Box } from '@mui/material';
 
 import inversify from '@src/commons/inversify';
 import { useAsyncTask } from '@hooks/useAsyncTask';
 import ActivityCard from '@components/dashboard/ActivityCard';
 import GamificationCard from '@components/dashboard/GamificationCard';
 import RecentTrainingsCard from '@components/dashboard/RecentTrainingsCard';
-import { KpisDashbardUsecaseModel } from '@usecases/dashboard/model/kpis.dashboard.usecase.model';
 import BadgesCard from '@components/dashboard/BadgesCard';
+import { KpisDashbardUsecaseModel } from '@usecases/dashboard/model/kpis.dashboard.usecase.model';
 
 const Dashboard: React.FC = () => {
   const [datas, setDatas] = useState<KpisDashbardUsecaseModel>();
-  const { execute } = useAsyncTask();
+  const { execute, error } = useAsyncTask();
 
   useEffect(() => {
     execute(async () => {
       const response = await inversify.getKpisDashboardUsecase.execute();
       if (response.data) setDatas(response.data);
     });
-  }, []);
+  }, [execute]);
 
   return (
     <Box
@@ -33,13 +32,14 @@ const Dashboard: React.FC = () => {
       }}
     >
       <Box sx={{ width: '100%', maxWidth: 720 }}>
-        {/* Gamification Card */}
+        {error && (
+          <Alert severity="error" sx={{ mb: 2 }}>
+            {error}
+          </Alert>
+        )}
         <GamificationCard gamification={datas?.gamification} />
-        {/* Badges Card */}
         <BadgesCard badges={datas?.badges} />
-        {/* Activity Card */}
-        <ActivityCard activities={datas?.activities ?? []} />
-        {/* Recent Trainings Card */}
+        <ActivityCard activities={datas?.activities ?? []} volume={datas?.volume} />
         <RecentTrainingsCard sessions={datas?.sessions ?? []} />
       </Box>
     </Box>

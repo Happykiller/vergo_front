@@ -1,21 +1,25 @@
-// src\hooks\useAsyncTask.ts
+import { useCallback, useState } from 'react';
 import { useLoaderStore } from '@stores/loader';
 
 export const useAsyncTask = () => {
-  const setLoading = useLoaderStore((s:any) => s.setLoading);
+  const setLoading = useLoaderStore((s) => s.setLoading);
+  const [error, setError] = useState<string | null>(null);
 
-  const execute = async <T>(task: () => Promise<T>): Promise<T | null> => {
+  const execute = useCallback(async <T>(task: () => Promise<T>): Promise<T | null> => {
     setLoading(true);
+    setError(null);
     try {
       const result = await task();
       return result;
-    } catch (err) {
+    } catch (err: any) {
+      const msg = err?.message ?? 'Unknown error';
       console.error('[AsyncTask] Error:', err);
+      setError(msg);
       return null;
     } finally {
       setLoading(false);
     }
-  };
+  }, [setLoading]);
 
-  return { execute };
+  return { execute, error };
 };

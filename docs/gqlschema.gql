@@ -1,0 +1,421 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type ActiviyKpiModelResolver {
+  date: String!
+  duration: Int!
+}
+
+input AuthAuthResolverDto {
+  """User code for the session"""
+  login: String!
+
+  """Password for the session"""
+  password: String!
+}
+
+type AuthModelResolver {
+  """Session token"""
+  access_token: String!
+
+  """Code of the user"""
+  code: String!
+  description: String!
+
+  """Id of the user"""
+  id: String!
+  mail: String!
+  name_first: String!
+  name_last: String!
+  role: String!
+}
+
+type BadgeModelResolver {
+  code: String!
+  earned: Boolean!
+  earnedAt: String
+  meta: String
+}
+
+input CreateExerciceDtoResolver {
+  description: [LanguageDtoResolver!]!
+  image: String!
+  slug: String!
+  title: [LanguageDtoResolver!]!
+}
+
+input CreatePasskeyResolverDto {
+  challenge: String!
+  hostname: String!
+  label: String!
+  registration: RegisterPasskeyResolverDto!
+}
+
+input CreateTrainingDtoResolver {
+  gender: String
+  is_private: Boolean
+  label: String
+  slug: String!
+  workout: [CreateTrainingWorkoutDtoResolver!]!
+}
+
+input CreateTrainingWorkoutDtoResolver {
+  sets: [CreateTrainingWorkoutSetDtoResolver!]!
+  slug: String!
+}
+
+input CreateTrainingWorkoutSetDtoResolver {
+  duration: Float
+  ite: Float
+  pause: Float
+  rep: Float
+  rest: Float
+  sets: [CreateTrainingWorkoutSetDtoResolver!]
+  slugs: [String!]
+  weight: Float
+}
+
+input CreateUserResolverDto {
+  """Code of the user"""
+  code: String!
+  description: String!
+  mail: String!
+  name_first: String!
+  name_last: String!
+  password: String!
+}
+
+input DeletePasskeyResolverDto {
+  passkey_id: String!
+}
+
+type ExerciceModelResolver {
+  contributors: [UserModelResolver!]
+  contributors_id: [String!]
+  creator: UserModelResolver
+  creator_id: String
+  description: [LanguageModelResolver!]!
+  id: String!
+  image: String
+  slug: String!
+  title: [LanguageModelResolver!]!
+}
+
+type GamificationModelResolver {
+  league: LeagueModelResolver!
+  level: Int!
+  levelProgressPct: Int!
+  levelXp: Int!
+  levelXpToNext: Int!
+  weeklyLeague: LeagueModelResolver
+  xp: Int!
+}
+
+input GetExerciceResolverDto {
+  id: String!
+}
+
+input GetTrainingResolverDto {
+  id: String!
+}
+
+input GetUserResolverDto {
+  code: String
+  id: String
+}
+
+input LanguageDtoResolver {
+  lang: String!
+  value: String!
+}
+
+type LanguageModelResolver {
+  lang: String!
+  value: String!
+}
+
+type LeagueModelResolver {
+  code: String!
+  minutes: Int!
+  nextCode: String
+  nextThreshold: Int
+  threshold: Int!
+}
+
+type Mutation {
+  create_passkey(dto: CreatePasskeyResolverDto!): PasskeyResolverModel!
+  create_user(dto: CreateUserResolverDto!): UserModelResolver!
+  delete_passkey(dto: DeletePasskeyResolverDto!): Boolean!
+  exercice_create(dto: CreateExerciceDtoResolver!): ExerciceModelResolver!
+  exercice_update(dto: UpdateExerciceDtoResolver!): Boolean!
+  training_create(dto: CreateTrainingDtoResolver!): TrainingModelResolver!
+  training_stat_save(dto: SaveTrainingStatDtoResolver!): TrainingStatModelResolver!
+  training_update(dto: UpdateTrainingDtoResolver!): Boolean!
+  update_password(dto: UpdPasswordAuthResolverDto!): AuthModelResolver!
+}
+
+input OrderResolverDto {
+  field: String!
+  order: SortOrder!
+}
+
+type PaginatedTrainingsResolverModel {
+  nodes: [TrainingModelResolver!]
+  totalCount: Int!
+}
+
+input PasskeyAuthAuthenticationResolverDto {
+  authenticatorAttachment: String
+  id: String!
+  rawId: String!
+  response: PasskeyAuthResponseResolverDto!
+  type: String!
+}
+
+input PasskeyAuthResolverDto {
+  authentication: PasskeyAuthAuthenticationResolverDto!
+  user_code: String!
+}
+
+input PasskeyAuthResponseResolverDto {
+  authenticatorData: String!
+  clientDataJSON: String!
+  signature: String!
+  userHandle: String
+}
+
+type PasskeyResolverModel {
+  challenge: String!
+  credential_id: String!
+  hostname: String!
+  id: String!
+  label: String!
+  user_code: String!
+  user_id: String!
+}
+
+type PingResponse {
+  message: String!
+}
+
+type Query {
+  ai_get_glossary: [String!]!
+  auth(dto: AuthAuthResolverDto!): AuthModelResolver!
+  auth_passkey(dto: PasskeyAuthResolverDto!): AuthModelResolver!
+  exercice(dto: GetExerciceResolverDto!): ExerciceModelResolver!
+  exercices(dto: GetTrainingResolverDto): [ExerciceModelResolver!]!
+  getSessionInfo: AuthModelResolver!
+  getUserKpis: UserKpiModelResolver!
+  get_private_trainings: [TrainingModelResolver!]!
+  my_training_stats: [TrainingStatModelResolver!]!
+  passkeys_for_user: [PasskeyResolverModel!]!
+  ping: PingResponse!
+  searchWorkoutsPaginated(dto: SearchWorkoutsResolverDto!, limit: Int, offset: Int, order_by: OrderResolverDto): SearchWorkoutsPaginatedResolverModel!
+  systemInfo: SystemInfoResolverModel!
+  test_mail: SendMailSystemResolverModel!
+  training(dto: GetTrainingResolverDto!): TrainingModelResolver!
+  training_normalized(dto: GetTrainingResolverDto!): [TrainingNormalizedResolverModel!]!
+  trainings: [TrainingModelResolver!]!
+  trainingsPaginated(limit: Int, offset: Int, orderBy: OrderResolverDto): PaginatedTrainingsResolverModel!
+  user(dto: GetUserResolverDto!): UserModelResolver!
+  users: [UserModelResolver!]!
+  workouts(limit: Int, offset: Int, order_by: OrderResolverDto): WorkoutsPaginatedResolverModel!
+}
+
+input RegisterPasskeyResolverDto {
+  authenticatorAttachment: String!
+  id: String!
+  rawId: String!
+  response: RegisterResponsePasskeyResolverDto!
+  type: String!
+  user: RegisterUserPasskeyResolverDto!
+}
+
+input RegisterResponsePasskeyResolverDto {
+  attestationObject: String!
+  authenticatorData: String!
+  clientDataJSON: String!
+  publicKey: String!
+  publicKeyAlgorithm: Float!
+  transports: [String!]!
+}
+
+input RegisterUserPasskeyResolverDto {
+  id: String!
+  name: String!
+}
+
+input SaveTrainingStatDtoResolver {
+  completed: Boolean!
+  durationInSeconds: Float!
+  end: String!
+  start: String!
+  training_id: String!
+}
+
+type SearchWorkoutsPaginatedNodeResolverModel {
+  found: WorkoutDefModelResolver
+  search: String!
+}
+
+type SearchWorkoutsPaginatedResolverModel {
+  count: Float!
+  nodes: [SearchWorkoutsPaginatedNodeResolverModel!]!
+}
+
+input SearchWorkoutsResolverDto {
+  workouts_slug: [String!]!
+}
+
+type SendMailSystemResolverModel {
+  message: String!
+  success: Boolean!
+}
+
+type SessionKpiModelResolver {
+  completed: Boolean!
+  date: String!
+  duration: Int!
+  id: String!
+  label: String!
+}
+
+input SetDtoResolver {
+  duration: Float
+  ite: Float
+  pause: Float
+  rep: Float
+  rest: Float
+  sets: [SetDtoResolver!]
+  slugs: [String!]
+  weight: Float
+}
+
+type SetModelResolver {
+  duration: Float
+  ite: Float
+  pause: Float
+  rep: Float
+  rest: Float
+  sets: [SetModelResolver!]
+  slugs: [String!]
+  weight: Float
+}
+
+enum SortOrder {
+  ASC
+  DESC
+}
+
+type SystemInfoResolverModel {
+  version: String!
+}
+
+type TrainingModelResolver {
+  contributors: [UserModelResolver!]
+  contributors_id: [String!]
+  creator: UserModelResolver
+  creator_id: String
+  gender: String
+  id: String!
+  label: String
+  slug: String!
+  workout: [WorkoutModelResolver!]!
+}
+
+type TrainingNormalizedResolverModel {
+  duration: Float!
+  ite: Float
+  slugs: [String!]!
+  type: String!
+  weight: Float
+}
+
+type TrainingStatModelResolver {
+  completed: Boolean!
+  created_at: String!
+  durationInSeconds: Float!
+  end: String!
+  id: String!
+  start: String!
+  training_id: String!
+  user_id: String
+}
+
+type TrainingVolumeModelResolver {
+  last1Year: TrainingVolumePeriodModelResolver!
+  last6Months: TrainingVolumePeriodModelResolver!
+  last15Days: TrainingVolumePeriodModelResolver!
+  last30Days: TrainingVolumePeriodModelResolver!
+  last90Days: TrainingVolumePeriodModelResolver!
+}
+
+type TrainingVolumePeriodModelResolver {
+  hours: Float!
+  minutes: Int!
+  sessionsCount: Int!
+}
+
+input UpdPasswordAuthResolverDto {
+  conf_value: String!
+  new_value: String!
+  old_value: String!
+}
+
+input UpdateExerciceDtoResolver {
+  description: [LanguageDtoResolver!]
+  id: String!
+  image: String
+  slug: String
+  title: [LanguageDtoResolver!]
+}
+
+input UpdateTrainingDtoResolver {
+  gender: String
+  id: String
+  label: String
+  slug: String
+  workout: [WorkoutDtoResolver!]
+}
+
+type UserKpiModelResolver {
+  activities: [ActiviyKpiModelResolver!]!
+  badges: [BadgeModelResolver!]!
+  gamification: GamificationModelResolver!
+  sessions: [SessionKpiModelResolver!]!
+  volume: TrainingVolumeModelResolver!
+}
+
+type UserModelResolver {
+  code: String
+  description: String
+  id: String
+  mail: String
+  name_first: String
+  name_last: String
+  role: String
+}
+
+type WorkoutDefModelResolver {
+  description: [LanguageModelResolver!]!
+  id: String!
+  image: String
+  slug: String!
+  title: [LanguageModelResolver!]!
+}
+
+input WorkoutDtoResolver {
+  sets: [SetDtoResolver!]!
+  slug: String!
+}
+
+type WorkoutModelResolver {
+  sets: [SetModelResolver!]!
+  slug: String!
+}
+
+type WorkoutsPaginatedResolverModel {
+  count: Float!
+  nodes: [WorkoutDefModelResolver!]!
+}

@@ -7,7 +7,6 @@ const { version } = require('./package.json');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 
 // Load environment variables from .env and .env.local files
 dotenv.config({ path: '.env' });
@@ -67,7 +66,15 @@ module.exports = (env, argv) => {
         {
           // Rule for processing TypeScript files.
           test: /\.tsx?$/,
-          use: 'ts-loader', // Use ts-loader to transpile TypeScript files.
+          use: {
+            loader: 'ts-loader',
+            options: {
+              compilerOptions: {
+                declaration: false,
+                declarationMap: false,
+              },
+            },
+          }, // Use ts-loader to transpile TypeScript files.
           exclude: /node_modules/, // Exclude node_modules from processing.
         },
         {
@@ -90,28 +97,6 @@ module.exports = (env, argv) => {
 
     plugins: [
       new WebpackBar(),
-      new FaviconsWebpackPlugin({
-        logo: './src/public/logo.png', // Chemin vers votre logo de base
-        mode: 'webapp', // Génère des icônes pour PWA
-        devMode: 'webapp', // Utilisation en développement
-        favicons: {
-          appName: 'Vergo Front',
-          appDescription: 'Fitness Coach',
-          developerName: 'Fabrice Rosito',
-          developerURL: null, // Peut être défini si vous souhaitez une URL
-          background: '#ffffff',
-          theme_color: '#3367D6',
-          icons: {
-            android: true, // Génère les icônes pour Android
-            appleIcon: true, // Génère les icônes Apple
-            appleStartup: false, // Pas nécessaire pour cette utilisation
-            favicons: true,
-            windows: false, // Peut être désactivé pour des besoins réduits
-            yandex: false // Pas nécessaire
-          }
-        }
-      }),
-
       // Plugin to generate an HTML file from a template, and include the bundled assets.
       new HtmlWebpackPlugin({
         template: './src/index.html',

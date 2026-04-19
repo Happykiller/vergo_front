@@ -1,6 +1,7 @@
 # Makefile
 # Mark targets as not file-dependent; they are always executed
 .PHONY: start startall down reset tar install help
+.DEFAULT_GOAL := help
 
 # Start the Docker containers in detached mode
 start: 
@@ -40,4 +41,6 @@ help:
 	@echo "\033[33m make startall\033[39m : Build and start the project"
 	@echo "\033[33m make down\033[39m     : Stop the project"
 	@echo "\033[33m make reset\033[39m    : Reset containers, volumes, networks, and local data"
+	@echo "\033[33m make tar\033[39m      : Build the production image and export it as tar"
+	@echo "\033[33m make install\033[39m  : Load the tarball and start the production container"
 	@echo ""

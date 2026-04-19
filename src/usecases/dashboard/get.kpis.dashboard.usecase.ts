@@ -29,6 +29,33 @@ export class GetKpisDashbardUsecase {
                 date
                 duration
               }
+              volume {
+                last15Days {
+                  hours
+                  minutes
+                  sessionsCount
+                }
+                last30Days {
+                  hours
+                  minutes
+                  sessionsCount
+                }
+                last90Days {
+                  hours
+                  minutes
+                  sessionsCount
+                }
+                last6Months {
+                  hours
+                  minutes
+                  sessionsCount
+                }
+                last1Year {
+                  hours
+                  minutes
+                  sessionsCount
+                }
+              }
               gamification {
                 xp
                 level
