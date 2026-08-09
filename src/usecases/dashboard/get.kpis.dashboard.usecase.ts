@@ -1,6 +1,7 @@
 // src\usecases\dashboard\get.kpis.dashboard.usecase.ts
 import { CODES } from '@src/commons/codes';
 import { Inversify } from '@src/commons/inversify';
+
 import { KpisDashbardUsecaseModel } from './model/kpis.dashboard.usecase.model';
 
 export class GetKpisDashbardUsecase {

@@ -1,7 +1,6 @@
 // src/hooks/useFullscreen.ts
-import { useCallback, useEffect, useState } from 'react';
-
 import { volatileStore } from '@stores/volatileStore';
+import { useCallback, useEffect, useState } from 'react';
 
 export const useFullscreen = () => {
   // Subscribe to store; assume it has a `fullscreen` boolean

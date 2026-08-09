@@ -1,20 +1,19 @@
 // src\pages\Trainings.tsx
-import React from 'react';
-import moment from 'moment';
+import PaginationComponent from '@components/Pagination';
+import { Add, ModeEditOutlineOutlined, OpenInNew } from '@mui/icons-material';
 import InboxIcon from '@mui/icons-material/Inbox';
 import SearchIcon from '@mui/icons-material/Search';
-import { Trans, useTranslation } from 'react-i18next';
-import { createSearchParams, useNavigate } from 'react-router-dom';
-import { Add, ModeEditOutline, OpenInNew } from '@mui/icons-material';
-import { Box, Typography, Grid, IconButton, Tabs, Tab, TextField, Button, useTheme, Paper, useMediaQuery } from '@mui/material';
-
+import { Box, Button, Grid, IconButton, Paper, Tab, Tabs, TextField, Typography, useMediaQuery,useTheme } from '@mui/material';
 import { CODES } from '@src/commons/codes';
 import commons from '@src/commons/commons';
 import inversify from '@src/commons/inversify';
-import PaginationComponent from '@components/Pagination';
 import { contextStore, ContextStoreModel } from '@src/stores/contextStore';
-import { TrainingUsecaseModel } from '@usecases/training/model/training.usecase.model';
 import { GetTrainingsUsecaseModel } from '@usecases/training/model/get.trainings.usecase.model';
+import { TrainingUsecaseModel } from '@usecases/training/model/training.usecase.model';
+import moment from 'moment';
+import React from 'react';
+import { Trans, useTranslation } from 'react-i18next';
+import { createSearchParams, useNavigate } from 'react-router-dom';
 
 const Trainings: React.FC = () => {
   const limit = 25;
@@ -102,7 +101,7 @@ const Trainings: React.FC = () => {
       >
         <Grid
           container
-          alignItems="center"
+          sx={{ alignItems: 'center' }}
           onClick={(e) => {
             if (isXs) {
               e.preventDefault();
@@ -267,7 +266,7 @@ const Trainings: React.FC = () => {
                   go_training_edit(training);
                 }}
               >
-                <ModeEditOutline fontSize="small" />
+                <ModeEditOutlineOutlined fontSize="small" />
               </IconButton>
             )}
           </Grid>
@@ -387,234 +386,236 @@ const Trainings: React.FC = () => {
     setOffset(newOffset);
   };
 
-  return (<>
-    {/* Box for centering the Tabs */}
-    <Box
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      sx={{
-        marginBottom: 2
-      }}
-    >
-      <Tabs value={tabIndex} onChange={handleTabChange} centered>
-        <Tab label={<Trans>trainings.personal</Trans>} />
-        <Tab label={<Trans>trainings.public</Trans>} />
-        <Tab label={<Trans>trainings.private</Trans>} />
-      </Tabs>
-    </Box>
-
-    {trainingsShowed && trainingsShowed.length > 0 ? (
-      <>
-
-        {/* Champ de recherche */}
-        <TextField
-          label={<Trans>trainings.search</Trans>}
-          variant="outlined"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          fullWidth
-          sx={{
-            mb: 3,
-            backgroundColor: theme.palette.background.paper,
-            borderRadius: 1,
-          }}
-        />
-
-        <Paper
-          elevation={0}
-          sx={{
-            borderRadius: '10px 10px 0 0',
-            backgroundColor: theme.palette.primary.main,
-            color: theme.palette.primary.contrastText,
-            px: 2,
-            py: 1,
-            mb: '1px',
-            fontWeight: 600,
-          }}
-        >
-          <Grid container alignItems="center">
-            {/* For personal */}
-            {tabIndex === 0 && (
-              <>
-                <Grid
-                  size={{
-                    xs: 10,
-                    sm: 8,
-                    md: 8,
-                    lg: 8,
-                    xl: 8,
-                  }}
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
-                >
-                  <Trans>trainings.label</Trans>
-                </Grid>
-                <Grid
-                  size={{
-                    xs: 0,
-                    sm: 2,
-                    md: 2,
-                    lg: 2,
-                    xl: 2,
-                  }}
-                  sx={{
-                    display: { xs: 'none', md: 'block' },
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
-                >
-                  <Trans>trainings.date</Trans>
-                </Grid>
-              </>
-            )}
-
-            {/* For public and private */}
-            {tabIndex !== 0 && (
-              <>
-                <Grid
-                  size={{
-                    xs: 10,
-                    sm: 4,
-                    md: 4,
-                    lg: 4,
-                    xl: 4,
-                  }}
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
-                >
-                  <Trans>trainings.label</Trans>
-                </Grid>
-                <Grid
-                  size={{
-                    xs: 0,
-                    sm: 2,
-                    md: 2,
-                    lg: 2,
-                    xl: 2,
-                  }}
-                  sx={{
-                    display: { xs: 'none', sm: 'flex' },
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
-                >
-                  <Trans>trainings.creator</Trans>
-                </Grid>
-                <Grid
-                  size={{
-                    xs: 0,
-                    sm: 2,
-                    md: 2,
-                    lg: 2,
-                    xl: 2,
-                  }}
-                  sx={{
-                    display: { xs: 'none', sm: 'flex' },
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
-                >
-                  <Trans>trainings.gender</Trans>
-                </Grid>
-                <Grid
-                  size={{
-                    xs: 0,
-                    sm: 2,
-                    md: 2,
-                    lg: 2,
-                    xl: 2,
-                  }}
-                  sx={{
-                    display: { xs: 'none', sm: 'flex' },
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
-                >
-                  <Trans>trainings.date</Trans>
-                </Grid>
-              </>
-            )}
-
-            <Grid
-              size={{
-                xs: 2,
-                sm: 2,
-                md: 2,
-                lg: 2,
-                xl: 2,
-              }}
-            >
-              {/* Empty Grid for spacing or layout */}
-            </Grid>
-          </Grid>
-        </Paper>
-
-        {trainingsShowed?.map((training) => (
-          <Row key={training.id} training={training} />
-        ))}
-
-        {content}
-
-        {/* Pagination */}
-        {totalItem / limit > 1 && (
-          <Grid
-            size={12}
-            sx={{ marginBottom: 2 }}
-          >
-            <PaginationComponent
-              totalItems={totalItem}
-              limit={limit}
-              onPageChange={handlePageChange}
-            />
-          </Grid>
-        )}
-
-      </>
-    ) : (
+  return (
+    <>
+      {/* Box for centering the Tabs */}
       <Box
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-        justifyContent="center"
-        py={6}
-        sx={{ opacity: 0.6 }}
-      >
-        <InboxIcon sx={{ fontSize: 64 }} />
-        <Typography variant="body1" mt={2}>
-          <Trans>trainings.empty</Trans>
-        </Typography>
-      </Box>
-    )}
-
-    <Grid
-      size={12}
-      sx={{
-        display: 'flex',
-        justifyContent: 'center',
-      }}
-    >
-      {/* Submit button */}
-      <Button
-        type="submit"
-        variant="contained"
-        fullWidth
-        startIcon={<Add />}
-        onClick={goCreate}
         sx={{
-          mt: 2
+          marginBottom: 2,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center"
+        }}>
+        <Tabs value={tabIndex} onChange={handleTabChange} centered>
+          <Tab label={<Trans>trainings.personal</Trans>} />
+          <Tab label={<Trans>trainings.public</Trans>} />
+          <Tab label={<Trans>trainings.private</Trans>} />
+        </Tabs>
+      </Box>
+
+      {trainingsShowed && trainingsShowed.length > 0 ? (
+        <>
+
+          {/* Champ de recherche */}
+          <TextField
+            label={<Trans>trainings.search</Trans>}
+            variant="outlined"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            fullWidth
+            sx={{
+              mb: 3,
+              backgroundColor: theme.palette.background.paper,
+              borderRadius: 1,
+            }}
+          />
+
+          <Paper
+            elevation={0}
+            sx={{
+              borderRadius: '10px 10px 0 0',
+              backgroundColor: theme.palette.primary.main,
+              color: theme.palette.primary.contrastText,
+              px: 2,
+              py: 1,
+              mb: '1px',
+              fontWeight: 600,
+            }}
+          >
+            <Grid container sx={{ alignItems: 'center' }}>
+              {/* For personal */}
+              {tabIndex === 0 && (
+                <>
+                  <Grid
+                    size={{
+                      xs: 10,
+                      sm: 8,
+                      md: 8,
+                      lg: 8,
+                      xl: 8,
+                    }}
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <Trans>trainings.label</Trans>
+                  </Grid>
+                  <Grid
+                    size={{
+                      xs: 0,
+                      sm: 2,
+                      md: 2,
+                      lg: 2,
+                      xl: 2,
+                    }}
+                    sx={{
+                      display: { xs: 'none', md: 'block' },
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <Trans>trainings.date</Trans>
+                  </Grid>
+                </>
+              )}
+
+              {/* For public and private */}
+              {tabIndex !== 0 && (
+                <>
+                  <Grid
+                    size={{
+                      xs: 10,
+                      sm: 4,
+                      md: 4,
+                      lg: 4,
+                      xl: 4,
+                    }}
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <Trans>trainings.label</Trans>
+                  </Grid>
+                  <Grid
+                    size={{
+                      xs: 0,
+                      sm: 2,
+                      md: 2,
+                      lg: 2,
+                      xl: 2,
+                    }}
+                    sx={{
+                      display: { xs: 'none', sm: 'flex' },
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <Trans>trainings.creator</Trans>
+                  </Grid>
+                  <Grid
+                    size={{
+                      xs: 0,
+                      sm: 2,
+                      md: 2,
+                      lg: 2,
+                      xl: 2,
+                    }}
+                    sx={{
+                      display: { xs: 'none', sm: 'flex' },
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <Trans>trainings.gender</Trans>
+                  </Grid>
+                  <Grid
+                    size={{
+                      xs: 0,
+                      sm: 2,
+                      md: 2,
+                      lg: 2,
+                      xl: 2,
+                    }}
+                    sx={{
+                      display: { xs: 'none', sm: 'flex' },
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <Trans>trainings.date</Trans>
+                  </Grid>
+                </>
+              )}
+
+              <Grid
+                size={{
+                  xs: 2,
+                  sm: 2,
+                  md: 2,
+                  lg: 2,
+                  xl: 2,
+                }}
+              >
+                {/* Empty Grid for spacing or layout */}
+              </Grid>
+            </Grid>
+          </Paper>
+
+          {trainingsShowed?.map((training) => (
+            <Row key={training.id} training={training} />
+          ))}
+
+          {content}
+
+          {/* Pagination */}
+          {totalItem / limit > 1 && (
+            <Grid
+              size={12}
+              sx={{ marginBottom: 2 }}
+            >
+              <PaginationComponent
+                totalItems={totalItem}
+                limit={limit}
+                onPageChange={handlePageChange}
+              />
+            </Grid>
+          )}
+
+        </>
+      ) : (
+        <Box
+          sx={{
+            opacity: 0.6,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            py: 6
+          }}>
+          <InboxIcon sx={{ fontSize: 64 }} />
+          <Typography variant="body1" sx={{ mt: 2 }}>
+            <Trans>trainings.empty</Trans>
+          </Typography>
+        </Box>
+      )}
+
+      <Grid
+        size={12}
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
         }}
       >
-        <Trans>common.create</Trans>
-      </Button>
-    </Grid>
-  </>);
+        {/* Submit button */}
+        <Button
+          type="submit"
+          variant="contained"
+          fullWidth
+          startIcon={<Add />}
+          onClick={goCreate}
+          sx={{
+            mt: 2
+          }}
+        >
+          <Trans>common.create</Trans>
+        </Button>
+      </Grid>
+    </>
+  );
 }
 
 export default Trainings;

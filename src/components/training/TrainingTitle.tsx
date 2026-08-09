@@ -1,7 +1,7 @@
 // src\components\training\TrainingTitle.tsx
-import React from 'react';
 import InfoIcon from '@mui/icons-material/Info';
-import { Tooltip, IconButton, Typography, TypographyProps } from '@mui/material';
+import { IconButton, Tooltip, Typography, TypographyProps } from '@mui/material';
+import React from 'react';
 
 interface Props {
   title: string;

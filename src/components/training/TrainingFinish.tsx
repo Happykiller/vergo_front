@@ -1,10 +1,9 @@
 // src\components\training\TrainingFinish.tsx
+import ImageFetcher from '@components/ImageFetcher';
+import TrainingCard from '@components/TrainingCard';
+import { Typography, TypographyProps, useMediaQuery, useTheme } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Typography, TypographyProps, useMediaQuery, useTheme } from '@mui/material';
-
-import TrainingCard from '@components/TrainingCard';
-import ImageFetcher from '@components/ImageFetcher';
 
 interface Props {
   gender: 'male' | 'female';

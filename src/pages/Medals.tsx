@@ -1,22 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import { useAsyncTask } from '@hooks/useAsyncTask';
 import {
   Alert,
   Box,
-  Grid,
   Card,
   CardContent,
   CardMedia,
-  Typography,
   Chip,
+  Grid,
+  Typography,
   useTheme,
 } from '@mui/material';
-import { useTranslation } from 'react-i18next';
-import i18n from 'i18next';
-
 import inversify from '@src/commons/inversify';
-import { useAsyncTask } from '@hooks/useAsyncTask';
+import { BADGES, getLeagueColor,LEAGUES } from '@src/commons/leagues';
 import { KpisDashbardUsecaseModel } from '@usecases/dashboard/model/kpis.dashboard.usecase.model';
-import { LEAGUES, BADGES, getLeagueColor } from '@src/commons/leagues';
+import i18n from 'i18next';
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const Medals: React.FC = () => {
   const { t } = useTranslation();
@@ -41,8 +40,14 @@ const Medals: React.FC = () => {
 
   return (
     <Box sx={{ px: 2, py: 3, maxWidth: 1024, mx: 'auto' }}>
-      <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-        <Typography variant="h5" fontWeight={800}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          mb: 2
+        }}>
+        <Typography variant="h5" sx={{ fontWeight: 800 }}>
           {t('medals.title', 'Ligues')}
         </Typography>
       </Box>
@@ -53,7 +58,7 @@ const Medals: React.FC = () => {
         </Alert>
       )}
 
-      <Typography variant="body2" color="text.secondary" mb={3}>
+      <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
         {t('medals.subtitle', "Découvrez tous les blasons, leurs paliers et ce qu'ils représentent.")}
       </Typography>
 
@@ -83,7 +88,13 @@ const Medals: React.FC = () => {
                 }}
               />
               <CardContent sx={{ pt: 0 }}>
-                <Box display="flex" alignItems="center" justifyContent="space-between" mb={1}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    mb: 1
+                  }}>
                   <Chip
                     size="small"
                     label={t(labelKey)}
@@ -96,7 +107,7 @@ const Medals: React.FC = () => {
                 </Box>
 
                 {thresholdKey && (
-                  <Typography variant="caption" color="text.secondary" display="block" mb={0.5}>
+                  <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 0.5 }}>
                     {t('medals.threshold', 'Palier')}: {t(thresholdKey)}
                   </Typography>
                 )}
@@ -110,7 +121,7 @@ const Medals: React.FC = () => {
         ))}
       </Grid>
 
-      <Typography variant="h6" fontWeight={800} mt={4} mb={2}>
+      <Typography variant="h6" sx={{ fontWeight: 800, mt: 4, mb: 2 }}>
         {t('medals.badges_title', 'Badges')}
       </Typography>
 
@@ -144,11 +155,11 @@ const Medals: React.FC = () => {
                 }}
               />
               <CardContent sx={{ pt: 0 }}>
-                <Typography variant="subtitle1" fontWeight={700} gutterBottom>
+                <Typography variant="subtitle1" gutterBottom sx={{ fontWeight: 700 }}>
                   {t(labelKey)}
                 </Typography>
                 {earned && earnedAt && (
-                  <Typography variant="caption" color="text.secondary" display="block" mb={0.5}>
+                  <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 0.5 }}>
                     {new Date(earnedAt).toLocaleDateString(i18n.language, { year: 'numeric', month: 'short', day: '2-digit' })}
                   </Typography>
                 )}

@@ -1,7 +1,6 @@
 // src\components\training\TrainingChrono.tsx
-import React from 'react';
-
 import Chrono from '@components/Chrono';
+import React from 'react';
 
 interface Props {
   index: number;

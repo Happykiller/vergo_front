@@ -1,12 +1,11 @@
 // src\components\Chrono.tsx
-import { Box, Typography } from '@mui/material';
-import SkipNextIcon from '@mui/icons-material/SkipNext';
-import React, { useState, useEffect, useRef } from 'react';
-import NotStartedIcon from '@mui/icons-material/NotStarted';
-import RestartAltIcon from '@mui/icons-material/RestartAlt';
-import PauseCircleIcon from '@mui/icons-material/PauseCircle';
-
 import LargeIconButton from '@components/LargeIconButton';
+import NotStartedIcon from '@mui/icons-material/NotStarted';
+import PauseCircleIcon from '@mui/icons-material/PauseCircle';
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import SkipNextIcon from '@mui/icons-material/SkipNext';
+import { Box, Typography } from '@mui/material';
+import React, { useEffect, useRef,useState } from 'react';
 
 // Définir les types des props
 interface CountdownProps {
@@ -111,7 +110,14 @@ const Chrono: React.FC<CountdownProps> = ({ duration, onComplete, volume = 1 }) 
   };
 
   return (
-    <Box display="flex" flexDirection="row" alignItems="center" justifyContent="center" gap={2}>
+    <Box
+      sx={{
+        gap: 2,
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
       <LargeIconButton
         onClick={handlePause}
       >

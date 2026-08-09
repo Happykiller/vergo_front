@@ -1,19 +1,18 @@
 // src\pages\Preview.tsx
-import React, { useEffect } from 'react';
-import { Trans, useTranslation } from 'react-i18next';
-import { InfoOutlined, ModeEditOutline } from '@mui/icons-material';
-import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
-import { createSearchParams, useNavigate, useSearchParams } from 'react-router-dom';
-import { Typography, Box, CircularProgress, Alert, Grid, IconButton, Tooltip, Divider } from '@mui/material';
-
-import commons from '@src/commons/commons';
-import { CODES } from '@src/commons/codes';
-import inversify from '@src/commons/inversify';
 import ExerciseCard from '@components/ExerciseCard';
 import LargeIconButton from '@components/LargeIconButton';
-import { GridItem } from '@usecases/preview/build.preview.items.usecase';
+import { InfoOutlined, ModeEditOutlineOutlined } from '@mui/icons-material';
+import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutlineOutlined';
+import { Alert, Box, CircularProgress, Divider,Grid, IconButton, Tooltip, Typography } from '@mui/material';
+import { CODES } from '@src/commons/codes';
+import commons from '@src/commons/commons';
+import inversify from '@src/commons/inversify';
 import { contextStore, ContextStoreModel } from '@src/stores/contextStore';
+import { GridItem } from '@usecases/preview/build.preview.items.usecase';
 import { TrainingUsecaseModel } from '@usecases/training/model/training.usecase.model';
+import React, { useEffect } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
+import { createSearchParams, useNavigate, useSearchParams } from 'react-router-dom';
 
 const Preview: React.FC = () => {
   let old_workout_slug = '';
@@ -104,11 +103,12 @@ const Preview: React.FC = () => {
       {/* loading */}
       {qry.loading && (
         <Box
-          height="100%"
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-        >
+          sx={{
+            height: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center"
+          }}>
           <CircularProgress />
         </Box>
       )}
@@ -124,12 +124,13 @@ const Preview: React.FC = () => {
       {qry.data && (
         <>
           <Box
-            display="flex"
-            flexDirection="column"
-            alignItems="center"
-          >
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center"
+            }}>
             {/* Titre */}
-            <Typography variant="h3" fontWeight="bold">
+            <Typography variant="h3" sx={{ fontWeight: 'bold' }}>
               {qry.data.data.training.label ?? qry.data.data.training.slug}
             </Typography>
 
@@ -139,11 +140,12 @@ const Preview: React.FC = () => {
             </Typography>
 
             <Box
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
-              gap={2}
-            >
+              sx={{
+                gap: 2,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
               {/* Bt Go Training */}
               <LargeIconButton
                 onClick={(e) => {
@@ -166,7 +168,7 @@ const Preview: React.FC = () => {
                     go_training_edit(qry.data.data.training);
                   }}
                 >
-                  <ModeEditOutline fontSize="small" />
+                  <ModeEditOutlineOutlined fontSize="small" />
                 </IconButton>
               }
             </Box>
@@ -176,9 +178,11 @@ const Preview: React.FC = () => {
           <Grid
             container
             spacing={2}
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
           >
             {items.map((item, index) => {
               let divider = null;
@@ -195,7 +199,7 @@ const Preview: React.FC = () => {
                       {ex && (
                         <IconButton
                           size="small"
-                          title={t('trainings.go_edit')}><ModeEditOutline fontSize="small" /></IconButton>
+                          title={t('trainings.go_edit')}><ModeEditOutlineOutlined fontSize="small" /></IconButton>
                       )
                       }
                       {description && (

@@ -1,12 +1,11 @@
 // src/i18n.ts
-import i18n from 'i18next';
-import merge from 'lodash.merge';
-import { initReactI18next } from 'react-i18next';
-import detector from 'i18next-browser-languagedetector';
-
 import { translation } from '@happykiller/sunny-ui';
 import appEN from '@src/locales/en/translation.json'
 import appFR from '@src/locales/fr/translation.json';
+import i18n from 'i18next';
+import detector from 'i18next-browser-languagedetector';
+import merge from 'lodash.merge';
+import { initReactI18next } from 'react-i18next';
 
 // the translations
 // (tip move them in a JSON file and import them,

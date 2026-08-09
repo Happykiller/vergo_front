@@ -1,17 +1,18 @@
-import React, { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
+import 'react-calendar-heatmap/dist/styles.css';
+
 import { Box, Grid, Typography, useTheme } from '@mui/material';
+import { KpisVolumeDashbardUsecaseModel } from '@usecases/dashboard/model/kpis.volume.dashboard.usecase.model';
+import React, { useMemo } from 'react';
+import CalendarHeatmap from 'react-calendar-heatmap';
+import { useTranslation } from 'react-i18next';
 import {
-  BarChart,
   Bar,
-  XAxis,
-  YAxis,
+  BarChart,
   ResponsiveContainer,
   Tooltip,
+  XAxis,
+  YAxis,
 } from 'recharts';
-import CalendarHeatmap from 'react-calendar-heatmap';
-import 'react-calendar-heatmap/dist/styles.css';
-import { KpisVolumeDashbardUsecaseModel } from '@usecases/dashboard/model/kpis.volume.dashboard.usecase.model';
 
 interface Activity {
   date: string;
@@ -96,7 +97,7 @@ const ActivityCard: React.FC<Props> = ({ activities, volume }) => {
         mb: 2,
       }}
     >
-      <Typography variant="h6" fontWeight="bold" mb={1}>
+      <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
         {t('dashboard.activity')}
       </Typography>
 
@@ -123,10 +124,8 @@ const ActivityCard: React.FC<Props> = ({ activities, volume }) => {
 
           <Typography
             variant="caption"
-            display="block"
             align="center"
-            mt={1}
-            sx={{ color: theme.palette.text.secondary }}
+            sx={{ display: 'block', mt: 1, color: theme.palette.text.secondary }}
           >
             {t('dashboard.average_duration')}: <strong>{avg} min</strong>
           </Typography>
@@ -168,7 +167,10 @@ const ActivityCard: React.FC<Props> = ({ activities, volume }) => {
             </Box>
           </Box>
 
-          <Box mt={2}>
+          <Box
+            sx={{
+              mt: 2
+            }}>
             <Box
               sx={{
                 display: 'grid',
@@ -199,10 +201,10 @@ const ActivityCard: React.FC<Props> = ({ activities, volume }) => {
                   >
                     {label}
                   </Typography>
-                  <Typography variant="body2" fontWeight={700} whiteSpace="nowrap">
+                  <Typography variant="body2" sx={{ fontWeight: 700, whiteSpace: 'nowrap' }}>
                     {formatVolume(value.hours, t)}
                   </Typography>
-                  <Typography variant="caption" color="text.secondary" whiteSpace="nowrap">
+                  <Typography variant="caption" color="text.secondary" sx={{ whiteSpace: 'nowrap' }}>
                     {t('dashboard.volume_sessions', { count: value.sessionsCount })}
                   </Typography>
                 </Box>

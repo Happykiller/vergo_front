@@ -1,17 +1,16 @@
 // src\pages\Exercices.tsx
-import moment from 'moment';
-import React, { useEffect } from 'react';
-import { Trans, useTranslation } from 'react-i18next';
-import { Add, InfoOutlined, ModeEditOutline } from '@mui/icons-material';
-import { createSearchParams, useNavigate } from 'react-router-dom';
-import { Typography, CircularProgress, Alert, Grid, TextField, IconButton, Button, useTheme } from '@mui/material';
-
-import commons from '@src/commons/commons';
+import { Add, InfoOutlined, ModeEditOutlineOutlined } from '@mui/icons-material';
+import { Alert, Button, CircularProgress, Grid, IconButton, TextField, Typography, useTheme } from '@mui/material';
 import { CODES } from '@src/commons/codes';
+import commons from '@src/commons/commons';
 import inversify from '@src/commons/inversify';
 import PaginationComponent from '@src/components/Pagination';
 import { contextStore, ContextStoreModel } from '@src/stores/contextStore';
 import { ExerciceUsecaseModel } from '@usecases/exercice/model/exercice.usecase.model';
+import moment from 'moment';
+import React, { useEffect } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
+import { createSearchParams, useNavigate } from 'react-router-dom';
 
 const Exercices: React.FC = () => {
   const limit = 25;
@@ -254,7 +253,7 @@ const Exercices: React.FC = () => {
                 go_exercice_edit(exercice);
               }}
             >
-              <ModeEditOutline fontSize="small" />
+              <ModeEditOutlineOutlined fontSize="small" />
             </IconButton>
           }
         </Grid>

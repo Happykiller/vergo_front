@@ -1,29 +1,28 @@
 // src\App.tsx
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import { Done, Key, Visibility, VisibilityOff, Info as InfoIcon, HelpOutline, VpnKey, Add, Delete, Person, Lock, Close as CloseIcon } from '@mui/icons-material';
-
+import { LayoutProtectedExt } from '@components/layout/LayoutProtectedExt';
+import { LayoutPublicExt } from '@components/layout/LayoutPublicExt';
+import LoaderOverlay from '@components/layout/LoaderOverlay';
+import { CGU, FlashMessage, Login, NotFound, Profile } from '@happykiller/sunny-ui';
+import { Add, Close as CloseIcon,Delete, Done, HelpOutlineOutlined, Info as InfoIcon, Key, Lock, Person, Visibility, VisibilityOff, VpnKey } from '@mui/icons-material';
+import Dashboard from '@pages/Dashboard';
+import Exercice from '@pages/Exercice';
+import Exercice_create from '@pages/Exercice_create';
+import Exercices from '@pages/Exercices';
+import Exercice_edit from '@pages/Exercices_edit';
 import Info from '@pages/Info';
 import Medals from '@pages/Medals';
 import Preview from '@pages/Preview';
-import Workouts from '@pages/Workouts';
-import Training from '@pages/Training';
-import Exercice from '@pages/Exercice';
 import { Sandbox } from '@pages/Sandbox';
-import Trainings from '@pages/Trainings';
-import Exercices from '@pages/Exercices';
-import Dashboard from '@pages/Dashboard';
-import inversify from '@src/commons/inversify';
-import Workout_edit from '@pages/Workout_edit';
-import Training_edit from '@pages/Training_edit';
-import Exercice_edit from '@pages/Exercices_edit';
-import { contextStore } from '@stores/contextStore';
+import Training from '@pages/Training';
 import Training_create from '@pages/Training_create';
-import Exercice_create from '@pages/Exercice_create';
-import LoaderOverlay from '@components/layout/LoaderOverlay';
-import { LayoutPublicExt } from '@components/layout/LayoutPublicExt';
-import { LayoutProtectedExt } from '@components/layout/LayoutProtectedExt';
-import { CGU, FlashMessage, NotFound, Login, Profile } from '@happykiller/sunny-ui';
+import Training_edit from '@pages/Training_edit';
+import Trainings from '@pages/Trainings';
+import Workout_edit from '@pages/Workout_edit';
+import Workouts from '@pages/Workouts';
+import inversify from '@src/commons/inversify';
+import { contextStore } from '@stores/contextStore';
+import React from 'react';
+import { Route,Routes } from 'react-router-dom';
 
 // Main application component
 const App: React.FC = () => {
@@ -69,7 +68,7 @@ const App: React.FC = () => {
               icons={{
                 visibility: <Visibility fontSize="small" />,
                 visibilityOff: <VisibilityOff fontSize="small" />,
-                help: <HelpOutline fontSize="small" />,
+                help: <HelpOutlineOutlined fontSize="small" />,
                 done: <Done />,
                 key: <VpnKey />,
                 add: <Add />,

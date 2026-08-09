@@ -1,8 +1,7 @@
 // src\components\training\TrainingImage.tsx
-import React from 'react';
 import { Box, Typography, TypographyProps } from '@mui/material';
-
 import ImageFetcher from '@src/components/ImageFetcher';
+import React from 'react';
 
 interface Props {
   type: string;
@@ -28,7 +27,12 @@ const TrainingImage: React.FC<Props> = ({ type, gender, image, slug, weight, ite
 
   const src = gender + '_' + (image ?? slug);
   return (
-    <Box display="flex" alignItems="center" gap={2}>
+    <Box
+      sx={{
+        gap: 2,
+        display: 'flex',
+        alignItems: 'center',
+      }}>
       {ite && (
         <Typography variant={variant} align="center" noWrap>
           X{ite}

@@ -1,8 +1,7 @@
 // src/hooks/useTrainingStats.ts
-import moment from 'moment';
-import { useRef, useEffect, useCallback } from 'react';
-
 import inversify from '@src/commons/inversify';
+import moment from 'moment';
+import { useCallback,useEffect, useRef } from 'react';
 
 const MIN_DURATION_SEC = 120;
 

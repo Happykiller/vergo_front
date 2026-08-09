@@ -1,13 +1,14 @@
 {
   "compilerOptions": {
     "target": "es6",                             // Use modern JavaScript features
-    "module": "esnext",                          // Enable tree-shaking for Webpack
+    "module": "esnext",                          // Enable tree-shaking (Vite/Rollup)
     "lib": ["dom", "esnext"],                    // Include DOM and latest JavaScript features
     "strict": true,                              // Enable all strict type-checking options
     "jsx": "react-jsx",                          // Use the new JSX transform (React 17+)
-    "moduleResolution": "node",                  // Resolve modules like Node.js
+    "moduleResolution": "bundler",               // Résolution façon bundler (Vite) : respecte les exports conditionnels
+    "isolatedModules": true,                     // esbuild transpile fichier par fichier (requis par Vite)
     "esModuleInterop": true,                     // Enable interoperability between CommonJS and ES Modules
-    "skipLibCheck": false,                       // Enable strict type checking for libraries
+    "skipLibCheck": true,                        // Ne pas cross-checker les .d.ts des deps : évite les conflits de types globaux entre libs (ex. redéclaration de `Iterator`). Aligné sur le back.
     "forceConsistentCasingInFileNames": true,    // Ensure consistent casing in file names
     "outDir": "./dist",                          // Output directory for compiled files
     "baseUrl": "./",                             // Base directory for resolving non-relative module names

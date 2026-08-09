@@ -1,11 +1,10 @@
-import React from 'react';
-import { Add } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
-import { Trans, useTranslation } from 'react-i18next';
-import { Container, Box, Grid, TextField, Button } from '@mui/material';
-
-import inversify from '@src/commons/inversify';
 import { useFlashStore } from '@happykiller/sunny-ui';
+import { Add } from '@mui/icons-material';
+import { Box, Button,Container, Grid, TextField } from '@mui/material';
+import inversify from '@src/commons/inversify';
+import React from 'react';
+import { Trans, useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
 const Training_create: React.FC = () => {
   const flash = useFlashStore();
@@ -35,51 +34,54 @@ const Training_create: React.FC = () => {
     }
   }
 
-  return (<>
-    <Container>
-      {/* Box component to center the content vertically and horizontally */}
-      <Box 
-        display="flex" 
-        justifyContent="center" 
-        flexDirection="column"
-        minHeight="80vh"
-        textAlign="center"
-        marginBottom={"5vh"}
-        marginTop={"2vh"}
-      >
-        <Grid container spacing={2}>
-          <Grid size={12}>
-            <TextField
-              label="JSON Input"
-              multiline
-              fullWidth
-              onChange={(e) => setRawData(e.target.value)}
-              variant="outlined"
-              minRows={10}
-              slotProps={{
-                input: {
-                  style: { fontFamily: 'monospace', whiteSpace: 'pre' },
-                },
-              }}
-            />
+  return (
+    <>
+      <Container>
+        {/* Box component to center the content vertically and horizontally */}
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            flexDirection: "column",
+            minHeight: "80vh",
+            textAlign: "center",
+            marginBottom: "5vh",
+            marginTop: "2vh"
+          }}>
+          <Grid container spacing={2}>
+            <Grid size={12}>
+              <TextField
+                label="JSON Input"
+                multiline
+                fullWidth
+                onChange={(e) => setRawData(e.target.value)}
+                variant="outlined"
+                minRows={10}
+                slotProps={{
+                  input: {
+                    style: { fontFamily: 'monospace', whiteSpace: 'pre' },
+                  },
+                }}
+              />
+            </Grid>
+            <Grid size={12}>
+              {/* Submit button */}
+              <Button 
+                type="submit"
+                variant="contained"
+                size="small"
+                startIcon={<Add />}
+                onClick={(e) => { 
+                  e.preventDefault();
+                  submit();
+                }}
+              ><Trans>common.create</Trans></Button>
+            </Grid>
           </Grid>
-          <Grid size={12}>
-            {/* Submit button */}
-            <Button 
-              type="submit"
-              variant="contained"
-              size="small"
-              startIcon={<Add />}
-              onClick={(e) => { 
-                e.preventDefault();
-                submit();
-              }}
-            ><Trans>common.create</Trans></Button>
-          </Grid>
-        </Grid>
-      </Box>
-    </Container>
-  </>);
+        </Box>
+      </Container>
+    </>
+  );
 }
 
 export default Training_create;

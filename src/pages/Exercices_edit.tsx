@@ -1,12 +1,11 @@
-import React, { useEffect } from 'react';
+import { useFlashStore } from '@happykiller/sunny-ui';
 import DoneIcon from '@mui/icons-material/Done';
-import { useSearchParams } from 'react-router-dom';
-import { Trans, useTranslation } from 'react-i18next';
-import { Container, Typography, Box, Grid, TextField, Button, CircularProgress, Alert } from '@mui/material';
-
+import { Alert,Box, Button, CircularProgress, Container, Grid, TextField, Typography } from '@mui/material';
 import { CODES } from '@src/commons/codes';
 import inversify from '@src/commons/inversify';
-import { useFlashStore } from '@happykiller/sunny-ui';
+import React, { useEffect } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
+import { useSearchParams } from 'react-router-dom';
 
 const Exercice_edit: React.FC = () => {
   const flash = useFlashStore();
@@ -92,75 +91,78 @@ const Exercice_edit: React.FC = () => {
     }
   }
 
-  return (<>
-    <Container>
-      {/* Box component to center the content vertically and horizontally */}
-      <Box 
-        display="flex" 
-        justifyContent="center" 
-        flexDirection="column"
-        minHeight="80vh"
-        textAlign="center"
-        marginBottom={"5vh"}
-        marginTop={"2vh"}
-      >
-        {/* Content */}
-        {qry.loading && (
-          <>
-            <CircularProgress />
-          </>
-        )}
+  return (
+    <>
+      <Container>
+        {/* Box component to center the content vertically and horizontally */}
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            flexDirection: "column",
+            minHeight: "80vh",
+            textAlign: "center",
+            marginBottom: "5vh",
+            marginTop: "2vh"
+          }}>
+          {/* Content */}
+          {qry.loading && (
+            <>
+              <CircularProgress />
+            </>
+          )}
 
-        {qry.error && (
-          <Alert severity="error" variant="filled">
-            <Trans>CODES.FAIL</Trans>
-          </Alert>
-        )}
+          {qry.error && (
+            <Alert severity="error" variant="filled">
+              <Trans>CODES.FAIL</Trans>
+            </Alert>
+          )}
 
-        {qry.data && (<>
-          {/* Typography component to display the page title */}
-          <Typography variant="h2">
-            {data?.label??data?.slug}
-          </Typography>
-          
-          <Grid 
-            container 
-            spacing={2}
-          >
-            <Grid size={12}>
-              <TextField
-                label="JSON Input"
-                multiline
-                fullWidth
-                value={rawData}
-                onChange={(e) => setRawData(e.target.value)}
-                variant="outlined"
-                minRows={10}
-                slotProps={{
-                  input: {
-                    style: { fontFamily: 'monospace', whiteSpace: 'pre' },
-                  },
-                }}
-              />
+          {qry.data && (<>
+            {/* Typography component to display the page title */}
+            <Typography variant="h2">
+              {data?.label??data?.slug}
+            </Typography>
+            
+            <Grid 
+              container 
+              spacing={2}
+            >
+              <Grid size={12}>
+                <TextField
+                  label="JSON Input"
+                  multiline
+                  fullWidth
+                  value={rawData}
+                  onChange={(e) => setRawData(e.target.value)}
+                  variant="outlined"
+                  minRows={10}
+                  slotProps={{
+                    input: {
+                      style: { fontFamily: 'monospace', whiteSpace: 'pre' },
+                    },
+                  }}
+                />
+              </Grid>
+              <Grid size={12}>
+                {/* Submit button */}
+                <Button 
+                  type="submit"
+                  variant="contained"
+                  size="small"
+                  startIcon={<DoneIcon />}
+                  onClick={(e) => { 
+                    e.preventDefault();
+                    update();
+                  }}
+                ><Trans>common.update</Trans></Button>
+              </Grid>
             </Grid>
-            <Grid size={12}>
-              {/* Submit button */}
-              <Button 
-                type="submit"
-                variant="contained"
-                size="small"
-                startIcon={<DoneIcon />}
-                onClick={(e) => { 
-                  e.preventDefault();
-                  update();
-                }}
-              ><Trans>common.update</Trans></Button>
-            </Grid>
-          </Grid>
-        </>)}
-      </Box>
-    </Container>
-  </>);
+          </>)}
+        </Box>
+      </Container>
+    </>
+  );
 }
 
 export default Exercice_edit;

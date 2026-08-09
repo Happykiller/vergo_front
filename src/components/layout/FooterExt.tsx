@@ -1,8 +1,7 @@
 // src\components\Layout\HeaderExt.tsx
-import inversify from '@src/commons/inversify';
-import { Map, Language, Cloud, Email, BugReport, LightMode, DarkMode } from '@mui/icons-material';
-
 import { Footer } from '@happykiller/sunny-ui';
+import { BugReport, Cloud, DarkMode,Email, Language, LightMode, Map } from '@mui/icons-material';
+import inversify from '@src/commons/inversify';
 import { contextStore } from '@stores/contextStore';
 
 export function FooterExt() {

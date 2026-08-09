@@ -1,11 +1,10 @@
 // src\components\dashboard\BadgesCard.tsx
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import { Avatar, Box, Chip, Grid, IconButton,Tooltip, Typography, useTheme } from '@mui/material';
+import { KpisBadgeDashbardUsecaseModel } from '@usecases/dashboard/model/kpis.badge.dashboard.usecase.model';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink } from 'react-router-dom';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import { Box, Grid, Typography, Chip, Avatar, useTheme, Tooltip, IconButton } from '@mui/material';
-
-import { KpisBadgeDashbardUsecaseModel } from '@usecases/dashboard/model/kpis.badge.dashboard.usecase.model';
 
 type BadgesCardProps = {
   badges?: KpisBadgeDashbardUsecaseModel[];
@@ -77,7 +76,7 @@ const BadgesCard: React.FC<BadgesCardProps> = React.memo(({ badges }) => {
           mb: 1
         }}
       >
-        <Typography variant="h6" fontWeight="bold">
+        <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
           {t('dashboard.badges_recent')}
         </Typography>
 
@@ -106,7 +105,7 @@ const BadgesCard: React.FC<BadgesCardProps> = React.memo(({ badges }) => {
           const codeSrc = `/badges/${b.code}.png`;
 
           const avatar = (
-            <Avatar alt={label} src={codeSrc} imgProps={{ loading: 'lazy' }}>
+            <Avatar alt={label} src={codeSrc} slotProps={{ img: { loading: 'lazy' } }}>
               {/* Fallback emoji when image fails */}
               {emoji}
             </Avatar>

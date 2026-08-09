@@ -1,5 +1,5 @@
+import { Typography,useMediaQuery, useTheme } from '@mui/material';
 import React from 'react';
-import { useTheme, useMediaQuery, Typography } from '@mui/material';
 
 const CurrentBreakpoint = () => {
   const theme = useTheme();

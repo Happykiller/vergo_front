@@ -1,11 +1,11 @@
 import { CODES } from '@src/commons/codes';
 import commons from '@src/commons/commons';
 import { Inversify } from '@src/commons/inversify';
-import { GetPreviewUsecaseDto } from '@usecases/preview/dto/get.preview.usecase.dto';
 import { ExerciceUsecaseModel } from '@usecases/exercice/model/exercice.usecase.model';
+import { GetPreviewUsecaseDto } from '@usecases/preview/dto/get.preview.usecase.dto';
+import { TrainingNormalizedUsecaseModel } from '@usecases/training/model/training.normalized.usecase.model';
 import { TrainingUsecaseModel } from '@usecases/training/model/training.usecase.model';
 import { WorkoutDefUsecaseModel } from '@usecases/workout/model/workout.def.usecase.model';
-import { TrainingNormalizedUsecaseModel } from '@usecases/training/model/training.normalized.usecase.model';
 
 export class GetPreviewUsecase {
 

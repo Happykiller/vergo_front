@@ -1,27 +1,26 @@
 // src\pages\Training.tsx
-import moment from 'moment';
-import InfoIcon from '@mui/icons-material/Info';
-import { useSearchParams } from 'react-router-dom';
-import { Trans, useTranslation } from 'react-i18next';
-import React, { useEffect, useMemo, useState } from 'react';
-import { Typography, useTheme, useMediaQuery, Tooltip, IconButton, CircularProgress, Grid } from '@mui/material';
-
-import commons from '@src/commons/commons';
-import { CODES } from '@src/commons/codes';
-import inversify from '@src/commons/inversify';
+import TrainingChrono from '@components/training/TrainingChrono';
+import TrainingFinish from '@components/training/TrainingFinish';
+import TrainingFooter from '@components/training/TrainingFooter';
+import TrainingImage from '@components/training/TrainingImage';
+import TrainingNext from '@components/training/TrainingNext';
+import TrainingTitle from '@components/training/TrainingTitle';
 import TrainingCard from '@components/TrainingCard';
 import { useFullscreen } from '@hooks/useFullscreen';
 import { useTrainingStats } from '@hooks/useTrainingStats';
-import TrainingNext from '@components/training/TrainingNext';
-import TrainingTitle from '@components/training/TrainingTitle';
-import TrainingImage from '@components/training/TrainingImage';
-import TrainingChrono from '@components/training/TrainingChrono';
-import TrainingFooter from '@components/training/TrainingFooter';
-import TrainingFinish from '@components/training/TrainingFinish';
+import InfoIcon from '@mui/icons-material/Info';
+import { CircularProgress, Grid,IconButton, Tooltip, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { CODES } from '@src/commons/codes';
+import commons from '@src/commons/commons';
+import inversify from '@src/commons/inversify';
 import { contextStore, ContextStoreModel } from '@stores/contextStore';
 import { ExerciceUsecaseModel } from '@usecases/exercice/model/exercice.usecase.model';
-import { WorkoutDefUsecaseModel } from '@usecases/workout/model/workout.def.usecase.model';
 import { TrainingNormalizedUsecaseModel } from '@usecases/training/model/training.normalized.usecase.model';
+import { WorkoutDefUsecaseModel } from '@usecases/workout/model/workout.def.usecase.model';
+import moment from 'moment';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
+import { useSearchParams } from 'react-router-dom';
 
 const Training: React.FC = () => {
   const theme = useTheme();
@@ -244,7 +243,7 @@ const Training: React.FC = () => {
     content = <TrainingFinish gender={training_gender === 'woman' ? 'female' : 'male'} onFinish={logStats} />;
   }
 
-  return (<Grid container justifyContent="center" gap={1}>
+  return (<Grid container sx={{ justifyContent: 'center', gap: 1 }}>
     {content}
   </Grid>);
 }

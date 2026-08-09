@@ -1,12 +1,11 @@
+import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import { Box, Chip,Grid, IconButton, LinearProgress, Paper, Skeleton, Tooltip, Typography, useTheme } from '@mui/material';
+import { getLeagueColor,LEAGUES } from '@src/commons/leagues';
+import { KpisGamificationDashbardUsecaseModel, KpisLeagueSnapshot } from '@usecases/dashboard/model/kpis.gamification.dashboard.usecase.model';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink } from 'react-router-dom';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
-import { Box, Grid, Typography, useTheme, Paper, LinearProgress, Skeleton, Tooltip, IconButton, Chip } from '@mui/material';
-
-import { KpisGamificationDashbardUsecaseModel, KpisLeagueSnapshot } from '@usecases/dashboard/model/kpis.gamification.dashboard.usecase.model';
-import { LEAGUES, getLeagueColor } from '@src/commons/leagues';
 
 interface Props {
   gamification?: KpisGamificationDashbardUsecaseModel;
@@ -44,7 +43,7 @@ const GamificationCard: React.FC<Props> = React.memo(({ gamification }) => {
 
   return (
     <Box sx={cardSx}>
-      <Typography variant="h6" fontWeight="bold" mb={1}>
+      <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
         {t('dashboard.gamification.title', 'Gamification')}
       </Typography>
 
@@ -59,7 +58,13 @@ const GamificationCard: React.FC<Props> = React.memo(({ gamification }) => {
         <Grid container spacing={2}>
           {/* Left: XP radial + copy */}
           <Grid size={{ xs: 12, md: 5 }}>
-            <Box display="flex" flexDirection="column" alignItems="center" gap={1}>
+            <Box
+              sx={{
+                gap: 1,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+              }}>
               <Box
                 role="progressbar"
                 aria-valuenow={Math.round(ringPct)}
@@ -99,7 +104,7 @@ const GamificationCard: React.FC<Props> = React.memo(({ gamification }) => {
                     gap: 0.5,
                   }}
                 >
-                  <Typography variant="h5" fontWeight={700}>
+                  <Typography variant="h5" sx={{ fontWeight: 700 }}>
                     Lv {gamification.level}
                   </Typography>
                   <Typography variant="caption" color="text.secondary">
@@ -119,8 +124,20 @@ const GamificationCard: React.FC<Props> = React.memo(({ gamification }) => {
             <Grid container spacing={2}>
               <Grid size={{ xs: 12 }}>
                 <Paper variant="outlined" sx={{ p: 1.5, borderRadius: 2 }}>
-                  <Box display="flex" alignItems="center" justifyContent="space-between" gap={1} mb={1}>
-                    <Box display="flex" alignItems="center" gap={1}>
+                  <Box
+                    sx={{
+                      gap: 1,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      mb: 1,
+                    }}>
+                    <Box
+                      sx={{
+                        gap: 1,
+                        display: 'flex',
+                        alignItems: 'center',
+                      }}>
                       <img
                         src={`/leagues/${gamification.league.code}.png`}
                         alt={gamification.league.code}
@@ -167,7 +184,7 @@ const GamificationCard: React.FC<Props> = React.memo(({ gamification }) => {
                       [`& .MuiLinearProgress-bar`]: { transition: 'width 400ms ease' },
                     }}
                   />
-                  <Typography variant="caption" color="text.secondary" mt={0.5} display="block">
+                  <Typography variant="caption" color="text.secondary" sx={{ mt: 0.5, display: 'block' }}>
                     {t('dashboard.gamification.threshold', 'Seuil')}{' '}
                     <Chip
                       size="small"

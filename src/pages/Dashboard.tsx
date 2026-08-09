@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { Alert, Box } from '@mui/material';
-
-import inversify from '@src/commons/inversify';
-import { useAsyncTask } from '@hooks/useAsyncTask';
 import ActivityCard from '@components/dashboard/ActivityCard';
+import BadgesCard from '@components/dashboard/BadgesCard';
 import GamificationCard from '@components/dashboard/GamificationCard';
 import RecentTrainingsCard from '@components/dashboard/RecentTrainingsCard';
-import BadgesCard from '@components/dashboard/BadgesCard';
+import { useAsyncTask } from '@hooks/useAsyncTask';
+import { Alert, Box } from '@mui/material';
+import inversify from '@src/commons/inversify';
 import { KpisDashbardUsecaseModel } from '@usecases/dashboard/model/kpis.dashboard.usecase.model';
+import React, { useEffect, useState } from 'react';
 
 const Dashboard: React.FC = () => {
   const [datas, setDatas] = useState<KpisDashbardUsecaseModel>();

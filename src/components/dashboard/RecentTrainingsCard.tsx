@@ -1,10 +1,10 @@
 // src/components/dashboard/RecentTrainingsCard.tsx
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { green, red } from '@mui/material/colors';
 import CancelIcon from '@mui/icons-material/Cancel';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import { Box, Typography, List, useTheme, Grid } from '@mui/material';
+import { Box, Grid,List, Typography, useTheme } from '@mui/material';
+import { green, red } from '@mui/material/colors';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface TrainingSession {
   id: string;
@@ -35,7 +35,7 @@ const RecentTrainingsCard: React.FC<Props> = ({ sessions }) => {
         mb: 2,
       }}
     >
-      <Typography variant="h6" fontWeight="bold" mb={1}>
+      <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
         {t('dashboard.recent_trainings')}
       </Typography>
       <List disablePadding>
@@ -67,7 +67,7 @@ const RecentTrainingsCard: React.FC<Props> = ({ sessions }) => {
             </Grid>
 
             <Grid size={3}>
-              <Typography variant="body2" fontWeight="bold">
+              <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
                 {durationMin} min
               </Typography>
             </Grid>
