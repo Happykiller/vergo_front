@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",
-    "@happykiller/sunny-ui": "^2.1.0",
+    "@happykiller/sunny-ui": "^2.2.0",
     "@types/lodash.merge": "^4.6.9",
     "@types/react": "^19.1.9",
     "@types/react-calendar-heatmap": "^1.9.0",
