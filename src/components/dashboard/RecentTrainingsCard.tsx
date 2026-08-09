@@ -35,7 +35,7 @@ const RecentTrainingsCard: React.FC<Props> = ({ sessions }) => {
         mb: 2,
       }}
     >
-      <Typography variant="h6" fontWeight="bold" mb={1}>
+      <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
         {t('dashboard.recent_trainings')}
       </Typography>
       <List disablePadding>
@@ -67,7 +67,7 @@ const RecentTrainingsCard: React.FC<Props> = ({ sessions }) => {
             </Grid>
 
             <Grid size={3}>
-              <Typography variant="body2" fontWeight="bold">
+              <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
                 {durationMin} min
               </Typography>
             </Grid>

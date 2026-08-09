@@ -1,0 +1,4 @@
+# Fins de ligne normalisées en LF (aligné sur vergo_back). Sans cela, le dépôt
+# mélangeait CRLF et LF selon les fichiers, et tout outil qui réémet un fichier
+# (codemod, formateur) produisait un diff parasite de bascule d'EOL.
+* text=auto eol=lf

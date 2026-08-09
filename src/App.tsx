@@ -1,7 +1,7 @@
 // src\App.tsx
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { Done, Key, Visibility, VisibilityOff, Info as InfoIcon, HelpOutline, VpnKey, Add, Delete, Person, Lock, Close as CloseIcon } from '@mui/icons-material';
+import { Done, Key, Visibility, VisibilityOff, Info as InfoIcon, HelpOutlineOutlined, VpnKey, Add, Delete, Person, Lock, Close as CloseIcon } from '@mui/icons-material';
 
 import Info from '@pages/Info';
 import Medals from '@pages/Medals';
@@ -69,7 +69,7 @@ const App: React.FC = () => {
               icons={{
                 visibility: <Visibility fontSize="small" />,
                 visibilityOff: <VisibilityOff fontSize="small" />,
-                help: <HelpOutline fontSize="small" />,
+                help: <HelpOutlineOutlined fontSize="small" />,
                 done: <Done />,
                 key: <VpnKey />,
                 add: <Add />,

@@ -11,7 +11,10 @@ export const Sandbox: React.FC = () => {
   const [ite, setIte] = React.useState(0);
 
   return (
-    <Box p={4}>
+    <Box
+      sx={{
+        p: 4
+      }}>
       <Typography variant="h4" gutterBottom>Sandbox</Typography>
 
       <Grid container spacing={4}>

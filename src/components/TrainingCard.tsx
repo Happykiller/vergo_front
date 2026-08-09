@@ -1,13 +1,15 @@
 // src/components/TrainingCard.tsx
 import React from 'react';
-import { Paper, useTheme, BoxProps, PaperProps } from '@mui/material';
+import { Paper, PaperProps, useTheme } from '@mui/material';
 
 interface TrainingCardProps extends PaperProps {
   children: React.ReactNode;
-  p?: BoxProps['p'];
-  mb?: BoxProps['mb'];
-  justifyContent?: BoxProps['justifyContent'];
-  alignItems?: BoxProps['alignItems'];
+  // MUI 9 a retiré les props système de BoxProps : ces valeurs sont désormais
+  // reportées dans le `sx` du Paper, on les type donc directement.
+  p?: number | string;
+  mb?: number | string;
+  justifyContent?: React.CSSProperties['justifyContent'];
+  alignItems?: React.CSSProperties['alignItems'];
   direction?: 'row' | 'column';
 }
 

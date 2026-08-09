@@ -244,7 +244,7 @@ const Training: React.FC = () => {
     content = <TrainingFinish gender={training_gender === 'woman' ? 'female' : 'male'} onFinish={logStats} />;
   }
 
-  return (<Grid container justifyContent="center" gap={1}>
+  return (<Grid container sx={{ justifyContent: 'center', gap: 1 }}>
     {content}
   </Grid>);
 }

@@ -77,7 +77,7 @@ const BadgesCard: React.FC<BadgesCardProps> = React.memo(({ badges }) => {
           mb: 1
         }}
       >
-        <Typography variant="h6" fontWeight="bold">
+        <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
           {t('dashboard.badges_recent')}
         </Typography>
 
@@ -106,7 +106,7 @@ const BadgesCard: React.FC<BadgesCardProps> = React.memo(({ badges }) => {
           const codeSrc = `/badges/${b.code}.png`;
 
           const avatar = (
-            <Avatar alt={label} src={codeSrc} imgProps={{ loading: 'lazy' }}>
+            <Avatar alt={label} src={codeSrc} slotProps={{ img: { loading: 'lazy' } }}>
               {/* Fallback emoji when image fails */}
               {emoji}
             </Avatar>

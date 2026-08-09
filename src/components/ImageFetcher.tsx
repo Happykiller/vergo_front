@@ -37,7 +37,12 @@ const ImageFetcher: React.FC<Props> = ({ name, width, height, title, v2 = false,
     fetchImage();
   }, [name, width, height, v2, context.access_token]);
 
-  if (error) return <Box color="error.main">Erreur: {error}</Box>;
+  if (error) return (
+    <Box
+      sx={{
+        color: "error.main"
+      }}>Erreur: {error}</Box>
+  );
   if (!imageUrl) return <CircularProgress />;
 
   return (
@@ -45,8 +50,6 @@ const ImageFetcher: React.FC<Props> = ({ name, width, height, title, v2 = false,
       component="img"
       src={imageUrl}
       alt={title ?? name}
-      width={width}
-      height={height}
       onLoad={() => setLoaded(true)}
       sx={{
         opacity: loaded ? 1 : 0,
@@ -57,8 +60,9 @@ const ImageFetcher: React.FC<Props> = ({ name, width, height, title, v2 = false,
         boxShadow: loaded ? '0 0 12px rgba(0,0,0,0.1)' : 'none',
         backgroundColor: loaded ? 'transparent' : '#f5f5f5',
         ...style,
-      }}
-    />
+        width,
+        height
+      }} />
   );
 };
 

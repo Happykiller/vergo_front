@@ -28,7 +28,12 @@ const TrainingImage: React.FC<Props> = ({ type, gender, image, slug, weight, ite
 
   const src = gender + '_' + (image ?? slug);
   return (
-    <Box display="flex" alignItems="center" gap={2}>
+    <Box
+      sx={{
+        gap: 2,
+        display: 'flex',
+        alignItems: 'center',
+      }}>
       {ite && (
         <Typography variant={variant} align="center" noWrap>
           X{ite}

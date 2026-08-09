@@ -2,7 +2,7 @@
 import moment from 'moment';
 import React, { useEffect } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { Add, InfoOutlined, ModeEditOutline } from '@mui/icons-material';
+import { Add, InfoOutlined, ModeEditOutlineOutlined } from '@mui/icons-material';
 import { createSearchParams, useNavigate } from 'react-router-dom';
 import { Typography, CircularProgress, Alert, Grid, TextField, IconButton, Button, useTheme } from '@mui/material';
 
@@ -254,7 +254,7 @@ const Exercices: React.FC = () => {
                 go_exercice_edit(exercice);
               }}
             >
-              <ModeEditOutline fontSize="small" />
+              <ModeEditOutlineOutlined fontSize="small" />
             </IconButton>
           }
         </Grid>

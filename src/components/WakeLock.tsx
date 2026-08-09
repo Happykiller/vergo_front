@@ -41,12 +41,13 @@ const WakeLockComponent = () => {
 
   return (
     <Box
-      p={1} 
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      textAlign="center"
-    >
+      sx={{
+        p: 1,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        textAlign: "center"
+      }}>
       {isWakeLockActive ? <HourglassDisabledIcon/> : <HourglassEmptyIcon/>}
     </Box>
   );

@@ -37,63 +37,66 @@ const Exercice_create: React.FC = () => {
     }
   }
 
-  return (<>
-    <Container>
-      {/* Box component to center the content vertically and horizontally */}
-      <Box 
-        display="flex" 
-        justifyContent="center" 
-        flexDirection="column"
-        minHeight="80vh"
-        textAlign="center"
-        marginBottom={"5vh"}
-        marginTop={"2vh"}
-      >
-        <Grid 
-          container 
-          spacing={2}
-        >
-          <Grid
-            size={12}
+  return (
+    <>
+      <Container>
+        {/* Box component to center the content vertically and horizontally */}
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            flexDirection: "column",
+            minHeight: "80vh",
+            textAlign: "center",
+            marginBottom: "5vh",
+            marginTop: "2vh"
+          }}>
+          <Grid 
+            container 
+            spacing={2}
           >
-            <h1><Trans>exercice_create.title</Trans></h1>
+            <Grid
+              size={12}
+            >
+              <h1><Trans>exercice_create.title</Trans></h1>
+            </Grid>
+            <Grid
+              size={12}
+            >
+              <TextField
+                label="JSON Input"
+                multiline
+                fullWidth
+                onChange={(e) => setRawData(e.target.value)}
+                variant="outlined"
+                minRows={10}
+                slotProps={{
+                  input: {
+                    style: { fontFamily: 'monospace', whiteSpace: 'pre' },
+                  },
+                }}
+              />
+            </Grid>
+            <Grid
+              size={12}
+            >
+              {/* Submit button */}
+              <Button 
+                type="submit"
+                variant="contained"
+                size="small"
+                startIcon={<Add />}
+                onClick={(e) => { 
+                  e.preventDefault();
+                  submit();
+                }}
+              ><Trans>common.create</Trans></Button>
+            </Grid>
           </Grid>
-          <Grid
-            size={12}
-          >
-            <TextField
-              label="JSON Input"
-              multiline
-              fullWidth
-              onChange={(e) => setRawData(e.target.value)}
-              variant="outlined"
-              minRows={10}
-              slotProps={{
-                input: {
-                  style: { fontFamily: 'monospace', whiteSpace: 'pre' },
-                },
-              }}
-            />
-          </Grid>
-          <Grid
-            size={12}
-          >
-            {/* Submit button */}
-            <Button 
-              type="submit"
-              variant="contained"
-              size="small"
-              startIcon={<Add />}
-              onClick={(e) => { 
-                e.preventDefault();
-                submit();
-              }}
-            ><Trans>common.create</Trans></Button>
-          </Grid>
-        </Grid>
-      </Box>
-    </Container>
-  </>);
+        </Box>
+      </Container>
+    </>
+  );
 }
 
 export default Exercice_create;

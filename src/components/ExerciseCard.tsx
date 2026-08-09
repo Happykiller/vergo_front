@@ -2,7 +2,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Paper, useTheme } from '@mui/material';
-import { InfoOutlined, ModeEditOutline } from '@mui/icons-material';
+import { InfoOutlined, ModeEditOutlineOutlined } from '@mui/icons-material';
 import { Badge, CardContent, IconButton, Tooltip, Typography } from '@mui/material';
 
 import ImageFetcher from '@src/components/ImageFetcher';
@@ -72,7 +72,7 @@ const ExerciseCard: React.FC<ExerciseCardProps> = ({
                 onEditClick(exercice_id);
               }}
             >
-              <ModeEditOutline fontSize="small" />
+              <ModeEditOutlineOutlined fontSize="small" />
             </IconButton>
           )}
           {/* Info Tooltip */}

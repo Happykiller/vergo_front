@@ -111,7 +111,14 @@ const Chrono: React.FC<CountdownProps> = ({ duration, onComplete, volume = 1 }) 
   };
 
   return (
-    <Box display="flex" flexDirection="row" alignItems="center" justifyContent="center" gap={2}>
+    <Box
+      sx={{
+        gap: 2,
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
       <LargeIconButton
         onClick={handlePause}
       >
