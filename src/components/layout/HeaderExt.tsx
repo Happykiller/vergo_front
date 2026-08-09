@@ -1,8 +1,7 @@
 // src\components\Layout\HeaderExt.tsx
-import inversify from '@src/commons/inversify';
-import MenuIcon from '@mui/icons-material/Menu';
-
 import { Header } from '@happykiller/sunny-ui';
+import MenuIcon from '@mui/icons-material/Menu';
+import inversify from '@src/commons/inversify';
 import { contextStore } from '@stores/contextStore';
 import { volatileStore } from '@stores/volatileStore';
 

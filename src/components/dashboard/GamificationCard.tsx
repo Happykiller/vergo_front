@@ -1,12 +1,11 @@
+import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import { Box, Chip,Grid, IconButton, LinearProgress, Paper, Skeleton, Tooltip, Typography, useTheme } from '@mui/material';
+import { getLeagueColor,LEAGUES } from '@src/commons/leagues';
+import { KpisGamificationDashbardUsecaseModel, KpisLeagueSnapshot } from '@usecases/dashboard/model/kpis.gamification.dashboard.usecase.model';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink } from 'react-router-dom';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
-import { Box, Grid, Typography, useTheme, Paper, LinearProgress, Skeleton, Tooltip, IconButton, Chip } from '@mui/material';
-
-import { KpisGamificationDashbardUsecaseModel, KpisLeagueSnapshot } from '@usecases/dashboard/model/kpis.gamification.dashboard.usecase.model';
-import { LEAGUES, getLeagueColor } from '@src/commons/leagues';
 
 interface Props {
   gamification?: KpisGamificationDashbardUsecaseModel;

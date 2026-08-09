@@ -32,7 +32,17 @@ module.exports = [
       'simple-import-sort': simpleImportSort,
     },
     rules: {
-      '@typescript-eslint/no-unused-vars': ['warn'],
+      // La règle core ne comprend ni les parameter properties ni les types TS
+      // (faux positifs sur `private inversify: Inversify`) : on délègue à la
+      // version typescript-eslint.
+      'no-unused-vars': 'off',
+      // Inutile en TypeScript : le compilateur vérifie déjà les identifiants
+      // (faux positifs sur les globals de types comme `NodeJS` ou `React`).
+      'no-undef': 'off',
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_', caughtErrors: 'none', ignoreRestSiblings: true },
+      ],
       '@typescript-eslint/explicit-function-return-type': 'off',
       'react/jsx-uses-react': 'off',
       'react/react-in-jsx-scope': 'off',

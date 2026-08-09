@@ -1,5 +1,5 @@
-import { useCallback, useState } from 'react';
 import { useLoaderStore } from '@stores/loader';
+import { useCallback, useState } from 'react';
 
 export const useAsyncTask = () => {
   const setLoading = useLoaderStore((s) => s.setLoading);

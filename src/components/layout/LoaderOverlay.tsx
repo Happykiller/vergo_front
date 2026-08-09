@@ -1,6 +1,6 @@
 // src\components\layout\LoaderOverlay.tsx
+import { Box,CircularProgress } from '@mui/material';
 import { useLoaderStore } from '@stores/loader';
-import { CircularProgress, Box } from '@mui/material';
 
 const LoaderOverlay = () => {
   const loading = useLoaderStore((s) => s.loading);

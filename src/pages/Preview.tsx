@@ -1,19 +1,18 @@
 // src\pages\Preview.tsx
-import React, { useEffect } from 'react';
-import { Trans, useTranslation } from 'react-i18next';
-import { InfoOutlined, ModeEditOutlineOutlined } from '@mui/icons-material';
-import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutlineOutlined';
-import { createSearchParams, useNavigate, useSearchParams } from 'react-router-dom';
-import { Typography, Box, CircularProgress, Alert, Grid, IconButton, Tooltip, Divider } from '@mui/material';
-
-import commons from '@src/commons/commons';
-import { CODES } from '@src/commons/codes';
-import inversify from '@src/commons/inversify';
 import ExerciseCard from '@components/ExerciseCard';
 import LargeIconButton from '@components/LargeIconButton';
-import { GridItem } from '@usecases/preview/build.preview.items.usecase';
+import { InfoOutlined, ModeEditOutlineOutlined } from '@mui/icons-material';
+import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutlineOutlined';
+import { Alert, Box, CircularProgress, Divider,Grid, IconButton, Tooltip, Typography } from '@mui/material';
+import { CODES } from '@src/commons/codes';
+import commons from '@src/commons/commons';
+import inversify from '@src/commons/inversify';
 import { contextStore, ContextStoreModel } from '@src/stores/contextStore';
+import { GridItem } from '@usecases/preview/build.preview.items.usecase';
 import { TrainingUsecaseModel } from '@usecases/training/model/training.usecase.model';
+import React, { useEffect } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
+import { createSearchParams, useNavigate, useSearchParams } from 'react-router-dom';
 
 const Preview: React.FC = () => {
   let old_workout_slug = '';

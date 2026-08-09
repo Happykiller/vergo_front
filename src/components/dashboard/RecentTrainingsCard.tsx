@@ -1,10 +1,10 @@
 // src/components/dashboard/RecentTrainingsCard.tsx
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { green, red } from '@mui/material/colors';
 import CancelIcon from '@mui/icons-material/Cancel';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import { Box, Typography, List, useTheme, Grid } from '@mui/material';
+import { Box, Grid,List, Typography, useTheme } from '@mui/material';
+import { green, red } from '@mui/material/colors';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface TrainingSession {
   id: string;

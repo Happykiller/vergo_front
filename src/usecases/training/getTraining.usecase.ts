@@ -1,7 +1,7 @@
 import { CODES } from '@src/commons/codes';
 import { Inversify } from '@src/commons/inversify';
-import { TrainingUsecaseModel } from '@usecases/training/model/training.usecase.model';
 import { GetTrainingUsecaseDto } from '@usecases/training/dto/get.training.usecase.dto';
+import { TrainingUsecaseModel } from '@usecases/training/model/training.usecase.model';
 
 export class GetTrainingUsecase {
 

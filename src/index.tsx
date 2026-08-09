@@ -5,15 +5,15 @@ import '@fontsource/montserrat';
 import '@fontsource/roboto/400.css';
 import '@fontsource/montserrat/600.css';
 
+import { CssBaseline,ThemeProvider } from '@mui/material';
 import React, { useMemo } from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { ThemeProvider, CssBaseline } from '@mui/material';
 
 import App from './App';
 import initI18n from './i18n';
-import { getTheme } from './theme';
 import { contextStore } from './stores/contextStore';
+import { getTheme } from './theme';
 
 const Index: React.FC = () => {
   const themeMode = contextStore((s) => s.themeMode);

@@ -1,20 +1,19 @@
 // src\pages\Trainings.tsx
-import React from 'react';
-import moment from 'moment';
+import PaginationComponent from '@components/Pagination';
+import { Add, ModeEditOutlineOutlined, OpenInNew } from '@mui/icons-material';
 import InboxIcon from '@mui/icons-material/Inbox';
 import SearchIcon from '@mui/icons-material/Search';
-import { Trans, useTranslation } from 'react-i18next';
-import { createSearchParams, useNavigate } from 'react-router-dom';
-import { Add, ModeEditOutlineOutlined, OpenInNew } from '@mui/icons-material';
-import { Box, Typography, Grid, IconButton, Tabs, Tab, TextField, Button, useTheme, Paper, useMediaQuery } from '@mui/material';
-
+import { Box, Button, Grid, IconButton, Paper, Tab, Tabs, TextField, Typography, useMediaQuery,useTheme } from '@mui/material';
 import { CODES } from '@src/commons/codes';
 import commons from '@src/commons/commons';
 import inversify from '@src/commons/inversify';
-import PaginationComponent from '@components/Pagination';
 import { contextStore, ContextStoreModel } from '@src/stores/contextStore';
-import { TrainingUsecaseModel } from '@usecases/training/model/training.usecase.model';
 import { GetTrainingsUsecaseModel } from '@usecases/training/model/get.trainings.usecase.model';
+import { TrainingUsecaseModel } from '@usecases/training/model/training.usecase.model';
+import moment from 'moment';
+import React from 'react';
+import { Trans, useTranslation } from 'react-i18next';
+import { createSearchParams, useNavigate } from 'react-router-dom';
 
 const Trainings: React.FC = () => {
   const limit = 25;

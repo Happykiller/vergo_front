@@ -1,15 +1,14 @@
 // src\pages\Workouts.tsx
-import moment from 'moment';
-import React, { useEffect } from 'react';
-import { Trans, useTranslation } from 'react-i18next';
-import { Typography, Box, CircularProgress, Alert, Grid, TextField, useTheme } from '@mui/material';
-
-import commons from '@src/commons/commons';
+import { Alert, Box, CircularProgress, Grid, TextField, Typography, useTheme } from '@mui/material';
 import { CODES } from '@src/commons/codes';
+import commons from '@src/commons/commons';
 import inversify from '@src/commons/inversify';
 import PaginationComponent from '@src/components/Pagination';
 import { ExerciceUsecaseModel } from '@usecases/exercice/model/exercice.usecase.model';
 import { WorkoutDefUsecaseModel } from '@usecases/workout/model/workout.def.usecase.model';
+import moment from 'moment';
+import React, { useEffect } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 
 const Workouts: React.FC = () => {
   const limit = 25;

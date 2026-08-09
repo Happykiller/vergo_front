@@ -1,11 +1,16 @@
 {
   "name": "vergo_front",
-  "version": "1.17.0",
+  "version": "2.0.0",
   "description": "Web Client for Service Vergo",
   "main": "index.js",
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "start": "webpack serve --config webpack.config.js",
     "build": "webpack --config webpack.config.js",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
     "link:sunny": "npm link @happykiller/sunny-ui",
     "up:sunny": "npm install @happykiller/sunny-ui@latest --force"
   },
@@ -40,14 +45,15 @@
     "@types/react": "^19.2.18",
     "@types/react-calendar-heatmap": "^1.9.0",
     "@types/react-dom": "^19.2.4",
-    "@typescript-eslint/eslint-plugin": "^8.39.0",
+    "@typescript-eslint/eslint-plugin": "^8.66.0",
+    "@typescript-eslint/parser": "^8.66.0",
     "copy-webpack-plugin": "^14.0.0",
     "css-loader": "^7.1.2",
     "dotenv": "^17.2.1",
     "dotenv-webpack": "^9.0.0",
     "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-hooks": "^5.2.0",
-    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-simple-import-sort": "^14.0.0",
     "html-webpack-plugin": "^5.6.8",
     "mini-css-extract-plugin": "^2.9.3",
     "sass": "^1.102.0",

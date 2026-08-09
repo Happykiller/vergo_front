@@ -1,17 +1,18 @@
-import React, { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
+import 'react-calendar-heatmap/dist/styles.css';
+
 import { Box, Grid, Typography, useTheme } from '@mui/material';
+import { KpisVolumeDashbardUsecaseModel } from '@usecases/dashboard/model/kpis.volume.dashboard.usecase.model';
+import React, { useMemo } from 'react';
+import CalendarHeatmap from 'react-calendar-heatmap';
+import { useTranslation } from 'react-i18next';
 import {
-  BarChart,
   Bar,
-  XAxis,
-  YAxis,
+  BarChart,
   ResponsiveContainer,
   Tooltip,
+  XAxis,
+  YAxis,
 } from 'recharts';
-import CalendarHeatmap from 'react-calendar-heatmap';
-import 'react-calendar-heatmap/dist/styles.css';
-import { KpisVolumeDashbardUsecaseModel } from '@usecases/dashboard/model/kpis.volume.dashboard.usecase.model';
 
 interface Activity {
   date: string;

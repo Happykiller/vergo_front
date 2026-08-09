@@ -2,8 +2,8 @@ import { CODES } from '@src/commons/codes';
 import { Inversify } from '@src/commons/inversify';
 import { ExerciceUsecaseModel } from '@usecases/exercice/model/exercice.usecase.model';
 import { GetTrainingUsecaseDto } from '@usecases/training/dto/get.training.usecase.dto';
-import { WorkoutDefUsecaseModel } from '@usecases/workout/model/workout.def.usecase.model';
 import { TrainingNormalizedUsecaseModel } from '@usecases/training/model/training.normalized.usecase.model';
+import { WorkoutDefUsecaseModel } from '@usecases/workout/model/workout.def.usecase.model';
 
 export class GetNormalizedTrainingUsecase {
 

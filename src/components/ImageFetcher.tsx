@@ -1,7 +1,7 @@
 // src\components\ImageFetcher.tsx
-import React, { useState, useEffect } from 'react';
-import { CircularProgress, Box } from '@mui/material';
+import { Box,CircularProgress } from '@mui/material';
 import { contextStore, ContextStoreModel } from '@stores/contextStore';
+import React, { useEffect,useState } from 'react';
 
 interface Props {
   name: string;

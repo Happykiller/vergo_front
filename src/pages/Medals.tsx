@@ -1,22 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import { useAsyncTask } from '@hooks/useAsyncTask';
 import {
   Alert,
   Box,
-  Grid,
   Card,
   CardContent,
   CardMedia,
-  Typography,
   Chip,
+  Grid,
+  Typography,
   useTheme,
 } from '@mui/material';
-import { useTranslation } from 'react-i18next';
-import i18n from 'i18next';
-
 import inversify from '@src/commons/inversify';
-import { useAsyncTask } from '@hooks/useAsyncTask';
+import { BADGES, getLeagueColor,LEAGUES } from '@src/commons/leagues';
 import { KpisDashbardUsecaseModel } from '@usecases/dashboard/model/kpis.dashboard.usecase.model';
-import { LEAGUES, BADGES, getLeagueColor } from '@src/commons/leagues';
+import i18n from 'i18next';
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const Medals: React.FC = () => {
   const { t } = useTranslation();

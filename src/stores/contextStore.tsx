@@ -1,8 +1,7 @@
 // src\stores\contextStore.tsx
-import { create } from 'zustand';
-import { persist, createJSONStorage } from 'zustand/middleware';
-
 import { ThemeMode } from '@src/theme';
+import { create } from 'zustand';
+import { createJSONStorage,persist } from 'zustand/middleware';
 
 export interface ContextStoreModel {
   id: string | null;

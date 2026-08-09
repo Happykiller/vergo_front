@@ -1,11 +1,10 @@
 // src\components\dashboard\BadgesCard.tsx
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import { Avatar, Box, Chip, Grid, IconButton,Tooltip, Typography, useTheme } from '@mui/material';
+import { KpisBadgeDashbardUsecaseModel } from '@usecases/dashboard/model/kpis.badge.dashboard.usecase.model';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink } from 'react-router-dom';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import { Box, Grid, Typography, Chip, Avatar, useTheme, Tooltip, IconButton } from '@mui/material';
-
-import { KpisBadgeDashbardUsecaseModel } from '@usecases/dashboard/model/kpis.badge.dashboard.usecase.model';
 
 type BadgesCardProps = {
   badges?: KpisBadgeDashbardUsecaseModel[];

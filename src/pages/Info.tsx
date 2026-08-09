@@ -1,9 +1,8 @@
 // src\pages\Info.tsx
+import CurrentBreakpoint from '@components/CurrentBreakpoint';
+import { Box,Container, Typography } from '@mui/material';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Container, Typography, Box } from '@mui/material';
-
-import CurrentBreakpoint from '@components/CurrentBreakpoint';
 
 const Info: React.FC = () => {
   const { t } = useTranslation();

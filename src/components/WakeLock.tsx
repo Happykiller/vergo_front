@@ -1,8 +1,8 @@
 // src\components\WakeLock.tsx
+import HourglassDisabledIcon from '@mui/icons-material/HourglassDisabled';
+import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 import { Box } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
-import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
-import HourglassDisabledIcon from '@mui/icons-material/HourglassDisabled';
 
 const WakeLockComponent = () => {
   const wakeLockRef = useRef<WakeLockSentinel | null>(null);

@@ -1,6 +1,6 @@
 // src/components/TrainingCard.tsx
-import React from 'react';
 import { Paper, PaperProps, useTheme } from '@mui/material';
+import React from 'react';
 
 interface TrainingCardProps extends PaperProps {
   children: React.ReactNode;

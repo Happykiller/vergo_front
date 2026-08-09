@@ -1,9 +1,8 @@
 // src\pages\Sandbox.tsx
-import React from 'react';
+import { FlashMessage, Input,useFlashStore } from '@happykiller/sunny-ui';
 import CloseIcon from '@mui/icons-material/Close';
-import { Box, Grid, Typography, Paper, Button } from '@mui/material';
-
-import { FlashMessage, useFlashStore, Input } from '@happykiller/sunny-ui';
+import { Box, Button,Grid, Paper, Typography } from '@mui/material';
+import React from 'react';
 
 export const Sandbox: React.FC = () => {
   const flash = useFlashStore();

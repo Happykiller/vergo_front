@@ -1,9 +1,8 @@
 // src\components\training\TrainingFooter.tsx
-import React from 'react';
-import { Fullscreen, FullscreenExit } from '@mui/icons-material';
-import { Typography, IconButton, TypographyProps } from '@mui/material';
-
 import WakeLockComponent from '@components/WakeLock';
+import { Fullscreen, FullscreenExit } from '@mui/icons-material';
+import { IconButton, Typography, TypographyProps } from '@mui/material';
+import React from 'react';
 
 interface Props {
   variant: TypographyProps['variant'];

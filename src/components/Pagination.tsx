@@ -1,5 +1,5 @@
-import React from 'react';
 import { Box, Pagination, Typography } from '@mui/material';
+import React from 'react';
 
 interface PaginationProps {
   totalItems: number;    // Nombre total d'éléments

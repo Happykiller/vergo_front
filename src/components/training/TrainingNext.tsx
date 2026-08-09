@@ -1,9 +1,8 @@
 // src\components\training\TrainingNext.tsx
+import TrainingCard from '@components/TrainingCard';
+import { Typography, TypographyProps } from '@mui/material';
 import React from 'react';
 import { Trans } from 'react-i18next';
-import { Typography, TypographyProps } from '@mui/material';
-
-import TrainingCard from '@components/TrainingCard';
 
 interface Props {
   type: string;

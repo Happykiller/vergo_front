@@ -1,16 +1,15 @@
 // src\pages\Exercice.tsx
-import React, { useEffect } from 'react';
 import EditIcon from '@mui/icons-material/Edit';
-import { useSearchParams } from 'react-router-dom';
-import { Trans, useTranslation } from 'react-i18next';
-import { createSearchParams, useNavigate } from 'react-router-dom';
-import { Box, CircularProgress, Alert, Typography, Card, CardContent, IconButton, Grid, Paper, useTheme } from '@mui/material';
-
+import { Alert, Box, Card, CardContent, CircularProgress, Grid, IconButton, Paper, Typography, useTheme } from '@mui/material';
 import { CODES } from '@src/commons/codes';
 import inversify from '@src/commons/inversify';
 import ImageFetcher from '@src/components/ImageFetcher';
 import { contextStore, ContextStoreModel } from '@stores/contextStore';
 import { ExerciceUsecaseModel } from '@usecases/exercice/model/exercice.usecase.model';
+import React, { useEffect } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
+import { useSearchParams } from 'react-router-dom';
+import { createSearchParams, useNavigate } from 'react-router-dom';
 
 const Exercice: React.FC = () => {
   const theme = useTheme();

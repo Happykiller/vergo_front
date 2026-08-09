@@ -1,8 +1,7 @@
 // src\components\training\TrainingImage.tsx
-import React from 'react';
 import { Box, Typography, TypographyProps } from '@mui/material';
-
 import ImageFetcher from '@src/components/ImageFetcher';
+import React from 'react';
 
 interface Props {
   type: string;
