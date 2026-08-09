@@ -5,15 +5,19 @@ This file provides guidance to AI coding agents (Claude Code, Gemini, Codex, etc
 ## Commands
 
 ```bash
-npm start          # Dev server at localhost:9000
-npm run build      # Production build to dist/
+npm run dev        # Vite dev server at localhost:25090 (alias: npm start)
+npm run build      # tsc --noEmit (typecheck) + vite build → dist/
+npm run preview    # Serve the production build locally
+npm run lint       # eslint src
 make start         # Start Docker containers
 make startall      # Build and start Docker containers
 make tar           # Build Docker image and save as tarball
 make install       # Deploy from tarball on server
 ```
 
-No test runner is configured.
+Build tooling is **Vite** (`vite.config.ts`). `npm run build` runs the
+standalone `tsc --noEmit` typecheck before bundling — Vite/esbuild does not
+typecheck on its own. No test runner is configured.
 
 ## Environment
 
@@ -29,7 +33,8 @@ When `APP_MODE` is not `prod` or `dev`, the app uses `GraphqlServiceFake` instea
 
 ## Architecture
 
-**Webpack path aliases** — always use these instead of relative imports:
+**Path aliases** (defined in `tsconfig.json`, resolved by Vite via
+`resolve.tsconfigPaths`) — always use these instead of relative imports:
 - `@src/` → `src/`
 - `@pages/` → `src/pages/`
 - `@components/` → `src/components/`
