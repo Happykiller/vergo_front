@@ -149,8 +149,9 @@ module.exports = (env, argv) => {
       // Enable gzip compression for better performance.
       compress: true,
 
-      // Port number for the development server.
-      port: 9000,
+      // Port number for the development server. Overridable through APP_PORT in
+      // .env.local: on a machine hosting several projects, 9000 is easily taken.
+      port: parseInt(process.env.APP_PORT, 10) || 9000,
 
       // Redirect 404s to index.html to handle client-side routing
       historyApiFallback: true,
